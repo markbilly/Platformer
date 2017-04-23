@@ -43,10 +43,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\Factories\TestEntityFactory.cs" />
     <Compile Include="Entities\IComponent.cs" />
-    <Compile Include="Entities\MovementComponent.cs" />
-    <Compile Include="Entities\PositionComponent.cs" />
-    <Compile Include="Entities\SpriteComponent.cs" />
+    <Compile Include="Entities\IEntityFactory.cs" />
+    <Compile Include="Entities\Components\MovementComponent.cs" />
+    <Compile Include="Entities\Components\PositionComponent.cs" />
+    <Compile Include="Entities\Components\SpriteComponent.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

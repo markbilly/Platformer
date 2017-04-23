@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Entities
+namespace Platformer.Entities.Components
 {
     public class SpriteComponent : IComponent
     {

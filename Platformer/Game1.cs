@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Platformer.Entities;
+using Platformer.Entities.Factories;
 using Platformer.Scenes;
-using System.Linq;
 
 namespace Platformer
 {
@@ -31,18 +30,7 @@ namespace Platformer
         /// </summary>
         protected override void Initialize()
         {
-            var testPositionComponent = new PositionComponent(new Vector2(10, 10));
-            var testMovementComponent = new MovementComponent(testPositionComponent);
-            var testSpriteComponent = new SpriteComponent(testPositionComponent, new Point(10, 10), "test/bit");
-            
-            testMovementComponent.Velocity = new Vector2(1, 1);
-
-            var testEntity = new Entity
-            {
-                testPositionComponent,
-                testMovementComponent,
-                testSpriteComponent
-            };
+            var testEntity = new TestEntityFactory().Build();
 
             _testScene = new Scene();
             _testScene.Entities.Add(testEntity);
@@ -57,17 +45,7 @@ namespace Platformer
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            foreach (var entity in _testScene.Entities)
-            {
-                var spriteComponent = entity.GetComponent<SpriteComponent>();
-
-                if (spriteComponent != null)
-                {
-                    spriteComponent.SpriteBatch = _spriteBatch;
-                    spriteComponent.Load(Content);
-                }
-            }
+            _testScene.Load(Content, _spriteBatch);
         }
 
         /// <summary>
