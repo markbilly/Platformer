@@ -10,6 +10,7 @@ namespace Platformer.Entities.Components
     {
         private int _ticks;
         private bool _isRunning;
+        private int _remainingLoops = -1;
 
         private int _fps;
         private int _startFrame;
@@ -26,14 +27,18 @@ namespace Platformer.Entities.Components
             _spriteComponent.Frame = _startFrame;
         }
 
+        public void Pause() => _isRunning = false;
         public void Stop()
         {
             _isRunning = false;
             _spriteComponent.Frame = _startFrame;
         }
 
-        public void Pause() => _isRunning = false;
-        public void Play() => _isRunning = true;
+        public void Play(int loops = -1)
+        {
+            _remainingLoops = loops; // -1 loops is indefinite
+            _isRunning = true;
+        }
 
         public void Draw()
         {
@@ -43,7 +48,7 @@ namespace Platformer.Entities.Components
 
         public void Update()
         {
-            if (!_isRunning)
+            if (_remainingLoops == 0 || !_isRunning)
             {
                 return;
             }
@@ -52,10 +57,24 @@ namespace Platformer.Entities.Components
             if (_ticks == (60 / _fps))
             {
                 _spriteComponent.Frame++;
+
+                // new loop
                 if (_spriteComponent.Frame == _frames)
-                    _spriteComponent.Frame = 0;
+                {
+                    _spriteComponent.Frame = _startFrame;
+                    if (_remainingLoops > 0 && !IsLoopingIndefinitely())
+                    {
+                        _remainingLoops--;
+                    }
+                }
+
                 _ticks = 0;
             }
+        }
+
+        private bool IsLoopingIndefinitely()
+        {
+            return _remainingLoops == -1;
         }
     }
 }
