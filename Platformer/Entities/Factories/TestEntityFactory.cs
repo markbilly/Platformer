@@ -14,15 +14,17 @@ namespace Platformer.Entities.Factories
         {
             var testPositionComponent = new PositionComponent(new Vector2(10, 10));
             var testMovementComponent = new MovementComponent(testPositionComponent);
-            var testSpriteComponent = new SpriteComponent(testPositionComponent, new Point(68, 70), "test/bit");
+            var testSpriteComponent = new SpriteComponent(testPositionComponent, new Point(16, 32), "test/walk");
+            var testAnimateComponent = new AnimateComponent(testSpriteComponent, 0, 8, 4);
 
-            testMovementComponent.Velocity = new Vector2(1, 1);
+            testMovementComponent.Velocity = new Vector2(1, 0);
 
             return new Entity
             {
                 testPositionComponent,
                 testMovementComponent,
-                testSpriteComponent
+                testSpriteComponent,
+                testAnimateComponent
             };
         }
     }

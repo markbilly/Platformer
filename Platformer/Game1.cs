@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Platformer.Entities.Components;
 using Platformer.Entities.Factories;
 using Platformer.Scenes;
 
@@ -34,6 +35,8 @@ namespace Platformer
 
             _testScene = new Scene();
             _testScene.Entities.Add(testEntity);
+
+            testEntity.GetComponent<AnimateComponent>().Play();
 
             base.Initialize();
         }
