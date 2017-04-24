@@ -32,7 +32,7 @@ namespace Platformer.Entities.Components
 
         public void Update()
         {
-            if (_positionComponent.Position.X > Constants.GameWidth ||
+            if (_positionComponent.Position.X > Constants.Game.Width ||
                 _positionComponent.Position.X < 0)
             {
                 _movementComponent.ChangeDirection();

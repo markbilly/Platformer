@@ -15,8 +15,11 @@ namespace Platformer
             public static int WalkLeft { get { return 1; } }
         }
 
-        public static int GameScale { get { return 3; } }
-        public static int GameWidth { get { return 480; } }
-        public static int GameHeight { get { return 279; } }
+        public static class Game
+        {
+            public static int Scale { get { return 3; } }
+            public static int Width { get { return 480; } }
+            public static int Height { get { return 279; } }
+        }
     }
 }

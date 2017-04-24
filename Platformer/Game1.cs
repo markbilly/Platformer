@@ -24,8 +24,8 @@ namespace Platformer
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = Constants.GameWidth * Constants.GameScale;
-            _graphics.PreferredBackBufferHeight = Constants.GameHeight * Constants.GameScale;
+            _graphics.PreferredBackBufferWidth = Constants.Game.Width * Constants.Game.Scale;
+            _graphics.PreferredBackBufferHeight = Constants.Game.Height * Constants.Game.Scale;
 
             Content.RootDirectory = "Content";
         }
