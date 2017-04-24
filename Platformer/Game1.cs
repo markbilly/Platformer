@@ -4,7 +4,12 @@ using Microsoft.Xna.Framework.Input;
 using Platformer.Entities;
 using Platformer.Entities.Components;
 using Platformer.Entities.Factories;
+using Platformer.Input;
 using Platformer.Scenes;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Platformer
 {
@@ -20,6 +25,7 @@ namespace Platformer
         private Entity _playerEntity;
 
         private KeyboardState _previousKeyboardState;
+        private IEnumerable<IInputHandler> _inputHandlers;
 
         public Game1()
         {
@@ -38,6 +44,11 @@ namespace Platformer
         /// </summary>
         protected override void Initialize()
         {
+            _inputHandlers = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(x => typeof(IInputHandler).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+                .Select(x => (IInputHandler)Activator.CreateInstance(x));
+
             var testEntity = new TestEntityFactory().Build();
             _playerEntity = new PlayerEntityFactory().Build();
 
@@ -83,17 +94,13 @@ namespace Platformer
                 Exit();
             }
 
-            var playerMovementComponent = _playerEntity.GetComponent<MovementComponent>();
-            playerMovementComponent.Velocity = new Vector2(0, 0);
-
-            if (currentKeyboardState.IsKeyDown(Keys.Right))
+            foreach (var handler in _inputHandlers)
             {
-                playerMovementComponent.Velocity = new Vector2(1, 0);
-            }
-
-            if (currentKeyboardState.IsKeyDown(Keys.Left))
-            {
-                playerMovementComponent.Velocity = new Vector2(-1, 0);
+                var command = handler.HandleInput(_previousKeyboardState, currentKeyboardState);
+                if (command != null)
+                {
+                    command.Execute(_playerEntity);
+                }
             }
 
             _previousKeyboardState = currentKeyboardState;

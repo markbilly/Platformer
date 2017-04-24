@@ -54,6 +54,12 @@
     <Compile Include="Entities\Components\PositionComponent.cs" />
     <Compile Include="Entities\Components\SpriteComponent.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Entities\Commands\MoveLeftCommand.cs" />
+    <Compile Include="Entities\Commands\MoveRightCommand.cs" />
+    <Compile Include="Entities\Commands\MoveStopCommand.cs" />
+    <Compile Include="Input\Handlers\PlayerMovementHandler.cs" />
+    <Compile Include="Entities\IEntityCommand.cs" />
+    <Compile Include="Input\IInputHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\Scene.cs" />
