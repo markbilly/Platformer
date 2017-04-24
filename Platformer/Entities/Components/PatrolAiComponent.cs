@@ -11,16 +11,18 @@ namespace Platformer.Entities.Components
     {
         private PositionComponent _positionComponent;
         private MovementComponent _movementComponent;
-        private SpriteComponent _spriteComponent;
 
         public PatrolAiComponent(
             PositionComponent positionComponent,
-            MovementComponent movementComponent,
-            SpriteComponent spriteCompoonent)
+            MovementComponent movementComponent)
         {
             _positionComponent = positionComponent;
             _movementComponent = movementComponent;
-            _spriteComponent = spriteCompoonent;
+        }
+
+        public void StartPatrol()
+        {
+            _movementComponent.StartMove();
         }
 
         public void Draw()
@@ -30,20 +32,10 @@ namespace Platformer.Entities.Components
 
         public void Update()
         {
-            // too far right
-            if (_positionComponent.Position.X > Constants.GameWidth)
+            if (_positionComponent.Position.X > Constants.GameWidth ||
+                _positionComponent.Position.X < 0)
             {
-                // walk left
-                _movementComponent.Velocity = new Vector2(_movementComponent.Velocity.X * -1, _movementComponent.Velocity.Y);
-                _spriteComponent.SpritesheetRow = 1;
-            }
-
-            // too far left
-            if (_positionComponent.Position.X < 0)
-            {
-                // walk right
-                _movementComponent.Velocity = new Vector2(_movementComponent.Velocity.X * -1, _movementComponent.Velocity.Y);
-                _spriteComponent.SpritesheetRow = 0;
+                _movementComponent.ChangeDirection();
             }
         }
     }

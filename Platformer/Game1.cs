@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Platformer.Entities;
 using Platformer.Entities.Components;
 using Platformer.Entities.Factories;
 using Platformer.Scenes;
@@ -12,11 +13,14 @@ namespace Platformer
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager _graphics;
-        SpriteBatch _spriteBatch;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
 
-        Scene _testScene;
-        
+        private Scene _testScene;
+        private Entity _playerEntity;
+
+        private KeyboardState _previousKeyboardState;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -35,19 +39,13 @@ namespace Platformer
         protected override void Initialize()
         {
             var testEntity = new TestEntityFactory().Build();
+            _playerEntity = new PlayerEntityFactory().Build();
 
             _testScene = new Scene();
             _testScene.Entities.Add(testEntity);
-            
-            testEntity.GetComponent<MovementComponent>().Velocity = new Vector2(1, 0);
-            testEntity.GetComponent<AnimateComponent>().Play(new AnimationParameters
-            {
-                StartFrame = 0,
-                EndFrame = 8,
-                SpritesheetRow = 0,
-                FramesPerSecond = 4,
-                LoopsBeforeStop = -1
-            });
+            _testScene.Entities.Add(_playerEntity);
+
+            testEntity.GetComponent<MovementComponent>().StartMove();
 
             base.Initialize();
         }
@@ -78,10 +76,27 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            var currentKeyboardState = Keyboard.GetState();
+
+            if (currentKeyboardState.IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
+
+            var playerMovementComponent = _playerEntity.GetComponent<MovementComponent>();
+            playerMovementComponent.Velocity = new Vector2(0, 0);
+
+            if (currentKeyboardState.IsKeyDown(Keys.Right))
+            {
+                playerMovementComponent.Velocity = new Vector2(1, 0);
+            }
+
+            if (currentKeyboardState.IsKeyDown(Keys.Left))
+            {
+                playerMovementComponent.Velocity = new Vector2(-1, 0);
+            }
+
+            _previousKeyboardState = currentKeyboardState;
 
             foreach (var entity in _testScene.Entities)
             {

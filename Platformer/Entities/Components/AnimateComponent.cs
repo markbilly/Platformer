@@ -12,12 +12,6 @@ namespace Platformer.Entities.Components
         public int EndFrame { get; set; }
         public int SpritesheetRow { get; set; }
         public int FramesPerSecond { get; set; }
-
-        /// <summary>
-        /// How many loops of the animation to execute before stopping.
-        /// Use -1 to play animation indefinitely.
-        /// </summary>
-        public int LoopsBeforeStop { get; set; }
     }
 
     public class AnimateComponent : IComponent
@@ -31,9 +25,15 @@ namespace Platformer.Entities.Components
         private int _frames;
         private SpriteComponent _spriteComponent;
 
-        public AnimateComponent(SpriteComponent spriteComponent)
+        public AnimateComponent(SpriteComponent spriteComponent, AnimationParameters parameters)
         {
+            _fps = parameters.FramesPerSecond;
+            _startFrame = parameters.StartFrame;
+            _frames = parameters.EndFrame - parameters.StartFrame;
+
             _spriteComponent = spriteComponent;
+            _spriteComponent.Frame = parameters.StartFrame;
+            _spriteComponent.SpritesheetRow = parameters.SpritesheetRow;
         }
 
         public void Pause() => _isRunning = false;
@@ -43,16 +43,14 @@ namespace Platformer.Entities.Components
             _spriteComponent.Frame = _startFrame;
         }
 
-        public void Play(AnimationParameters parameters)
+        /// <summary>
+        /// </summary>
+        /// <param name="loopsBeforeStop">
+        /// How many loops of the animation to execute before stopping.
+        /// Use -1 to play animation indefinitely.
+        /// </param>
+        public void Play(int loopsBeforeStop = -1)
         {
-            _fps = parameters.FramesPerSecond;
-            _startFrame = parameters.StartFrame;
-            _frames = parameters.EndFrame - parameters.StartFrame;
-            _remainingLoops = parameters.LoopsBeforeStop;
-
-            _spriteComponent.Frame = parameters.StartFrame;
-            _spriteComponent.SpritesheetRow = parameters.SpritesheetRow;
-
             _isRunning = true;
         }
 

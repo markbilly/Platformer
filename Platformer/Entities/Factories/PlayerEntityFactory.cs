@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Platformer.Entities.Factories
 {
-    public class TestEntityFactory : IEntityFactory
+    public class PlayerEntityFactory : IEntityFactory
     {
         public Entity Build()
         {
-            var testPositionComponent = new PositionComponent(new Vector2(10, 10));
+            var testPositionComponent = new PositionComponent(new Vector2(10, 60));
             var testSpriteComponent = new SpriteComponent(testPositionComponent, new Point(16, 32), "test/walk");
 
             var testAnimateComponent = new AnimateComponent(testSpriteComponent, new AnimationParameters
@@ -24,15 +24,13 @@ namespace Platformer.Entities.Factories
             });
 
             var testMovementComponent = new MovementComponent(testPositionComponent, testAnimateComponent, testSpriteComponent, 1);
-            var testPatrolAiComponent = new PatrolAiComponent(testPositionComponent, testMovementComponent);
 
             return new Entity
             {
                 testPositionComponent,
                 testMovementComponent,
                 testSpriteComponent,
-                testAnimateComponent,
-                testPatrolAiComponent
+                testAnimateComponent
             };
         }
     }
