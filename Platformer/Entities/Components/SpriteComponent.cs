@@ -31,6 +31,12 @@ namespace Platformer.Entities.Components
         /// </summary>
         public int Frame { get; set; }
 
+        /// <summary>
+        /// Which row to use to display the frame (zero-indexed)
+        /// An animation can be stored on each row, for example
+        /// </summary>
+        public int SpritesheetRow { get; set; }
+
         public void Load(ContentManager contentManager)
         {
             _texture = contentManager.Load<Texture2D>(_spritesheet);
@@ -48,12 +54,14 @@ namespace Platformer.Entities.Components
                 throw new InvalidOperationException("Texture not yet loaded");
             }
 
-            var location = _positionComponent.Position.ToPoint();
             var width = _extent.X;
             var height = _extent.Y;
+            var sourceRect = new Rectangle(width * Frame, height * SpritesheetRow, width, height);
 
-            var sourceRect = new Rectangle(width * Frame, 0, width, height);
-            var destinationRect = new Rectangle(location.X, location.Y, width, height);
+            var scaledLocation = (_positionComponent.Position * Constants.GameScale).ToPoint();
+            var scaledWidth = width * Constants.GameScale;
+            var scaledHeight = height * Constants.GameScale;
+            var destinationRect = new Rectangle(scaledLocation.X, scaledLocation.Y, scaledWidth, scaledHeight);
 
             SpriteBatch.Draw(_texture, destinationRect, sourceRect, Color.White);
         }

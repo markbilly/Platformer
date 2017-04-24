@@ -6,6 +6,20 @@ using System.Threading.Tasks;
 
 namespace Platformer.Entities.Components
 {
+    public class AnimationParameters
+    {
+        public int StartFrame { get; set; }
+        public int EndFrame { get; set; }
+        public int SpritesheetRow { get; set; }
+        public int FramesPerSecond { get; set; }
+
+        /// <summary>
+        /// How many loops of the animation to execute before stopping.
+        /// Use -1 to play animation indefinitely.
+        /// </summary>
+        public int LoopsBeforeStop { get; set; }
+    }
+
     public class AnimateComponent : IComponent
     {
         private int _ticks;
@@ -17,14 +31,9 @@ namespace Platformer.Entities.Components
         private int _frames;
         private SpriteComponent _spriteComponent;
 
-        public AnimateComponent(SpriteComponent spriteComponent, int startFrame, int endFrame, int fps)
+        public AnimateComponent(SpriteComponent spriteComponent)
         {
-            _fps = fps;
-            _startFrame = startFrame;
-            _frames = endFrame - startFrame;
             _spriteComponent = spriteComponent;
-
-            _spriteComponent.Frame = _startFrame;
         }
 
         public void Pause() => _isRunning = false;
@@ -34,9 +43,16 @@ namespace Platformer.Entities.Components
             _spriteComponent.Frame = _startFrame;
         }
 
-        public void Play(int loops = -1)
+        public void Play(AnimationParameters parameters)
         {
-            _remainingLoops = loops; // -1 loops is indefinite
+            _fps = parameters.FramesPerSecond;
+            _startFrame = parameters.StartFrame;
+            _frames = parameters.EndFrame - parameters.StartFrame;
+            _remainingLoops = parameters.LoopsBeforeStop;
+
+            _spriteComponent.Frame = parameters.StartFrame;
+            _spriteComponent.SpritesheetRow = parameters.SpritesheetRow;
+
             _isRunning = true;
         }
 

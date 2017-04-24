@@ -42,7 +42,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Entities\Components\AnimateComponent.cs" />
+    <Compile Include="Entities\Components\PatrolAiComponent.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Factories\TestEntityFactory.cs" />
     <Compile Include="Entities\IComponent.cs" />

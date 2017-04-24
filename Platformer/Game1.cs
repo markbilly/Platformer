@@ -20,6 +20,9 @@ namespace Platformer
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = Constants.GameWidth * Constants.GameScale;
+            _graphics.PreferredBackBufferHeight = Constants.GameHeight * Constants.GameScale;
+
             Content.RootDirectory = "Content";
         }
 
@@ -35,8 +38,16 @@ namespace Platformer
 
             _testScene = new Scene();
             _testScene.Entities.Add(testEntity);
-
-            testEntity.GetComponent<AnimateComponent>().Play();
+            
+            testEntity.GetComponent<MovementComponent>().Velocity = new Vector2(1, 0);
+            testEntity.GetComponent<AnimateComponent>().Play(new AnimationParameters
+            {
+                StartFrame = 0,
+                EndFrame = 8,
+                SpritesheetRow = 0,
+                FramesPerSecond = 4,
+                LoopsBeforeStop = -1
+            });
 
             base.Initialize();
         }
@@ -86,9 +97,9 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Gray);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             foreach (var entity in _testScene.Entities)
             {
