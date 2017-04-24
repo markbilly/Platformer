@@ -12,7 +12,7 @@ namespace Platformer.Entities.Commands
     {
         public void Execute(Entity entity)
         {
-            entity.GetComponent<MovementComponent>().Velocity = new Vector2(0, 0);
+            entity.GetComponent<MovementComponent>().StopMove();
         }
     }
 }

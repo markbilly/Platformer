@@ -24,7 +24,8 @@ namespace Platformer.Entities.Factories
             });
 
             var testMovementComponent = new MovementComponent(testPositionComponent, testAnimateComponent, testSpriteComponent, 1);
-            var testPatrolAiComponent = new PatrolAiComponent(testPositionComponent, testMovementComponent);
+            var testRigidBodyComponent = new RigidBodyComponent(testPositionComponent, testMovementComponent);
+            var testPatrolAiComponent = new PatrolAiComponent(testMovementComponent, testRigidBodyComponent);
 
             return new Entity
             {
@@ -32,6 +33,7 @@ namespace Platformer.Entities.Factories
                 testMovementComponent,
                 testSpriteComponent,
                 testAnimateComponent,
+                testRigidBodyComponent,
                 testPatrolAiComponent
             };
         }

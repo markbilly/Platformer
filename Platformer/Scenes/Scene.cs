@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.Entities;
 using Platformer.Entities.Components;
@@ -30,6 +31,40 @@ namespace Platformer.Scenes
                     spriteComponent.SpriteBatch = spriteBatch;
                     spriteComponent.Load(contentManager);
                 }
+            }
+        }
+
+        public void HandleCollisions()
+        {
+            foreach (var entity in Entities)
+            {
+                var positionComponent = entity.GetComponent<PositionComponent>();
+                var rigidBodyComponent = entity.GetComponent<RigidBodyComponent>();
+
+                if (rigidBodyComponent != null && positionComponent != null)
+                {
+                    // Just check game boundaries for now
+                    if (positionComponent.Position.X > Constants.Game.Width)
+                    {
+                        rigidBodyComponent.Collision = new Vector2(1, 0);
+                    }
+                    else if (positionComponent.Position.X < 0)
+                    {
+                        rigidBodyComponent.Collision = new Vector2(-1, 0);
+                    }
+                    else
+                    {
+                        rigidBodyComponent.Collision = Vector2.Zero;
+                    }
+                }
+            }
+        }
+
+        public void UpdateEntites()
+        {
+            foreach (var entity in Entities)
+            {
+                entity.Update();
             }
         }
     }

@@ -34,9 +34,9 @@ namespace Platformer.Entities.Components
             Velocity = new Vector2(_movementSpeed, 0);
         }
 
-        public void ChangeDirection()
+        public void StopMove()
         {
-            Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+            Velocity = Vector2.Zero;
         }
 
         public void Draw()

@@ -9,15 +9,15 @@ namespace Platformer.Entities.Components
 {
     public class PatrolAiComponent : IComponent
     {
-        private PositionComponent _positionComponent;
+        private RigidBodyComponent _rigidBodyComponent;
         private MovementComponent _movementComponent;
 
         public PatrolAiComponent(
-            PositionComponent positionComponent,
-            MovementComponent movementComponent)
+            MovementComponent movementComponent,
+            RigidBodyComponent rigidBodyComponent)
         {
-            _positionComponent = positionComponent;
             _movementComponent = movementComponent;
+            _rigidBodyComponent = rigidBodyComponent;
         }
 
         public void StartPatrol()
@@ -32,10 +32,9 @@ namespace Platformer.Entities.Components
 
         public void Update()
         {
-            if (_positionComponent.Position.X > Constants.Game.Width ||
-                _positionComponent.Position.X < 0)
+            if (_rigidBodyComponent.Collision != Vector2.Zero)
             {
-                _movementComponent.ChangeDirection();
+                _movementComponent.Velocity = new Vector2(_rigidBodyComponent.Collision.X * -1, 0);
             }
         }
     }

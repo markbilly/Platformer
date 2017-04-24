@@ -12,10 +12,10 @@ namespace Platformer.Entities.Factories
     {
         public Entity Build()
         {
-            var testPositionComponent = new PositionComponent(new Vector2(10, 60));
-            var testSpriteComponent = new SpriteComponent(testPositionComponent, new Point(16, 32), "test/walk");
+            var positionComponent = new PositionComponent(new Vector2(10, 60));
+            var spriteComponent = new SpriteComponent(positionComponent, new Point(16, 32), "test/walk");
 
-            var testAnimateComponent = new AnimateComponent(testSpriteComponent, new AnimationParameters
+            var animateComponent = new AnimateComponent(spriteComponent, new AnimationParameters
             {
                 StartFrame = 0,
                 EndFrame = 8,
@@ -23,14 +23,14 @@ namespace Platformer.Entities.Factories
                 FramesPerSecond = 4,
             });
 
-            var testMovementComponent = new MovementComponent(testPositionComponent, testAnimateComponent, testSpriteComponent, 1);
+            var movementComponent = new MovementComponent(positionComponent, animateComponent, spriteComponent, 1);
 
             return new Entity
             {
-                testPositionComponent,
-                testMovementComponent,
-                testSpriteComponent,
-                testAnimateComponent
+                positionComponent,
+                movementComponent,
+                spriteComponent,
+                animateComponent
             };
         }
     }

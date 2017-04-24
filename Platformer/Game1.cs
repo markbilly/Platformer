@@ -87,28 +87,10 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            var currentKeyboardState = Keyboard.GetState();
+            HandleInputs();
 
-            if (currentKeyboardState.IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
-
-            foreach (var handler in _inputHandlers)
-            {
-                var command = handler.HandleInput(_previousKeyboardState, currentKeyboardState);
-                if (command != null)
-                {
-                    command.Execute(_playerEntity);
-                }
-            }
-
-            _previousKeyboardState = currentKeyboardState;
-
-            foreach (var entity in _testScene.Entities)
-            {
-                entity.Update();
-            }
+            _testScene.HandleCollisions();
+            _testScene.UpdateEntites();
 
             base.Update(gameTime);
         }
@@ -131,6 +113,27 @@ namespace Platformer
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void HandleInputs()
+        {
+            var currentKeyboardState = Keyboard.GetState();
+
+            if (currentKeyboardState.IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+
+            foreach (var handler in _inputHandlers)
+            {
+                var command = handler.HandleInput(_previousKeyboardState, currentKeyboardState);
+                if (command != null)
+                {
+                    command.Execute(_playerEntity);
+                }
+            }
+
+            _previousKeyboardState = currentKeyboardState;
         }
     }
 }
