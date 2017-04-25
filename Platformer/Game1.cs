@@ -34,6 +34,11 @@ namespace Platformer
             _graphics.PreferredBackBufferHeight = Constants.Game.Height * Constants.Game.Scale;
 
             Content.RootDirectory = "Content";
+
+            _inputHandlers = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(x => typeof(IInputHandler).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+                .Select(x => (IInputHandler)Activator.CreateInstance(x));
         }
 
         /// <summary>
@@ -44,19 +49,26 @@ namespace Platformer
         /// </summary>
         protected override void Initialize()
         {
-            _inputHandlers = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => typeof(IInputHandler).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                .Select(x => (IInputHandler)Activator.CreateInstance(x));
+            var guardEntityFactory = new GuardEntityFactory();
+            var boxEntityFactory = new BoxEntityFactory();
 
-            var testEntity = new TestEntityFactory().Build();
+            var box1 = boxEntityFactory.Build();
+            var guard = guardEntityFactory.Build();
+            var box2 = boxEntityFactory.Build();
+
+            box1.GetComponent<PositionComponent>().Position = new Vector2(10, 26);
+            guard.GetComponent<PositionComponent>().Position = new Vector2(200, 10);
+            box2.GetComponent<PositionComponent>().Position = new Vector2(390, 26);
+
             _playerEntity = new PlayerEntityFactory().Build();
 
             _testScene = new Scene();
-            _testScene.Entities.Add(testEntity);
+            _testScene.Entities.Add(box1);
+            _testScene.Entities.Add(guard);
+            _testScene.Entities.Add(box2);
             _testScene.Entities.Add(_playerEntity);
 
-            testEntity.GetComponent<MovementComponent>().StartMove();
+            guard.GetComponent<PatrolAiComponent>().StartPatrol();
 
             base.Initialize();
         }

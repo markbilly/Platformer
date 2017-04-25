@@ -36,25 +36,37 @@ namespace Platformer.Scenes
 
         public void HandleCollisions()
         {
-            foreach (var entity in Entities)
+            foreach (var entity1 in Entities)
             {
-                var positionComponent = entity.GetComponent<PositionComponent>();
-                var rigidBodyComponent = entity.GetComponent<RigidBodyComponent>();
+                var entity1Position = entity1.GetComponent<PositionComponent>();
+                var entity1RigidBody = entity1.GetComponent<RigidBodyComponent>();
 
-                if (rigidBodyComponent != null && positionComponent != null)
+                if (entity1Position != null && entity1RigidBody != null)
                 {
-                    // Just check game boundaries for now
-                    if (positionComponent.Position.X > Constants.Game.Width)
+                    foreach (var entity2 in Entities)
                     {
-                        rigidBodyComponent.Collision = new Vector2(1, 0);
-                    }
-                    else if (positionComponent.Position.X < 0)
-                    {
-                        rigidBodyComponent.Collision = new Vector2(-1, 0);
-                    }
-                    else
-                    {
-                        rigidBodyComponent.Collision = Vector2.Zero;
+                        if (entity1 != entity2)
+                        {
+                            var entity2Position = entity2.GetComponent<PositionComponent>();
+                            var entity2RigidBody = entity2.GetComponent<RigidBodyComponent>();
+
+                            if (entity2Position != null && entity2RigidBody != null)
+                            {
+                                var entity1Bounds = new Rectangle(entity1Position.Position.ToPoint(), entity1RigidBody.BoundingBoxSize);
+                                var entity2Bounds = new Rectangle(entity2Position.Position.ToPoint(), entity2RigidBody.BoundingBoxSize);
+
+                                if (entity1Bounds.Intersects(entity2Bounds))
+                                {
+                                    entity1RigidBody.Collision = new Vector2(1, 0);
+                                    entity2RigidBody.Collision = new Vector2(1, 0);
+                                }
+                                else
+                                {
+                                    entity1RigidBody.Collision = Vector2.Zero;
+                                    entity2RigidBody.Collision = Vector2.Zero;
+                                }
+                            }
+                        }
                     }
                 }
             }
