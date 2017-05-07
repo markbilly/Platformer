@@ -25,11 +25,6 @@ namespace Platformer.Entities.Components
             _movementComponent.StartMove();
         }
 
-        public void Draw()
-        {
-            return;
-        }
-
         public void Update()
         {
             if (_rigidBodyComponent.Collision != Vector2.Zero)

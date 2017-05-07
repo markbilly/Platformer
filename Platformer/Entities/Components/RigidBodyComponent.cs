@@ -22,11 +22,6 @@ namespace Platformer.Entities.Components
         public Vector2 Collision { get; set; }
         public Point BoundingBoxSize { get; private set; }
 
-        public void Draw()
-        {
-            return;
-        }
-
         public void Update()
         {
             return;

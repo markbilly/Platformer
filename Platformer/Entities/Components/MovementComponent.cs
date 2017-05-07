@@ -39,11 +39,6 @@ namespace Platformer.Entities.Components
             Velocity = Vector2.Zero;
         }
 
-        public void Draw()
-        {
-            return;
-        }
-
         public void Update()
         {
             _positionComponent.Position += Velocity;

@@ -54,12 +54,6 @@ namespace Platformer.Entities.Components
             _isRunning = true;
         }
 
-        public void Draw()
-        {
-            // Depend on sprite component for draw
-            return;
-        }
-
         public void Update()
         {
             if (_remainingLoops == 0 || !_isRunning)

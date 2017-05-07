@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using Platformer.Entities.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,13 @@ namespace Platformer.Entities
 
         public void Update()
         {
-            ForEach(x => x.Update());
-        }
-
-        public void Draw()
-        {
-            ForEach(x => x.Draw());
+            foreach (var component in this)
+            {
+                if (component.GetType() != typeof(SpriteComponent))
+                {
+                    component.Update();
+                }
+            }
         }
     }
 }

@@ -13,37 +13,65 @@ namespace Platformer.Scenes
 {
     public class Scene
     {
+        private IList<Entity> _entities;
+        private IList<SpriteComponent> _spriteComponents;
+
         public Scene()
         {
-            Entities = new List<Entity>();
+            _spriteComponents = new List<SpriteComponent>();
+            _entities = new List<Entity>();
         }
-
-        public IList<Entity> Entities { get; set; }
 
         public void Load(ContentManager contentManager, SpriteBatch spriteBatch)
         {
-            foreach (var entity in Entities)
+            foreach (var spriteComponent in _spriteComponents)
             {
-                var spriteComponent = entity.GetComponent<SpriteComponent>();
-
-                if (spriteComponent != null)
-                {
-                    spriteComponent.SpriteBatch = spriteBatch;
-                    spriteComponent.Load(contentManager);
-                }
+                spriteComponent.SpriteBatch = spriteBatch;
+                spriteComponent.Load(contentManager);
             }
         }
 
-        public void HandleCollisions()
+        public void AddEntity(Entity entity)
         {
-            foreach (var entity1 in Entities)
+            _entities.Add(entity);
+
+            var spriteComponent = entity.GetComponent<SpriteComponent>();
+            if (spriteComponent != null)
+            {
+                _spriteComponents.Add(spriteComponent);
+            }
+        }
+
+        public void Update()
+        {
+            // handle collisions
+            HandleCollisions();
+
+            // update entities
+            foreach (var entity in _entities)
+            {
+                entity.Update();
+            }
+        }
+
+        public void Draw()
+        {
+            foreach (var spriteComponent in _spriteComponents)
+            {
+                spriteComponent.Update();
+            }
+        }
+
+        private void HandleCollisions()
+        {
+            foreach (var entity1 in _entities)
             {
                 var entity1Position = entity1.GetComponent<PositionComponent>();
                 var entity1RigidBody = entity1.GetComponent<RigidBodyComponent>();
 
                 if (entity1Position != null && entity1RigidBody != null)
                 {
-                    foreach (var entity2 in Entities)
+                    foreach (var entity2 in _entities)
                     {
                         if (entity1 != entity2)
                         {
@@ -69,14 +97,6 @@ namespace Platformer.Scenes
                         }
                     }
                 }
-            }
-        }
-
-        public void UpdateEntites()
-        {
-            foreach (var entity in Entities)
-            {
-                entity.Update();
             }
         }
     }

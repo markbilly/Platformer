@@ -16,11 +16,6 @@ namespace Platformer.Entities.Components
 
         public Vector2 Position { get; set; }
 
-        public void Draw()
-        {
-            return;
-        }
-
         public void Update()
         {
             return;

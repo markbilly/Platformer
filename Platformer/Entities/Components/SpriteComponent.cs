@@ -44,11 +44,6 @@ namespace Platformer.Entities.Components
 
         public void Update()
         {
-            return;
-        }
-
-        public void Draw()
-        {
             if (_texture == null)
             {
                 throw new InvalidOperationException("Texture not yet loaded");

@@ -63,10 +63,10 @@ namespace Platformer
             _playerEntity = new PlayerEntityFactory().Build();
 
             _testScene = new Scene();
-            _testScene.Entities.Add(box1);
-            _testScene.Entities.Add(guard);
-            _testScene.Entities.Add(box2);
-            _testScene.Entities.Add(_playerEntity);
+            _testScene.AddEntity(box1);
+            _testScene.AddEntity(guard);
+            _testScene.AddEntity(box2);
+            _testScene.AddEntity(_playerEntity);
 
             guard.GetComponent<PatrolAiComponent>().StartPatrol();
 
@@ -101,8 +101,7 @@ namespace Platformer
         {
             HandleInputs();
 
-            _testScene.HandleCollisions();
-            _testScene.UpdateEntites();
+            _testScene.Update();
 
             base.Update(gameTime);
         }
@@ -117,10 +116,7 @@ namespace Platformer
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            foreach (var entity in _testScene.Entities)
-            {
-                entity.Draw();
-            }
+            _testScene.Draw();
 
             _spriteBatch.End();
 
