@@ -9,19 +9,16 @@ namespace Platformer.Entities.Components
 {
     public class MovementComponent : IComponent
     {
-        private PositionComponent _positionComponent;
         private AnimateComponent _animateComponent;
         private SpriteComponent _spriteComponent;
 
         private int _movementSpeed;
 
         public MovementComponent(
-            PositionComponent positionComponent,
             AnimateComponent animateComponent,
             SpriteComponent spriteComponent,
             int movementSpeed)
         {
-            _positionComponent = positionComponent;
             _animateComponent = animateComponent;
             _spriteComponent = spriteComponent;
             _movementSpeed = movementSpeed;
@@ -39,9 +36,9 @@ namespace Platformer.Entities.Components
             Velocity = Vector2.Zero;
         }
 
-        public void Update()
+        public void Update(Entity entity)
         {
-            _positionComponent.Position += Velocity;
+            entity.Position += Velocity;
 
             if (Velocity.X == 0)
             {

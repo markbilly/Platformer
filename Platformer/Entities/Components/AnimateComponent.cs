@@ -54,7 +54,7 @@ namespace Platformer.Entities.Components
             _isRunning = true;
         }
 
-        public void Update()
+        public void Update(Entity entity)
         {
             if (_remainingLoops == 0 || !_isRunning)
             {

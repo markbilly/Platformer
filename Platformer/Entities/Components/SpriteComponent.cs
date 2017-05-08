@@ -11,16 +11,11 @@ namespace Platformer.Entities.Components
 {
     public class SpriteComponent : IComponent
     {
-        private Point _extent;
         private Texture2D _texture;
         private string _spritesheet;
-
-        private PositionComponent _positionComponent;
         
-        public SpriteComponent(PositionComponent positionComponent, Point extent, string spritesheet)
+        public SpriteComponent(string spritesheet)
         {
-            _positionComponent = positionComponent;
-            _extent = extent;
             _spritesheet = spritesheet;
         }
 
@@ -42,18 +37,18 @@ namespace Platformer.Entities.Components
             _texture = contentManager.Load<Texture2D>(_spritesheet);
         }
 
-        public void Update()
+        public void Update(Entity entity)
         {
             if (_texture == null)
             {
                 throw new InvalidOperationException("Texture not yet loaded");
             }
 
-            var width = _extent.X;
-            var height = _extent.Y;
+            var width = entity.Size.X;
+            var height = entity.Size.Y;
             var sourceRect = new Rectangle(width * Frame, height * SpritesheetRow, width, height);
 
-            var scaledLocation = (_positionComponent.Position * Constants.Game.Scale).ToPoint();
+            var scaledLocation = (entity.Position * Constants.Game.Scale).ToPoint();
             var scaledWidth = width * Constants.Game.Scale;
             var scaledHeight = height * Constants.Game.Scale;
             var destinationRect = new Rectangle(scaledLocation.X, scaledLocation.Y, scaledWidth, scaledHeight);

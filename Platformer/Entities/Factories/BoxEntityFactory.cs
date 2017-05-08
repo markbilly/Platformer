@@ -12,18 +12,14 @@ namespace Platformer.Entities.Factories
     {
         public Entity Build()
         {
-            var bounds = new Point(16, 16);
+            var testSpriteComponent = new SpriteComponent("test/walk");
+            var testRigidBodyComponent = new RigidBodyComponent();
 
-            var testPositionComponent = new PositionComponent(new Vector2(10, 10));
-            var testSpriteComponent = new SpriteComponent(testPositionComponent, bounds, "test/walk");
-            var testRigidBodyComponent = new RigidBodyComponent(testPositionComponent, bounds);
-
-            return new Entity
-            {
-                testPositionComponent,
+            return new Entity(
+                new Vector2(10, 10),
+                new Point(16, 16),
                 testSpriteComponent,
-                testRigidBodyComponent,
-            };
+                testRigidBodyComponent);
         }
     }
 }

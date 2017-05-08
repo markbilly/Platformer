@@ -8,6 +8,6 @@ namespace Platformer.Entities
 {
     public interface IComponent
     {
-        void Update();
+        void Update(Entity entity);
     }
 }

@@ -56,9 +56,9 @@ namespace Platformer
             var guard = guardEntityFactory.Build();
             var box2 = boxEntityFactory.Build();
 
-            box1.GetComponent<PositionComponent>().Position = new Vector2(10, 26);
-            guard.GetComponent<PositionComponent>().Position = new Vector2(200, 10);
-            box2.GetComponent<PositionComponent>().Position = new Vector2(390, 26);
+            box1.Position = new Vector2(10, 26);
+            guard.Position = new Vector2(200, 10);
+            box2.Position = new Vector2(390, 26);
 
             _playerEntity = new PlayerEntityFactory().Build();
 

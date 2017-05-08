@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,11 +26,14 @@ namespace Platformer.Entities.Components
             _movementComponent.StartMove();
         }
 
-        public void Update()
+        public void Update(Entity entity)
         {
-            if (_rigidBodyComponent.Collision != Vector2.Zero)
+            var collision = _rigidBodyComponent.GetCollision();
+            if (collision != Vector2.Zero)
             {
-                _movementComponent.Velocity = new Vector2(_rigidBodyComponent.Collision.X * -1, 0);
+                _movementComponent.Velocity = new Vector2(collision.X * -1, 0);
+
+                Debug.WriteLine($"Set velocity to {_movementComponent.Velocity}");
             }
         }
     }

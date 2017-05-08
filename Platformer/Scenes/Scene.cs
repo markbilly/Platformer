@@ -14,20 +14,19 @@ namespace Platformer.Scenes
     public class Scene
     {
         private IList<Entity> _entities;
-        private IList<SpriteComponent> _spriteComponents;
+        private IList<Entity> _rigidBodyEntites;
 
         public Scene()
         {
-            _spriteComponents = new List<SpriteComponent>();
             _entities = new List<Entity>();
+            _rigidBodyEntites = new List<Entity>();
         }
 
         public void Load(ContentManager contentManager, SpriteBatch spriteBatch)
         {
-            foreach (var spriteComponent in _spriteComponents)
+            foreach (var entity in _entities)
             {
-                spriteComponent.SpriteBatch = spriteBatch;
-                spriteComponent.Load(contentManager);
+                entity.Load(contentManager, spriteBatch);
             }
         }
 
@@ -35,68 +34,34 @@ namespace Platformer.Scenes
         {
             _entities.Add(entity);
 
-            var spriteComponent = entity.GetComponent<SpriteComponent>();
-            if (spriteComponent != null)
+            if (entity.GetComponent<RigidBodyComponent>() != null)
             {
-                _spriteComponents.Add(spriteComponent);
+                _rigidBodyEntites.Add(entity);
             }
         }
 
         public void Update()
         {
-            // handle collisions
-            HandleCollisions();
-
-            // update entities
             foreach (var entity in _entities)
             {
+                // give entity relevant other entities for collision
+                var rigidBodyComponent = entity.GetComponent<RigidBodyComponent>();
+                if (rigidBodyComponent != null)
+                {
+                    // TODO: only pass rigid bodies near to the entity
+                    rigidBodyComponent.NearbyEntities = _rigidBodyEntites;
+                }
+
+                // update entity
                 entity.Update();
             }
         }
 
         public void Draw()
         {
-            foreach (var spriteComponent in _spriteComponents)
+            foreach (var entity in _entities)
             {
-                spriteComponent.Update();
-            }
-        }
-
-        private void HandleCollisions()
-        {
-            foreach (var entity1 in _entities)
-            {
-                var entity1Position = entity1.GetComponent<PositionComponent>();
-                var entity1RigidBody = entity1.GetComponent<RigidBodyComponent>();
-
-                if (entity1Position != null && entity1RigidBody != null)
-                {
-                    foreach (var entity2 in _entities)
-                    {
-                        if (entity1 != entity2)
-                        {
-                            var entity2Position = entity2.GetComponent<PositionComponent>();
-                            var entity2RigidBody = entity2.GetComponent<RigidBodyComponent>();
-
-                            if (entity2Position != null && entity2RigidBody != null)
-                            {
-                                var entity1Bounds = new Rectangle(entity1Position.Position.ToPoint(), entity1RigidBody.BoundingBoxSize);
-                                var entity2Bounds = new Rectangle(entity2Position.Position.ToPoint(), entity2RigidBody.BoundingBoxSize);
-
-                                if (entity1Bounds.Intersects(entity2Bounds))
-                                {
-                                    entity1RigidBody.Collision = new Vector2(1, 0);
-                                    entity2RigidBody.Collision = new Vector2(1, 0);
-                                }
-                                else
-                                {
-                                    entity1RigidBody.Collision = Vector2.Zero;
-                                    entity2RigidBody.Collision = Vector2.Zero;
-                                }
-                            }
-                        }
-                    }
-                }
+                entity.Draw();
             }
         }
     }
