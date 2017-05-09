@@ -18,11 +18,10 @@ namespace Platformer.Entities.Factories
             {
                 StartFrame = 0,
                 EndFrame = 8,
-                SpritesheetRow = 0,
                 FramesPerSecond = 4,
             });
 
-            var movementComponent = new MovementComponent(animateComponent, spriteComponent, 1);
+            var movementComponent = new MovementComponent(animateComponent, 1);
 
             return new Entity(
                 new Vector2(10, 60),

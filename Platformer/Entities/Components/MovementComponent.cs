@@ -10,17 +10,15 @@ namespace Platformer.Entities.Components
     public class MovementComponent : IComponent
     {
         private AnimateComponent _animateComponent;
-        private SpriteComponent _spriteComponent;
 
         private int _movementSpeed;
+        private int _previousSpeed;
 
         public MovementComponent(
             AnimateComponent animateComponent,
-            SpriteComponent spriteComponent,
             int movementSpeed)
         {
             _animateComponent = animateComponent;
-            _spriteComponent = spriteComponent;
             _movementSpeed = movementSpeed;
         }
 
@@ -40,17 +38,23 @@ namespace Platformer.Entities.Components
         {
             entity.Position += Velocity;
 
-            if (Velocity.X == 0)
+            if (Velocity.X > 0)
             {
-                _animateComponent.Pause();
-                return;
+                _animateComponent.SetAnimation(Animations.WalkRight);
+            }
+            else if (Velocity.X < 0)
+            {
+                _animateComponent.SetAnimation(Animations.WalkLeft);
+            }
+            else
+            {
+                if (_previousSpeed != 0)
+                {
+                    _animateComponent.SetAnimation(_previousSpeed > 0 ? Animations.IdleRight : Animations.IdleLeft);
+                }
             }
 
-            _spriteComponent.SpritesheetRow = Velocity.X > 0
-                ? Constants.Animation.WalkRight
-                : Constants.Animation.WalkLeft;
-
-            _animateComponent.Play();
+            _previousSpeed = (int)Velocity.X;
         }
     }
 }

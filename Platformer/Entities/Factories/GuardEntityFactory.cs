@@ -18,11 +18,10 @@ namespace Platformer.Entities.Factories
             {
                 StartFrame = 0,
                 EndFrame = 8,
-                SpritesheetRow = 0,
                 FramesPerSecond = 4,
             });
 
-            var testMovementComponent = new MovementComponent(testAnimateComponent, testSpriteComponent, 1);
+            var testMovementComponent = new MovementComponent(testAnimateComponent, 1);
             var testRigidBodyComponent = new RigidBodyComponent();
             var testPatrolAiComponent = new PatrolAiComponent(testMovementComponent, testRigidBodyComponent);
 

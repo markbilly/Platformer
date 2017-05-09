@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Entities\Components\AnimateComponent.cs" />
+    <Compile Include="Entities\Components\MassComponent.cs" />
     <Compile Include="Entities\Components\PatrolAiComponent.cs" />
     <Compile Include="Entities\Components\RigidBodyComponent.cs" />
     <Compile Include="Entities\Entity.cs" />

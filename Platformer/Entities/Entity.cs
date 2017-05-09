@@ -13,6 +13,7 @@ namespace Platformer.Entities
     public class Entity
     {
         private IList<IComponent> _components;
+        private SpriteComponent _spriteComponent;
 
         public Entity()
         {
@@ -23,14 +24,25 @@ namespace Platformer.Entities
         {
             Position = position;
             Size = size;
-            _components = components;
+
+            _components = new List<IComponent>();
+            foreach (var component in components)
+            {
+                AddComponent(component);
+            }
         }
-        
+
         public Vector2 Position { get; set; }
         public Point Size { get; set; }
 
         public void AddComponent(IComponent component)
         {
+            if (component is SpriteComponent)
+            {
+                _spriteComponent = (SpriteComponent)component;
+                return;
+            }
+
             _components.Add(component);
         }
 
@@ -41,14 +53,10 @@ namespace Platformer.Entities
 
         public void Load(ContentManager contentManager, SpriteBatch spriteBatch)
         {
-            foreach (var component in _components)
+            if (_spriteComponent != null)
             {
-                if (component.GetType() == typeof(SpriteComponent))
-                {
-                    ((SpriteComponent)component).SpriteBatch = spriteBatch;
-                    ((SpriteComponent)component).Load(contentManager);
-                    break;
-                }
+                _spriteComponent.SpriteBatch = spriteBatch;
+                _spriteComponent.Load(contentManager);
             }
         }
 
@@ -56,22 +64,15 @@ namespace Platformer.Entities
         {
             foreach (var component in _components)
             {
-                if (component.GetType() != typeof(SpriteComponent))
-                {
-                    component.Update(this);
-                }
+                component.Update(this);
             }
         }
 
         public void Draw()
         {
-            foreach (var component in _components)
+            if (_spriteComponent != null)
             {
-                if (component.GetType() == typeof(SpriteComponent))
-                {
-                    component.Update(this);
-                    break;
-                }
+                _spriteComponent.Update(this);
             }
         }
     }
