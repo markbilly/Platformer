@@ -24,7 +24,7 @@ namespace Platformer.Entities.Components
             _collision = collision;
         }
 
-        public Vector2 GetCollision()
+        public Vector2 GetLatestCollision()
         {
             var collision = _collision;
 
@@ -46,30 +46,41 @@ namespace Platformer.Entities.Components
                 {
                     var thisEntityBounds = new Rectangle(entity.Position.ToPoint(), entity.Size);
                     var nearbyEntityBounds = new Rectangle(nearbyEntity.Position.ToPoint(), nearbyEntity.Size);
-                    var nearbyEntityRigidBodyComponent = nearbyEntity.GetComponent<RigidBodyComponent>();
 
                     if (thisEntityBounds.Intersects(nearbyEntityBounds))
                     {
-                        ResolveCollision(thisEntityBounds, nearbyEntityBounds, nearbyEntityRigidBodyComponent);
+                        var collision = GetCollisionVector(thisEntityBounds, nearbyEntityBounds);
+                        ResolveCollision(entity, collision);
+
+                        AddCollision(collision);
+                        nearbyEntity.GetComponent<RigidBodyComponent>().AddCollision(-collision);
                     }
                 }
             }
         }
 
-        private void ResolveCollision(Rectangle thisEntityBounds, Rectangle nearbyEntityBounds, RigidBodyComponent nearbyEntityRigidBodyComponent)
+        private void ResolveCollision(Entity entity, Vector2 collision)
         {
-            Debug.WriteLine($"collision detected: X1 {thisEntityBounds.X}, X2: {nearbyEntityBounds.X}");
+            entity.Velocity = new Vector2(
+                collision.X != 0 ? 0 : entity.Velocity.X,
+                collision.Y != 0 ? 0 : entity.Velocity.Y);
+        }
 
+        private Vector2 GetCollisionVector(Rectangle thisEntityBounds, Rectangle nearbyEntityBounds)
+        {
             var collisionX = nearbyEntityBounds.X - thisEntityBounds.X;
             if (collisionX != 0)
             {
                 collisionX = collisionX > 0 ? 1 : -1;
             }
 
-            Debug.WriteLine($"collision detected: collisionX value is {collisionX}");
+            var collisionY = nearbyEntityBounds.Y - thisEntityBounds.Y;
+            if (collisionY != 0)
+            {
+                collisionY = collisionY > 0 ? 1 : -1;
+            }
 
-            AddCollision(new Vector2(collisionX, 0));
-            nearbyEntityRigidBodyComponent.AddCollision(new Vector2(-collisionX, 0));
+            return new Vector2(collisionX, collisionY);
         }
     }
 }

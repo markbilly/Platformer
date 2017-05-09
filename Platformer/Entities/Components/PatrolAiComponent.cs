@@ -11,29 +11,23 @@ namespace Platformer.Entities.Components
     public class PatrolAiComponent : IComponent
     {
         private RigidBodyComponent _rigidBodyComponent;
-        private MovementComponent _movementComponent;
 
-        public PatrolAiComponent(
-            MovementComponent movementComponent,
-            RigidBodyComponent rigidBodyComponent)
+        public PatrolAiComponent(RigidBodyComponent rigidBodyComponent)
         {
-            _movementComponent = movementComponent;
             _rigidBodyComponent = rigidBodyComponent;
         }
 
-        public void StartPatrol()
+        public void StartPatrol(Entity entity)
         {
-            _movementComponent.StartMove();
+            entity.Velocity = new Vector2(1, 0);
         }
 
         public void Update(Entity entity)
         {
-            var collision = _rigidBodyComponent.GetCollision();
-            if (collision != Vector2.Zero)
+            var collision = _rigidBodyComponent.GetLatestCollision();
+            if (collision.X != 0)
             {
-                _movementComponent.Velocity = new Vector2(collision.X * -1, 0);
-
-                Debug.WriteLine($"Set velocity to {_movementComponent.Velocity}");
+                entity.Velocity = new Vector2(collision.X * -1, entity.Velocity.Y);
             }
         }
     }

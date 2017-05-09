@@ -21,14 +21,18 @@ namespace Platformer.Entities.Factories
                 FramesPerSecond = 4,
             });
 
-            var movementComponent = new MovementComponent(animateComponent, 1);
+            var movementComponent = new MovementAnimationComponent(animateComponent);
+
+            var forceComponent = new ForceComponent(5);
 
             return new Entity(
                 new Vector2(10, 60),
                 new Point(16, 32),
                 movementComponent,
                 spriteComponent,
-                animateComponent);
+                animateComponent,
+                forceComponent,
+                new MovementStateComponent());
         }
     }
 }

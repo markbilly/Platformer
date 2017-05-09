@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace Platformer.Entities.Components
 {
-    public class MassComponent : IComponent
+    public class MovementStateComponent : IComponent
     {
+        public bool IsJumping { get; private set; }
+
         public void Update(Entity entity)
         {
-            throw new NotImplementedException();
+            if (entity.Velocity.Y != 0)
+            {
+                IsJumping = true;
+            }
         }
     }
 }

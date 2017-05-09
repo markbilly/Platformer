@@ -63,12 +63,21 @@ namespace Platformer
             _playerEntity = new PlayerEntityFactory().Build();
 
             _testScene = new Scene();
-            _testScene.AddEntity(box1);
-            _testScene.AddEntity(guard);
-            _testScene.AddEntity(box2);
+            //_testScene.AddEntity(box1);
+            //_testScene.AddEntity(guard);
+            //_testScene.AddEntity(box2);
             _testScene.AddEntity(_playerEntity);
 
-            guard.GetComponent<PatrolAiComponent>().StartPatrol();
+            for (var i = 0; i < 10; i++)
+            {
+                var box = boxEntityFactory.Build();
+                box.Position = new Vector2(i * 16, 200);
+                _testScene.AddEntity(box);
+            }
+
+            //guard.GetComponent<PatrolAiComponent>().StartPatrol(guard);
+
+            _playerEntity.GetComponent<ForceComponent>().ApplyConstantForce(new Vector2(0, 0.05f)); // apply gravity to player
 
             base.Initialize();
         }

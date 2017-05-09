@@ -13,6 +13,11 @@ namespace Platformer.Input.Handlers
     {
         public IEntityCommand HandleInput(KeyboardState previousKeyboardState, KeyboardState currentKeyboardState)
         {
+            if (previousKeyboardState.IsKeyUp(Keys.Space) && currentKeyboardState.IsKeyDown(Keys.Space))
+            {
+                return new JumpCommand();
+            }
+
             if (currentKeyboardState.IsKeyUp(Keys.Right) && currentKeyboardState.IsKeyUp(Keys.Left))
             {
                 return new MoveStopCommand();

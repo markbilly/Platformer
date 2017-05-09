@@ -21,9 +21,9 @@ namespace Platformer.Entities.Factories
                 FramesPerSecond = 4,
             });
 
-            var testMovementComponent = new MovementComponent(testAnimateComponent, 1);
+            var testMovementComponent = new MovementAnimationComponent(testAnimateComponent);
             var testRigidBodyComponent = new RigidBodyComponent();
-            var testPatrolAiComponent = new PatrolAiComponent(testMovementComponent, testRigidBodyComponent);
+            var testPatrolAiComponent = new PatrolAiComponent(testRigidBodyComponent);
 
             return new Entity(
                 new Vector2(10, 10),

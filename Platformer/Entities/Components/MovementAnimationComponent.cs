@@ -7,42 +7,24 @@ using System.Threading.Tasks;
 
 namespace Platformer.Entities.Components
 {
-    public class MovementComponent : IComponent
+    public class MovementAnimationComponent : IComponent
     {
         private AnimateComponent _animateComponent;
 
-        private int _movementSpeed;
         private int _previousSpeed;
 
-        public MovementComponent(
-            AnimateComponent animateComponent,
-            int movementSpeed)
+        public MovementAnimationComponent(AnimateComponent animateComponent)
         {
             _animateComponent = animateComponent;
-            _movementSpeed = movementSpeed;
-        }
-
-        public Vector2 Velocity { get; set; }
-
-        public void StartMove()
-        {
-            Velocity = new Vector2(_movementSpeed, 0);
-        }
-
-        public void StopMove()
-        {
-            Velocity = Vector2.Zero;
         }
 
         public void Update(Entity entity)
         {
-            entity.Position += Velocity;
-
-            if (Velocity.X > 0)
+            if (entity.Velocity.X > 0)
             {
                 _animateComponent.SetAnimation(Animations.WalkRight);
             }
-            else if (Velocity.X < 0)
+            else if (entity.Velocity.X < 0)
             {
                 _animateComponent.SetAnimation(Animations.WalkLeft);
             }
@@ -54,7 +36,7 @@ namespace Platformer.Entities.Components
                 }
             }
 
-            _previousSpeed = (int)Velocity.X;
+            _previousSpeed = (int)entity.Velocity.X;
         }
     }
 }

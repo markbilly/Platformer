@@ -32,6 +32,7 @@ namespace Platformer.Entities
             }
         }
 
+        public Vector2 Velocity { get; set; }
         public Vector2 Position { get; set; }
         public Point Size { get; set; }
 
@@ -62,6 +63,8 @@ namespace Platformer.Entities
 
         public void Update()
         {
+            Position += Velocity; // TODO: move velocity into component?
+
             foreach (var component in _components)
             {
                 component.Update(this);
