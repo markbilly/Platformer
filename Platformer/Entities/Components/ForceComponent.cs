@@ -24,7 +24,7 @@ namespace Platformer.Entities.Components
         private IList<AppliedForce> _forces;
         private int _mass;
 
-        public ForceComponent(int mass)
+        public ForceComponent(int mass = 50)
         {
             _forces = new List<AppliedForce>();
             _mass = mass;

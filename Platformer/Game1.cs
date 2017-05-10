@@ -56,28 +56,29 @@ namespace Platformer
             var guard = guardEntityFactory.Build();
             var box2 = boxEntityFactory.Build();
 
-            box1.Position = new Vector2(10, 26);
+            box1.Position = new Vector2(100, 26);
             guard.Position = new Vector2(200, 10);
             box2.Position = new Vector2(390, 26);
 
             _playerEntity = new PlayerEntityFactory().Build();
+            _playerEntity.Position = new Vector2(60, 16);
 
             _testScene = new Scene();
-            //_testScene.AddEntity(box1);
-            //_testScene.AddEntity(guard);
-            //_testScene.AddEntity(box2);
+            _testScene.AddEntity(box1);
+            _testScene.AddEntity(guard);
+            _testScene.AddEntity(box2);
             _testScene.AddEntity(_playerEntity);
 
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 30; i++)
             {
-                var box = boxEntityFactory.Build();
-                box.Position = new Vector2(i * 16, 200);
-                _testScene.AddEntity(box);
+                var tile = new TileEntityFactory().Build();
+                tile.Position = new Vector2(i * 16, 200);
+                _testScene.AddEntity(tile);
             }
 
-            //guard.GetComponent<PatrolAiComponent>().StartPatrol(guard);
+            guard.GetComponent<PatrolAiComponent>().StartPatrol(guard);
 
-            _playerEntity.GetComponent<ForceComponent>().ApplyConstantForce(new Vector2(0, 0.05f)); // apply gravity to player
+            _playerEntity.GetComponent<ForceComponent>().ApplyConstantForce(new Vector2(0, 9.81f)); // apply gravity
 
             base.Initialize();
         }

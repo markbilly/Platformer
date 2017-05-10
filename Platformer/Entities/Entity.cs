@@ -20,9 +20,8 @@ namespace Platformer.Entities
             _components = new List<IComponent>();
         }
 
-        public Entity(Vector2 position, Point size, params IComponent[] components)
+        public Entity(Point size, params IComponent[] components)
         {
-            Position = position;
             Size = size;
 
             _components = new List<IComponent>();
@@ -63,12 +62,12 @@ namespace Platformer.Entities
 
         public void Update()
         {
-            Position += Velocity; // TODO: move velocity into component?
-
             foreach (var component in _components)
             {
                 component.Update(this);
             }
+
+            Position += Velocity; // TODO: move velocity into component?
         }
 
         public void Draw()

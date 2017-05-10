@@ -26,11 +26,11 @@ namespace Platformer.Entities.Factories
             var testPatrolAiComponent = new PatrolAiComponent(testRigidBodyComponent);
 
             return new Entity(
-                new Vector2(10, 10),
                 new Point(16, 32),
                 testMovementComponent,
                 testSpriteComponent,
                 testAnimateComponent,
+                //new ForceComponent(),
                 testRigidBodyComponent,
                 testPatrolAiComponent);
         }

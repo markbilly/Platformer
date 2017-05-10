@@ -53,6 +53,7 @@
     <Compile Include="Entities\Factories\BoxEntityFactory.cs" />
     <Compile Include="Entities\Factories\PlayerEntityFactory.cs" />
     <Compile Include="Entities\Factories\GuardEntityFactory.cs" />
+    <Compile Include="Entities\Factories\TileEntityFactory.cs" />
     <Compile Include="Entities\IComponent.cs" />
     <Compile Include="Entities\IEntityFactory.cs" />
     <Compile Include="Entities\Components\MovementAnimationComponent.cs" />
@@ -129,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\test\bit.png" />
+    <Content Include="Content\test\grass.png" />
     <Content Include="Content\test\walk.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

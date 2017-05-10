@@ -61,24 +61,51 @@ namespace Platformer.Entities.Components
 
         private void ResolveCollision(Entity entity, Vector2 collision)
         {
+            ClipEntity(entity, collision);
+
             entity.Velocity = new Vector2(
                 collision.X != 0 ? 0 : entity.Velocity.X,
                 collision.Y != 0 ? 0 : entity.Velocity.Y);
         }
 
+        private static void ClipEntity(Entity entity, Vector2 collision)
+        {
+            // do not clip if entity is not moving
+            if (entity.Velocity == Vector2.Zero)
+            {
+                return;
+            }
+
+            // work out possible new x and y positions after clipping
+            var newPositionX = entity.Position.X - collision.X;
+            var newPositionY = entity.Position.Y - collision.Y;
+
+            // work out whether collision is vertical or horizontal
+            // do this by checking x and y speed
+            var speedX = Math.Abs(entity.Velocity.X);
+            var speedY = Math.Abs(entity.Velocity.Y);
+
+            if (speedY > speedX)
+            {
+                // if speed in y direction is more "fix" y
+                entity.Position = new Vector2(entity.Position.X, newPositionY);
+            }
+            else if (speedX > speedY)
+            {
+                // if speed in x direction is more "fix" x
+                entity.Position = new Vector2(newPositionX, entity.Position.Y);
+            }
+            else
+            {
+                // if speeds equal "fix" x and y
+                entity.Position = new Vector2(newPositionX, newPositionY);
+            }
+        }
+
         private Vector2 GetCollisionVector(Rectangle thisEntityBounds, Rectangle nearbyEntityBounds)
         {
             var collisionX = nearbyEntityBounds.X - thisEntityBounds.X;
-            if (collisionX != 0)
-            {
-                collisionX = collisionX > 0 ? 1 : -1;
-            }
-
             var collisionY = nearbyEntityBounds.Y - thisEntityBounds.Y;
-            if (collisionY != 0)
-            {
-                collisionY = collisionY > 0 ? 1 : -1;
-            }
 
             return new Vector2(collisionX, collisionY);
         }

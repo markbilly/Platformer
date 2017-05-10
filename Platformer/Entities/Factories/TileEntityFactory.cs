@@ -8,16 +8,15 @@ using System.Threading.Tasks;
 
 namespace Platformer.Entities.Factories
 {
-    public class BoxEntityFactory : IEntityFactory
+    public class TileEntityFactory : IEntityFactory
     {
         public Entity Build()
         {
-            var testSpriteComponent = new SpriteComponent("test/walk");
+            var testSpriteComponent = new SpriteComponent("test/grass");
 
             return new Entity(
                 new Point(16, 16),
                 testSpriteComponent,
-                //new ForceComponent(),
                 new RigidBodyComponent());
         }
     }

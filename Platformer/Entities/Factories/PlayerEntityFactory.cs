@@ -23,16 +23,14 @@ namespace Platformer.Entities.Factories
 
             var movementComponent = new MovementAnimationComponent(animateComponent);
 
-            var forceComponent = new ForceComponent(5);
-
             return new Entity(
-                new Vector2(10, 60),
                 new Point(16, 32),
                 movementComponent,
                 spriteComponent,
                 animateComponent,
-                forceComponent,
-                new MovementStateComponent());
+                new MovementStateComponent(),
+                new ForceComponent(),
+                new RigidBodyComponent());
         }
     }
 }

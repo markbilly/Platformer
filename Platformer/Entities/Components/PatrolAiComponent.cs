@@ -27,7 +27,8 @@ namespace Platformer.Entities.Components
             var collision = _rigidBodyComponent.GetLatestCollision();
             if (collision.X != 0)
             {
-                entity.Velocity = new Vector2(collision.X * -1, entity.Velocity.Y);
+                var collisionDirection = collision.X > 0 ? 1 : -1;
+                entity.Velocity = new Vector2(collisionDirection * -1, entity.Velocity.Y);
             }
         }
     }

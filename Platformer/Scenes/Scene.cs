@@ -13,6 +13,8 @@ namespace Platformer.Scenes
 {
     public class Scene
     {
+        private static readonly Vector2 GRAVITY = new Vector2(0, 9.81f);
+
         private IList<Entity> _entities;
         private IList<Entity> _rigidBodyEntites;
 
@@ -37,6 +39,12 @@ namespace Platformer.Scenes
             if (entity.GetComponent<RigidBodyComponent>() != null)
             {
                 _rigidBodyEntites.Add(entity);
+            }
+
+            var forceComponent = entity.GetComponent<ForceComponent>();
+            if (forceComponent != null)
+            {
+                forceComponent.ApplyConstantForce(GRAVITY);
             }
         }
 
