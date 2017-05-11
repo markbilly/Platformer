@@ -65,11 +65,11 @@ namespace Platformer
             box2.Position = new Vector2(390, 26);
 
             _playerEntity = new PlayerEntityFactory().Build();
-            _playerEntity.Position = new Vector2(0, 0);
+            _playerEntity.Position = new Vector2(130, 0);
 
             _testScene = new Scene();
             _testScene.AddEntity(box1);
-            //_testScene.AddEntity(guard);
+            _testScene.AddEntity(guard);
             _testScene.AddEntity(box2);
             _testScene.AddEntity(_playerEntity);
 

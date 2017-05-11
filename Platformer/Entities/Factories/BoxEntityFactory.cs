@@ -17,7 +17,7 @@ namespace Platformer.Entities.Factories
             return new Entity(
                 new Point(16, 16),
                 testSpriteComponent,
-                //new ForceComponent(),
+                new ForceComponent(),
                 new RigidBodyComponent());
         }
     }

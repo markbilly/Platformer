@@ -81,23 +81,20 @@ namespace Platformer.Entities.Components
             var newPositionY = entity.Position.Y - collision.Y;
 
             // work out whether collision is vertical or horizontal
-            // do this by checking x and y speed
-            var speedX = Math.Abs(entity.Velocity.X);
-            var speedY = Math.Abs(entity.Velocity.Y);
-
-            if (speedY > speedX)
+            // do this by checking the collision vector
+            if (collision.X > collision.Y)
             {
-                // if speed in y direction is more "fix" y
+                // if y penetration is smallest "fix" y
                 entity.Position = new Vector2(entity.Position.X, newPositionY);
             }
-            else if (speedX > speedY)
+            else if (collision.Y > collision.X)
             {
-                // if speed in x direction is more "fix" x
-                //entity.Position = new Vector2(newPositionX, entity.Position.Y);
+                // if x penetration is smallest "fix" x
+                entity.Position = new Vector2(newPositionX, entity.Position.Y);
             }
             else
             {
-                // if speeds equal "fix" x and y
+                // if penetration is equal "fix" x and y
                 entity.Position = new Vector2(newPositionX, newPositionY);
             }
         }

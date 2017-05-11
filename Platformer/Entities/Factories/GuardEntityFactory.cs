@@ -30,7 +30,7 @@ namespace Platformer.Entities.Factories
                 testMovementComponent,
                 testSpriteComponent,
                 testAnimateComponent,
-                //new ForceComponent(),
+                new ForceComponent(),
                 testRigidBodyComponent,
                 testPatrolAiComponent);
         }

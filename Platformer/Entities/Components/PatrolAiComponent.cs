@@ -12,6 +12,10 @@ namespace Platformer.Entities.Components
     {
         private RigidBodyComponent _rigidBodyComponent;
 
+        private bool _patrolling;
+        private int _patrolSpeed;
+        private int _patrolDirection;
+
         public PatrolAiComponent(RigidBodyComponent rigidBodyComponent)
         {
             _rigidBodyComponent = rigidBodyComponent;
@@ -19,16 +23,23 @@ namespace Platformer.Entities.Components
 
         public void StartPatrol(Entity entity)
         {
-            entity.Velocity = new Vector2(1, 0);
+            _patrolling = true;
+            _patrolSpeed = 1;
+            _patrolDirection = 1;
         }
 
         public void Update(Entity entity)
         {
             var collision = _rigidBodyComponent.GetLatestCollision();
-            if (collision.X != 0)
+            if (collision.X < collision.Y) // only care about x-direction collisions
             {
                 var collisionDirection = collision.X > 0 ? 1 : -1;
-                entity.Velocity = new Vector2(collisionDirection * -1, entity.Velocity.Y);
+                _patrolDirection = collisionDirection * -1;
+            }
+
+            if (_patrolling)
+            {
+                entity.Velocity = new Vector2(_patrolDirection * _patrolSpeed, entity.Velocity.Y);
             }
         }
     }

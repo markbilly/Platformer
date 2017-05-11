@@ -13,7 +13,7 @@ namespace Platformer.Scenes
 {
     public class Scene
     {
-        private static readonly Vector2 GRAVITY = new Vector2(0, 9.81f);
+        private static readonly Vector2 GRAVITY = new Vector2(0, 5f);
 
         private IList<Entity> _entities;
         private IList<Entity> _rigidBodyEntites;
