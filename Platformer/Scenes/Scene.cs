@@ -24,11 +24,11 @@ namespace Platformer.Scenes
             _rigidBodyEntites = new List<Entity>();
         }
 
-        public void Load(ContentManager contentManager, SpriteBatch spriteBatch)
+        public void Load(ContentManager contentManager, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
             foreach (var entity in _entities)
             {
-                entity.Load(contentManager, spriteBatch);
+                entity.Load(contentManager, spriteBatch, graphicsDevice);
             }
         }
 

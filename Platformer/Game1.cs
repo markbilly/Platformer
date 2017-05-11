@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Platformer
 {
@@ -26,6 +27,9 @@ namespace Platformer
 
         private KeyboardState _previousKeyboardState;
         private IEnumerable<IInputHandler> _inputHandlers;
+
+        private double _timeSinceLastUpdate;
+        private const int DEBUG_PAUSE_PER_FRAME = 0; // use zero value to disable debug pause
 
         public Game1()
         {
@@ -61,11 +65,11 @@ namespace Platformer
             box2.Position = new Vector2(390, 26);
 
             _playerEntity = new PlayerEntityFactory().Build();
-            _playerEntity.Position = new Vector2(60, 16);
+            _playerEntity.Position = new Vector2(0, 0);
 
             _testScene = new Scene();
             _testScene.AddEntity(box1);
-            _testScene.AddEntity(guard);
+            //_testScene.AddEntity(guard);
             _testScene.AddEntity(box2);
             _testScene.AddEntity(_playerEntity);
 
@@ -78,8 +82,6 @@ namespace Platformer
 
             guard.GetComponent<PatrolAiComponent>().StartPatrol(guard);
 
-            _playerEntity.GetComponent<ForceComponent>().ApplyConstantForce(new Vector2(0, 9.81f)); // apply gravity
-
             base.Initialize();
         }
 
@@ -90,7 +92,7 @@ namespace Platformer
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _testScene.Load(Content, _spriteBatch);
+            _testScene.Load(Content, _spriteBatch, GraphicsDevice);
         }
 
         /// <summary>
@@ -109,11 +111,18 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            HandleInputs();
+            _timeSinceLastUpdate += gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            _testScene.Update();
+            if (_timeSinceLastUpdate >= DEBUG_PAUSE_PER_FRAME)
+            {
+                _timeSinceLastUpdate = 0;
 
-            base.Update(gameTime);
+                HandleInputs();
+
+                _testScene.Update();
+
+                base.Update(gameTime);
+            }
         }
 
         /// <summary>

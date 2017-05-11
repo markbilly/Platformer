@@ -51,23 +51,25 @@ namespace Platformer.Entities
             return (T)_components.SingleOrDefault(x => x.GetType() == typeof(T));
         }
 
-        public void Load(ContentManager contentManager, SpriteBatch spriteBatch)
+        public void Load(ContentManager contentManager, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
             if (_spriteComponent != null)
             {
                 _spriteComponent.SpriteBatch = spriteBatch;
+                _spriteComponent.GraphicsDevice = graphicsDevice;
+
                 _spriteComponent.Load(contentManager);
             }
         }
 
         public void Update()
         {
+            Position += Velocity; // TODO: move velocity into component?
+
             foreach (var component in _components)
             {
                 component.Update(this);
             }
-
-            Position += Velocity; // TODO: move velocity into component?
         }
 
         public void Draw()

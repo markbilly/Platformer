@@ -44,10 +44,10 @@ namespace Platformer.Entities.Components
             {
                 if (entity != nearbyEntity)
                 {
-                    var thisEntityBounds = new Rectangle(entity.Position.ToPoint(), entity.Size);
-                    var nearbyEntityBounds = new Rectangle(nearbyEntity.Position.ToPoint(), nearbyEntity.Size);
+                    var thisEntityBounds = new RectangleF(entity.Position, entity.Size);
+                    var nearbyEntityBounds = new RectangleF(nearbyEntity.Position, nearbyEntity.Size);
 
-                    if (thisEntityBounds.Intersects(nearbyEntityBounds))
+                    if (RectangleF.Intersects(thisEntityBounds, nearbyEntityBounds))
                     {
                         var collision = GetCollisionVector(thisEntityBounds, nearbyEntityBounds);
                         ResolveCollision(entity, collision);
@@ -93,7 +93,7 @@ namespace Platformer.Entities.Components
             else if (speedX > speedY)
             {
                 // if speed in x direction is more "fix" x
-                entity.Position = new Vector2(newPositionX, entity.Position.Y);
+                //entity.Position = new Vector2(newPositionX, entity.Position.Y);
             }
             else
             {
@@ -102,12 +102,37 @@ namespace Platformer.Entities.Components
             }
         }
 
-        private Vector2 GetCollisionVector(Rectangle thisEntityBounds, Rectangle nearbyEntityBounds)
+        private Vector2 GetCollisionVector(RectangleF thisEntityBounds, RectangleF nearbyEntityBounds)
         {
-            var collisionX = nearbyEntityBounds.X - thisEntityBounds.X;
-            var collisionY = nearbyEntityBounds.Y - thisEntityBounds.Y;
+            var collisionX = thisEntityBounds.X + thisEntityBounds.Width - nearbyEntityBounds.X;
+            var collisionY = thisEntityBounds.Y + thisEntityBounds.Height - nearbyEntityBounds.Y;
 
             return new Vector2(collisionX, collisionY);
+        }
+
+        private struct RectangleF
+        {
+            public RectangleF(Vector2 position, Point size)
+            {
+                X = position.X;
+                Y = position.Y;
+                Width = size.X;
+                Height = size.Y;
+            }
+
+            public float X;
+            public float Y;
+            public int Width;
+            public int Height;
+
+            public static bool Intersects(RectangleF rectangle1, RectangleF rectangle2)
+            {
+                return 
+                    rectangle1.X < rectangle2.X + rectangle2.Width &&
+                    rectangle1.X + rectangle1.Width > rectangle2.X &&
+                    rectangle1.Y < rectangle2.Y + rectangle2.Height &&
+                    rectangle1.Height + rectangle1.Y > rectangle2.Y;
+            }
         }
     }
 }
