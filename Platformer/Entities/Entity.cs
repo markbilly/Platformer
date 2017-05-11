@@ -27,7 +27,10 @@ namespace Platformer.Entities
                 AddComponent(component);
             }
 
+#if DEBUG
             AddComponent(new DebugGraphicsComponent());
+#endif
+
         }
 
         public Vector2 Velocity { get; set; }

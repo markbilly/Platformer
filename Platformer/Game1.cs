@@ -21,6 +21,7 @@ namespace Platformer
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private SpriteFont _debugFont;
 
         private Scene _testScene;
         private Entity _playerEntity;
@@ -60,18 +61,18 @@ namespace Platformer
             var guard = guardEntityFactory.Build();
             var box2 = boxEntityFactory.Build();
 
-            box1.Position = new Vector2(100, 26);
-            guard.Position = new Vector2(200, 10);
-            box2.Position = new Vector2(390, 26);
+            box1.Position = new Vector2(100, 150);
+            guard.Position = new Vector2(200, 150);
+            box2.Position = new Vector2(390, 150);
 
             _playerEntity = new PlayerEntityFactory().Build();
-            _playerEntity.Position = new Vector2(130, 0);
+            _playerEntity.Position = new Vector2(130, 150);
 
             _testScene = new Scene();
             _testScene.AddEntity(box1);
-            //_testScene.AddEntity(guard);
+            _testScene.AddEntity(guard);
             _testScene.AddEntity(box2);
-            _testScene.AddEntity(_playerEntity);
+            //_testScene.AddEntity(_playerEntity);
 
             for (var i = 0; i < 30; i++)
             {
@@ -93,6 +94,7 @@ namespace Platformer
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _testScene.Load(Content, _spriteBatch, GraphicsDevice);
+            _debugFont = Content.Load<SpriteFont>("fonts/debug");
         }
 
         /// <summary>
@@ -131,14 +133,18 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Gray);
+            var frameRate = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            GraphicsDevice.Clear(Color.Gray);
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             _testScene.Draw();
 
-            _spriteBatch.End();
+#if DEBUG
+            _spriteBatch.DrawString(_debugFont, frameRate.ToString(), Vector2.Zero, Color.Red);
+#endif
 
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
 

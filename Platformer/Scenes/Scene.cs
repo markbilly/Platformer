@@ -57,7 +57,7 @@ namespace Platformer.Scenes
                 if (rigidBodyComponent != null)
                 {
                     // TODO: only pass rigid bodies near to the entity
-                    rigidBodyComponent.NearbyEntities = _rigidBodyEntites;
+                    rigidBodyComponent.SetNearbyEntities(_rigidBodyEntites);
                 }
 
                 // update entity

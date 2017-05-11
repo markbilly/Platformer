@@ -11,37 +11,23 @@ namespace Platformer.Entities.Components
 {
     public class RigidBodyComponent : IComponent
     {
-        private Vector2 _collision;
+        private IList<Entity> _nearbyEntities;
 
         public RigidBodyComponent()
         {
-            _collision = Vector2.Zero;
+            Collisions = new List<Vector2>();
         }
 
-        public IEnumerable<Entity> NearbyEntities { get; set; }
+        public IList<Vector2> Collisions { get; private set; }
 
-        public void AddCollision(Vector2 collision)
+        public void SetNearbyEntities(IList<Entity> entities)
         {
-            _collision = collision;
-        }
-
-        public Vector2 GetLatestCollision()
-        {
-            var collision = _collision;
-
-            _collision = Vector2.Zero;
-
-            return collision;
+            _nearbyEntities = entities;
         }
 
         public void Update(Entity entity)
-        {
-            if (NearbyEntities == null)
-            {
-                throw new InvalidOperationException("NearbyEntities has not been set");
-            }
-
-            foreach (var nearbyEntity in NearbyEntities)
+        {            
+            foreach (var nearbyEntity in _nearbyEntities)
             {
                 if (entity != nearbyEntity)
                 {
@@ -53,8 +39,7 @@ namespace Platformer.Entities.Components
                         var collision = GetCollisionVector(thisEntityBounds, nearbyEntityBounds);
                         ResolveCollision(entity, collision);
 
-                        AddCollision(collision);
-                        nearbyEntity.GetComponent<RigidBodyComponent>().AddCollision(-collision);
+                        Collisions.Add(collision);
                     }
                 }
             }
@@ -104,8 +89,11 @@ namespace Platformer.Entities.Components
 
         private Vector2 GetCollisionVector(RectangleF thisEntityBounds, RectangleF nearbyEntityBounds)
         {
-            var collisionX = thisEntityBounds.X + thisEntityBounds.Width - nearbyEntityBounds.X;
-            var collisionY = thisEntityBounds.Y + thisEntityBounds.Height - nearbyEntityBounds.Y;
+            var entityWidthOffset = (thisEntityBounds.X > nearbyEntityBounds.X ? -1 : 1) * thisEntityBounds.Width;
+            var entityHeightOffset = (thisEntityBounds.Y > nearbyEntityBounds.Y ? -1 : 1) * thisEntityBounds.Height;
+
+            var collisionX = thisEntityBounds.X + entityWidthOffset - nearbyEntityBounds.X;
+            var collisionY = thisEntityBounds.Y + entityHeightOffset - nearbyEntityBounds.Y;
 
             return new Vector2(collisionX, collisionY);
         }
