@@ -44,14 +44,20 @@ namespace Platformer.Entities.Components
 
             var width = entity.Size.X;
             var height = entity.Size.Y;
+
             var sourceRect = new Rectangle(width * Frame, height * SpritesheetRow, width, height);
+            var scaledPosition = entity.Position * Constants.Game.Scale;
 
-            var scaledLocation = (entity.Position * Constants.Game.Scale).ToPoint();
-            var scaledWidth = width * Constants.Game.Scale;
-            var scaledHeight = height * Constants.Game.Scale;
-            var destinationRect = new Rectangle(scaledLocation.X, scaledLocation.Y, scaledWidth, scaledHeight);
-
-            SpriteBatch.Draw(_texture, destinationRect, sourceRect, Color.White);
+            SpriteBatch.Draw(
+                _texture, 
+                scaledPosition, 
+                sourceRect, 
+                Color.White, 
+                0f, 
+                new Vector2(0, 0),
+                Constants.Game.Scale, 
+                SpriteEffects.None, 
+                0f);
         }
     }
 }
