@@ -22,7 +22,7 @@ namespace Platformer.Entities.Components
         /// <summary>
         /// Which frame on the spritesheet to display (zero-indexed)
         /// </summary>
-        public int Frame { get; set; }
+        public int SpritesheetFrame { get; set; }
 
         /// <summary>
         /// Which row to use to display the frame (zero-indexed)
@@ -45,7 +45,7 @@ namespace Platformer.Entities.Components
             var width = entity.Size.X;
             var height = entity.Size.Y;
 
-            var sourceRect = new Rectangle(width * Frame, height * SpritesheetRow, width, height);
+            var sourceRect = new Rectangle(width * SpritesheetFrame, height * SpritesheetRow, width, height);
             var scaledPosition = entity.Position * Constants.Game.Scale;
 
             SpriteBatch.Draw(

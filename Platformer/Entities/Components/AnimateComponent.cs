@@ -36,7 +36,7 @@ namespace Platformer.Entities.Components
             _frames = parameters.EndFrame - parameters.StartFrame;
 
             _spriteComponent = spriteComponent;
-            _spriteComponent.Frame = parameters.StartFrame;
+            _spriteComponent.SpritesheetFrame = parameters.StartFrame;
         }
 
         public void SetAnimation(Animations animation)
@@ -49,11 +49,11 @@ namespace Platformer.Entities.Components
             _ticks++;
             if (_ticks == (60 / _fps))
             {
-                _spriteComponent.Frame++;
+                _spriteComponent.SpritesheetFrame++;
 
-                if (_spriteComponent.Frame == _frames)
+                if (_spriteComponent.SpritesheetFrame == _frames)
                 {
-                    _spriteComponent.Frame = _startFrame;
+                    _spriteComponent.SpritesheetFrame = _startFrame;
                 }
 
                 _ticks = 0;
