@@ -82,12 +82,14 @@ namespace Platformer.Entities.Components
 
             // work out whether collision is vertical or horizontal
             // do this by checking the collision vector
-            if (collision.X > collision.Y)
+            var absoluteCollisionX = Math.Abs(collision.X);
+            var absoluteCollisionY = Math.Abs(collision.Y);
+            if (absoluteCollisionX > absoluteCollisionY)
             {
                 // if y penetration is smallest "fix" y
                 entity.Position = new Vector2(entity.Position.X, newPositionY);
             }
-            else if (collision.Y > collision.X)
+            else if (absoluteCollisionY > absoluteCollisionX)
             {
                 // if x penetration is smallest "fix" x
                 entity.Position = new Vector2(newPositionX, entity.Position.Y);

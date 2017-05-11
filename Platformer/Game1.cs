@@ -69,7 +69,7 @@ namespace Platformer
 
             _testScene = new Scene();
             _testScene.AddEntity(box1);
-            _testScene.AddEntity(guard);
+            //_testScene.AddEntity(guard);
             _testScene.AddEntity(box2);
             _testScene.AddEntity(_playerEntity);
 

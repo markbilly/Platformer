@@ -27,9 +27,9 @@ namespace Platformer.Entities.Components
         private int _fps;
         private int _startFrame;
         private int _frames;
-        private SpriteComponent _spriteComponent;
+        private SpriteGraphicsComponent _spriteComponent;
 
-        public AnimateComponent(SpriteComponent spriteComponent, AnimationParameters parameters)
+        public AnimateComponent(SpriteGraphicsComponent spriteComponent, AnimationParameters parameters)
         {
             _fps = parameters.FramesPerSecond;
             _startFrame = parameters.StartFrame;

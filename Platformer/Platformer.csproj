@@ -45,7 +45,9 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Entities\Commands\JumpCommand.cs" />
     <Compile Include="Entities\Components\AnimateComponent.cs" />
+    <Compile Include="Entities\Components\DebugGraphicsComponent.cs" />
     <Compile Include="Entities\Components\ForceComponent.cs" />
+    <Compile Include="Entities\Components\GraphicsComponentBase.cs" />
     <Compile Include="Entities\Components\MovementStateComponent.cs" />
     <Compile Include="Entities\Components\PatrolAiComponent.cs" />
     <Compile Include="Entities\Components\RigidBodyComponent.cs" />
@@ -57,7 +59,7 @@
     <Compile Include="Entities\IComponent.cs" />
     <Compile Include="Entities\IEntityFactory.cs" />
     <Compile Include="Entities\Components\MovementAnimationComponent.cs" />
-    <Compile Include="Entities\Components\SpriteComponent.cs" />
+    <Compile Include="Entities\Components\SpriteGraphicsComponent.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Entities\Commands\MoveLeftCommand.cs" />
     <Compile Include="Entities\Commands\MoveRightCommand.cs" />
@@ -127,6 +129,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
+    <None Include="Content\fonts\debug.spritefont" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\test\bit.png" />

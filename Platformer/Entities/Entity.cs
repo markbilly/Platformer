@@ -13,22 +13,21 @@ namespace Platformer.Entities
     public class Entity
     {
         private IList<IComponent> _components;
-        private SpriteComponent _spriteComponent;
-
-        public Entity()
-        {
-            _components = new List<IComponent>();
-        }
-
-        public Entity(Point size, params IComponent[] components)
+        private IList<GraphicsComponentBase> _graphicsComponents;
+        
+        public Entity(Point size, IEnumerable<IComponent> components)
         {
             Size = size;
 
             _components = new List<IComponent>();
+            _graphicsComponents = new List<GraphicsComponentBase>();
+
             foreach (var component in components)
             {
                 AddComponent(component);
             }
+
+            AddComponent(new DebugGraphicsComponent());
         }
 
         public Vector2 Velocity { get; set; }
@@ -37,9 +36,9 @@ namespace Platformer.Entities
 
         public void AddComponent(IComponent component)
         {
-            if (component is SpriteComponent)
+            if (component is GraphicsComponentBase)
             {
-                _spriteComponent = (SpriteComponent)component;
+                _graphicsComponents.Add((GraphicsComponentBase)component);
                 return;
             }
 
@@ -53,12 +52,12 @@ namespace Platformer.Entities
 
         public void Load(ContentManager contentManager, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
-            if (_spriteComponent != null)
+            foreach (var graphicsComponent in _graphicsComponents)
             {
-                _spriteComponent.SpriteBatch = spriteBatch;
-                _spriteComponent.GraphicsDevice = graphicsDevice;
+                graphicsComponent.SpriteBatch = spriteBatch;
+                graphicsComponent.GraphicsDevice = graphicsDevice;
 
-                _spriteComponent.Load(contentManager);
+                graphicsComponent.Load(contentManager);
             }
         }
 
@@ -74,9 +73,9 @@ namespace Platformer.Entities
 
         public void Draw()
         {
-            if (_spriteComponent != null)
+            foreach (var graphicsComponent in _graphicsComponents)
             {
-                _spriteComponent.Update(this);
+                graphicsComponent.Update(this);
             }
         }
     }

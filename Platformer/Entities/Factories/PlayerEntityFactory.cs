@@ -12,7 +12,7 @@ namespace Platformer.Entities.Factories
     {
         public Entity Build()
         {
-            var spriteComponent = new SpriteComponent("test/walk");
+            var spriteComponent = new SpriteGraphicsComponent("test/walk");
 
             var animateComponent = new AnimateComponent(spriteComponent, new AnimationParameters
             {
@@ -25,12 +25,15 @@ namespace Platformer.Entities.Factories
 
             return new Entity(
                 new Point(16, 32),
-                movementComponent,
-                spriteComponent,
-                animateComponent,
-                new MovementStateComponent(),
-                new ForceComponent(),
-                new RigidBodyComponent());
+                new List<IComponent>
+                {
+                    movementComponent,
+                    spriteComponent,
+                    animateComponent,
+                    new MovementStateComponent(),
+                    new ForceComponent(),
+                    new RigidBodyComponent()
+                });
         }
     }
 }
