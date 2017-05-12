@@ -24,9 +24,15 @@ namespace Platformer.Entities.EntityTypes
             });
 
             var movementComponent = new MovementAnimationComponent(animateComponent);
-            var collisionComponent = new AABBCollisionComponent();
+            var collisionComponent = new CollisionComponent();
+
             var rigidBodyComponent = new RigidBodyComponent(collisionComponent);
-            var patrolAiComponent = new PatrolAiComponent(collisionComponent);
+            rigidBodyComponent.SetEntityTypeExclusions(new HashSet<Type>
+            {
+                typeof(PlayerEntity)
+            });
+
+            var patrolAiComponent = new PatrolAIComponent(collisionComponent);
 
             AddComponent(movementComponent);
             AddComponent(spriteComponent);

@@ -15,7 +15,7 @@ namespace Platformer.Entities.EntityTypes
         public TileEntity() : base(TILE_SIZE)
         {
             var spriteComponent = new SpriteGraphicsComponent("test/grass");
-            var collisionComponent = new AABBCollisionComponent();
+            var collisionComponent = new CollisionComponent();
 
             AddComponent(spriteComponent);
             AddComponent(collisionComponent);

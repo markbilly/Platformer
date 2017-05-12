@@ -24,7 +24,13 @@ namespace Platformer.Entities.EntityTypes
             });
 
             var movementComponent = new MovementAnimationComponent(animateComponent);
-            var collisionComponent = new AABBCollisionComponent();
+            var collisionComponent = new CollisionComponent();
+
+            var rigidBodyComponent = new RigidBodyComponent(collisionComponent);
+            rigidBodyComponent.SetEntityTypeExclusions(new HashSet<Type>
+            {
+                typeof(GuardEntity)
+            });
 
             AddComponent(movementComponent);
             AddComponent(spriteComponent);
@@ -32,7 +38,7 @@ namespace Platformer.Entities.EntityTypes
             AddComponent(new MovementStateComponent());
             AddComponent(new ApplyForceComponent());
             AddComponent(collisionComponent);
-            AddComponent(new RigidBodyComponent(collisionComponent));
+            AddComponent(rigidBodyComponent);
         }
     }
 }

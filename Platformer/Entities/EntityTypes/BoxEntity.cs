@@ -15,7 +15,7 @@ namespace Platformer.Entities.EntityTypes
         public BoxEntity() : base(BOX_SIZE)
         {
             var spriteComponent = new SpriteGraphicsComponent("test/grass");
-            var collisionComponent = new AABBCollisionComponent();
+            var collisionComponent = new CollisionComponent();
 
             AddComponent(spriteComponent);
             AddComponent(new ApplyForceComponent());

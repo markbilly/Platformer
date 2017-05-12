@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Platformer.Entities.Components
 {
-    public class AABBCollisionComponent : IComponent
+    public class CollisionComponent : IComponent
     {
         private IList<Entity> _nearbyEntities;
         private IList<Collision> _collisions;
 
-        public AABBCollisionComponent()
+        public CollisionComponent()
         {
             _collisions = new List<Collision>();
         }

@@ -53,7 +53,7 @@ namespace Platformer.Scenes
             foreach (var entity in _entities)
             {
                 // give entity relevant other entities for collision
-                var collisionComponent = entity.GetComponent<AABBCollisionComponent>();
+                var collisionComponent = entity.GetComponent<CollisionComponent>();
                 if (collisionComponent != null)
                 {
                     // TODO: only pass rigid bodies near to the entity

@@ -11,10 +11,10 @@ namespace Platformer.Entities.Components
 {
     public class RigidBodyComponent : IComponent
     {
-        private AABBCollisionComponent _collisionComponent;
+        private CollisionComponent _collisionComponent;
         private HashSet<Type> _entityTypeExclusions;
 
-        public RigidBodyComponent(AABBCollisionComponent collisionComponent)
+        public RigidBodyComponent(CollisionComponent collisionComponent)
         {
             _collisionComponent = collisionComponent;
             _entityTypeExclusions = new HashSet<Type>();

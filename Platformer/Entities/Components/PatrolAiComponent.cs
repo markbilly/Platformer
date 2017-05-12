@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Platformer.Entities.EntityTypes;
+using Platformer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace Platformer.Entities.Components
 {
-    public class PatrolAiComponent : IComponent
+    public class PatrolAIComponent : IComponent
     {
-        private AABBCollisionComponent _collisionComponent;
+        private CollisionComponent _collisionComponent;
 
         private bool _patrolling;
         private int _patrolSpeed;
         private int _patrolDirection;
 
-        public PatrolAiComponent(AABBCollisionComponent collisionComponent)
+        public PatrolAIComponent(CollisionComponent collisionComponent)
         {
             _collisionComponent = collisionComponent;
         }
@@ -30,8 +32,12 @@ namespace Platformer.Entities.Components
 
         public void Update(Entity entity)
         {
-            // only care about x-direction collision
-            var xCollision = _collisionComponent.GetCollision(c => Math.Abs(c.Vector.X) < Math.Abs(c.Vector.Y));
+            // only care about x-direction collision with non-player entities
+            Func<Collision, bool> releventCollision = c => 
+                Math.Abs(c.Vector.X) < Math.Abs(c.Vector.Y) && 
+                c.EntityType != typeof(PlayerEntity);
+
+            var xCollision = _collisionComponent.GetCollision(releventCollision);
 
             if (xCollision.HasValue)
             {

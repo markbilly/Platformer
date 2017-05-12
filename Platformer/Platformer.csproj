@@ -44,13 +44,13 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Entities\Commands\JumpCommand.cs" />
-    <Compile Include="Entities\Components\AABBCollisionComponent.cs" />
+    <Compile Include="Entities\Components\CollisionComponent.cs" />
     <Compile Include="Entities\Components\AnimateComponent.cs" />
     <Compile Include="Entities\Components\DebugGraphicsComponent.cs" />
     <Compile Include="Entities\Components\ApplyForceComponent.cs" />
     <Compile Include="Entities\Components\GraphicsComponentBase.cs" />
     <Compile Include="Entities\Components\MovementStateComponent.cs" />
-    <Compile Include="Entities\Components\PatrolAiComponent.cs" />
+    <Compile Include="Entities\Components\PatrolAIComponent.cs" />
     <Compile Include="Entities\Components\RigidBodyComponent.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityTypes\BoxEntity.cs" />

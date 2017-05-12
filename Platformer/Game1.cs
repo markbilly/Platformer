@@ -58,12 +58,12 @@ namespace Platformer
             var guard = new GuardEntity();
             var box2 = new BoxEntity();
 
-            box1.Position = new Vector2(100, 150);
-            guard.Position = new Vector2(200, 150);
-            box2.Position = new Vector2(390, 150);
+            box1.Position = new Vector2(100, 100);
+            guard.Position = new Vector2(200, 100);
+            box2.Position = new Vector2(390, 100);
 
             _playerEntity = new PlayerEntity();
-            _playerEntity.Position = new Vector2(130, 150);
+            _playerEntity.Position = new Vector2(130, 100);
 
             _testScene = new Scene();
             _testScene.AddEntity(box1);
@@ -78,7 +78,7 @@ namespace Platformer
                 _testScene.AddEntity(tile);
             }
 
-            guard.GetComponent<PatrolAiComponent>().StartPatrol(guard);
+            guard.GetComponent<PatrolAIComponent>().StartPatrol(guard);
 
             base.Initialize();
         }
