@@ -12,13 +12,33 @@ namespace Platformer.Entities.Components
     public class RigidBodyComponent : IComponent
     {
         private IList<Entity> _nearbyEntities;
+        private IList<Vector2> _collisions;
 
         public RigidBodyComponent()
         {
-            Collisions = new List<Vector2>();
+            _collisions = new List<Vector2>();
         }
 
-        public IList<Vector2> Collisions { get; private set; }
+        public Vector2 GetCollision(Func<Vector2, bool> predicate)
+        {
+            for (var i = 0; i < _collisions.Count; i++)
+            {
+                if (predicate(_collisions[i]))
+                {
+                    // return collision value and remove from list
+                    var collision = _collisions[i];
+                    _collisions.RemoveAt(i);
+                    return collision;
+                }
+            }
+
+            return Vector2.Zero;
+        }
+
+        public void AddCollision(Vector2 collision)
+        {
+            _collisions.Add(collision);
+        }
 
         public void SetNearbyEntities(IList<Entity> entities)
         {
@@ -26,7 +46,11 @@ namespace Platformer.Entities.Components
         }
 
         public void Update(Entity entity)
-        {            
+        {
+            // clear collisions as they were all resolved last update
+            _collisions.Clear();
+             
+            // detect and add new collisions for this update
             foreach (var nearbyEntity in _nearbyEntities)
             {
                 if (entity != nearbyEntity)
@@ -39,10 +63,21 @@ namespace Platformer.Entities.Components
                         var collision = GetCollisionVector(thisEntityBounds, nearbyEntityBounds);
                         ResolveCollision(entity, collision);
 
-                        Collisions.Add(collision);
+                        AddCollision(collision);
                     }
                 }
             }
+        }
+
+        private Vector2 GetCollisionVector(RectangleF thisEntityBounds, RectangleF nearbyEntityBounds)
+        {
+            var entityWidthOffset = (thisEntityBounds.X > nearbyEntityBounds.X ? -1 : 1) * thisEntityBounds.Width;
+            var entityHeightOffset = (thisEntityBounds.Y > nearbyEntityBounds.Y ? -1 : 1) * thisEntityBounds.Height;
+
+            var collisionX = thisEntityBounds.X + entityWidthOffset - nearbyEntityBounds.X;
+            var collisionY = thisEntityBounds.Y + entityHeightOffset - nearbyEntityBounds.Y;
+
+            return new Vector2(collisionX, collisionY);
         }
 
         private void ResolveCollision(Entity entity, Vector2 collision)
@@ -85,17 +120,6 @@ namespace Platformer.Entities.Components
                 // if penetration is equal "fix" x and y
                 entity.Position = new Vector2(newPositionX, newPositionY);
             }
-        }
-
-        private Vector2 GetCollisionVector(RectangleF thisEntityBounds, RectangleF nearbyEntityBounds)
-        {
-            var entityWidthOffset = (thisEntityBounds.X > nearbyEntityBounds.X ? -1 : 1) * thisEntityBounds.Width;
-            var entityHeightOffset = (thisEntityBounds.Y > nearbyEntityBounds.Y ? -1 : 1) * thisEntityBounds.Height;
-
-            var collisionX = thisEntityBounds.X + entityWidthOffset - nearbyEntityBounds.X;
-            var collisionY = thisEntityBounds.Y + entityHeightOffset - nearbyEntityBounds.Y;
-
-            return new Vector2(collisionX, collisionY);
         }
     }
 }

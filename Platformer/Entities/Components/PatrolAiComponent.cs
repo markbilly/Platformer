@@ -31,11 +31,11 @@ namespace Platformer.Entities.Components
         public void Update(Entity entity)
         {
             // only care about x-direction collision
-            var xCollision = _rigidBodyComponent.Collisions.FirstOrDefault(c => Math.Abs(c.X) < Math.Abs(c.Y));
+            var xCollision = _rigidBodyComponent.GetCollision(c => Math.Abs(c.X) < Math.Abs(c.Y));
 
-            if (xCollision != null) 
+            if (xCollision != Vector2.Zero) 
             {
-                var collisionDirection = xCollision.X > 0 ? 1 : -1; //todo: normalise?
+                var collisionDirection = xCollision.X > 0 ? 1 : -1;
                 _patrolDirection = collisionDirection * -1;
             }
 
@@ -43,8 +43,6 @@ namespace Platformer.Entities.Components
             {
                 entity.Velocity = new Vector2(_patrolDirection * _patrolSpeed, entity.Velocity.Y);
             }
-
-            _rigidBodyComponent.Collisions.Remove(xCollision);
         }
     }
 }
