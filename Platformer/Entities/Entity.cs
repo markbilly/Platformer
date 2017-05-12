@@ -71,9 +71,11 @@ namespace Platformer.Entities
             {
                 _graphicsComponents.Add((GraphicsComponentBase)component);
 
+#if DEBUG
                 _graphicsComponents = _graphicsComponents
                     .OrderBy(x => x.GetType() == typeof(DebugGraphicsComponent))
                     .ToList();
+#endif
 
                 return;
             }
