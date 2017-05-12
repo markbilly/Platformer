@@ -16,12 +16,12 @@ namespace Platformer.Scenes
         private static readonly Vector2 GRAVITY = new Vector2(0, 5f);
 
         private IList<Entity> _entities;
-        private IList<Entity> _rigidBodyEntites;
+        private IList<Entity> _collisionEntites;
 
         public Scene()
         {
             _entities = new List<Entity>();
-            _rigidBodyEntites = new List<Entity>();
+            _collisionEntites = new List<Entity>();
         }
 
         public void Load(ContentManager contentManager, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
@@ -38,10 +38,10 @@ namespace Platformer.Scenes
 
             if (entity.GetComponent<RigidBodyComponent>() != null)
             {
-                _rigidBodyEntites.Add(entity);
+                _collisionEntites.Add(entity);
             }
 
-            var forceComponent = entity.GetComponent<ForceComponent>();
+            var forceComponent = entity.GetComponent<ApplyForceComponent>();
             if (forceComponent != null)
             {
                 forceComponent.ApplyConstantForce(GRAVITY);
@@ -53,11 +53,12 @@ namespace Platformer.Scenes
             foreach (var entity in _entities)
             {
                 // give entity relevant other entities for collision
-                var rigidBodyComponent = entity.GetComponent<RigidBodyComponent>();
-                if (rigidBodyComponent != null)
+                var collisionComponent = entity.GetComponent<AABBCollisionComponent>();
+                if (collisionComponent != null)
                 {
                     // TODO: only pass rigid bodies near to the entity
-                    rigidBodyComponent.SetNearbyEntities(_rigidBodyEntites);
+                    // TODO: just generally do this stuff more efficiently
+                    collisionComponent.SetNearbyEntities(_collisionEntites);
                 }
 
                 // update entity

@@ -10,15 +10,15 @@ namespace Platformer.Entities.Components
 {
     public class PatrolAiComponent : IComponent
     {
-        private RigidBodyComponent _rigidBodyComponent;
+        private AABBCollisionComponent _collisionComponent;
 
         private bool _patrolling;
         private int _patrolSpeed;
         private int _patrolDirection;
 
-        public PatrolAiComponent(RigidBodyComponent rigidBodyComponent)
+        public PatrolAiComponent(AABBCollisionComponent collisionComponent)
         {
-            _rigidBodyComponent = rigidBodyComponent;
+            _collisionComponent = collisionComponent;
         }
 
         public void StartPatrol(Entity entity)
@@ -31,11 +31,11 @@ namespace Platformer.Entities.Components
         public void Update(Entity entity)
         {
             // only care about x-direction collision
-            var xCollision = _rigidBodyComponent.GetCollision(c => Math.Abs(c.X) < Math.Abs(c.Y));
+            var xCollision = _collisionComponent.GetCollision(c => Math.Abs(c.Vector.X) < Math.Abs(c.Vector.Y));
 
-            if (xCollision != Vector2.Zero) 
+            if (xCollision.HasValue)
             {
-                var collisionDirection = xCollision.X > 0 ? 1 : -1;
+                var collisionDirection = xCollision.Value.Vector.X > 0 ? 1 : -1;
                 _patrolDirection = collisionDirection * -1;
             }
 

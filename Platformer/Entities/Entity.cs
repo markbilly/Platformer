@@ -15,38 +15,21 @@ namespace Platformer.Entities
         private IList<IComponent> _components;
         private IList<GraphicsComponentBase> _graphicsComponents;
         
-        public Entity(Point size, IEnumerable<IComponent> components)
+        protected Entity(Point size)
         {
             Size = size;
 
             _components = new List<IComponent>();
             _graphicsComponents = new List<GraphicsComponentBase>();
 
-            foreach (var component in components)
-            {
-                AddComponent(component);
-            }
-
 #if DEBUG
             AddComponent(new DebugGraphicsComponent());
 #endif
-
         }
 
         public Vector2 Velocity { get; set; }
         public Vector2 Position { get; set; }
         public Point Size { get; set; }
-
-        public void AddComponent(IComponent component)
-        {
-            if (component is GraphicsComponentBase)
-            {
-                _graphicsComponents.Add((GraphicsComponentBase)component);
-                return;
-            }
-
-            _components.Add(component);
-        }
 
         public T GetComponent<T>() where T : IComponent
         {
@@ -80,6 +63,22 @@ namespace Platformer.Entities
             {
                 graphicsComponent.Update(this);
             }
+        }
+
+        protected void AddComponent(IComponent component)
+        {
+            if (component is GraphicsComponentBase)
+            {
+                _graphicsComponents.Add((GraphicsComponentBase)component);
+
+                _graphicsComponents = _graphicsComponents
+                    .OrderBy(x => x.GetType() == typeof(DebugGraphicsComponent))
+                    .ToList();
+
+                return;
+            }
+
+            _components.Add(component);
         }
     }
 }

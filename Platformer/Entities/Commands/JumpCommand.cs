@@ -14,7 +14,7 @@ namespace Platformer.Entities.Commands
         {
             if (!entity.GetComponent<MovementStateComponent>().IsJumping)
             {
-                entity.GetComponent<ForceComponent>().ApplyForce(new Vector2(0, -2f), 60);
+                entity.GetComponent<ApplyForceComponent>().ApplyForce(new Vector2(0, -2f), 60);
             }
         }
     }

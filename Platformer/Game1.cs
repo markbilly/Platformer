@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Platformer.Entities;
 using Platformer.Entities.Components;
-using Platformer.Entities.Factories;
+using Platformer.Entities.EntityTypes;
 using Platformer.Input;
 using Platformer.Scenes;
 using System;
@@ -54,18 +54,15 @@ namespace Platformer
         /// </summary>
         protected override void Initialize()
         {
-            var guardEntityFactory = new GuardEntityFactory();
-            var boxEntityFactory = new BoxEntityFactory();
-
-            var box1 = boxEntityFactory.Build();
-            var guard = guardEntityFactory.Build();
-            var box2 = boxEntityFactory.Build();
+            var box1 = new BoxEntity();
+            var guard = new GuardEntity();
+            var box2 = new BoxEntity();
 
             box1.Position = new Vector2(100, 150);
             guard.Position = new Vector2(200, 150);
             box2.Position = new Vector2(390, 150);
 
-            _playerEntity = new PlayerEntityFactory().Build();
+            _playerEntity = new PlayerEntity();
             _playerEntity.Position = new Vector2(130, 150);
 
             _testScene = new Scene();
@@ -76,7 +73,7 @@ namespace Platformer
 
             for (var i = 0; i < 30; i++)
             {
-                var tile = new TileEntityFactory().Build();
+                var tile = new TileEntity();
                 tile.Position = new Vector2(i * 16, 200);
                 _testScene.AddEntity(tile);
             }

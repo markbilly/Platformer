@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Platformer.Entities.Components
 {
-    public class ForceComponent : IComponent
+    public class ApplyForceComponent : IComponent
     {
         private class AppliedForce
         {
@@ -24,7 +24,7 @@ namespace Platformer.Entities.Components
         private IList<AppliedForce> _forces;
         private int _mass;
 
-        public ForceComponent(int mass = 50)
+        public ApplyForceComponent(int mass = 50)
         {
             _forces = new List<AppliedForce>();
             _mass = mass;

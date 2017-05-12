@@ -11,82 +11,42 @@ namespace Platformer.Entities.Components
 {
     public class RigidBodyComponent : IComponent
     {
-        private IList<Entity> _nearbyEntities;
-        private IList<Vector2> _collisions;
+        private AABBCollisionComponent _collisionComponent;
+        private HashSet<Type> _entityTypeExclusions;
 
-        public RigidBodyComponent()
+        public RigidBodyComponent(AABBCollisionComponent collisionComponent)
         {
-            _collisions = new List<Vector2>();
+            _collisionComponent = collisionComponent;
+            _entityTypeExclusions = new HashSet<Type>();
         }
 
-        public Vector2 GetCollision(Func<Vector2, bool> predicate)
+        public void SetEntityTypeExclusions(HashSet<Type> entityTypes)
         {
-            for (var i = 0; i < _collisions.Count; i++)
-            {
-                if (predicate(_collisions[i]))
-                {
-                    // return collision value and remove from list
-                    var collision = _collisions[i];
-                    _collisions.RemoveAt(i);
-                    return collision;
-                }
-            }
-
-            return Vector2.Zero;
-        }
-
-        public void AddCollision(Vector2 collision)
-        {
-            _collisions.Add(collision);
-        }
-
-        public void SetNearbyEntities(IList<Entity> entities)
-        {
-            _nearbyEntities = entities;
+            _entityTypeExclusions = entityTypes;
         }
 
         public void Update(Entity entity)
         {
-            // clear collisions as they were all resolved last update
-            _collisions.Clear();
-             
-            // detect and add new collisions for this update
-            foreach (var nearbyEntity in _nearbyEntities)
+            // resolve all collisions
+            foreach (var collision in _collisionComponent.GetCollisions())
             {
-                if (entity != nearbyEntity)
-                {
-                    var thisEntityBounds = new RectangleF(entity.Position, entity.Size);
-                    var nearbyEntityBounds = new RectangleF(nearbyEntity.Position, nearbyEntity.Size);
-
-                    if (RectangleF.Intersects(thisEntityBounds, nearbyEntityBounds))
-                    {
-                        var collision = GetCollisionVector(thisEntityBounds, nearbyEntityBounds);
-                        ResolveCollision(entity, collision);
-
-                        AddCollision(collision);
-                    }
-                }
+                ResolveCollision(entity, collision);
             }
         }
 
-        private Vector2 GetCollisionVector(RectangleF thisEntityBounds, RectangleF nearbyEntityBounds)
+        private void ResolveCollision(Entity entity, Collision collision)
         {
-            var entityWidthOffset = (thisEntityBounds.X > nearbyEntityBounds.X ? -1 : 1) * thisEntityBounds.Width;
-            var entityHeightOffset = (thisEntityBounds.Y > nearbyEntityBounds.Y ? -1 : 1) * thisEntityBounds.Height;
+            // do not react to entity types that are excluded
+            if (_entityTypeExclusions.Contains(collision.EntityType))
+            {
+                return;
+            }
 
-            var collisionX = thisEntityBounds.X + entityWidthOffset - nearbyEntityBounds.X;
-            var collisionY = thisEntityBounds.Y + entityHeightOffset - nearbyEntityBounds.Y;
-
-            return new Vector2(collisionX, collisionY);
-        }
-
-        private void ResolveCollision(Entity entity, Vector2 collision)
-        {
-            ClipEntity(entity, collision);
+            ClipEntity(entity, collision.Vector);
 
             entity.Velocity = new Vector2(
-                collision.X != 0 ? 0 : entity.Velocity.X,
-                collision.Y != 0 ? 0 : entity.Velocity.Y);
+                collision.Vector.X != 0 ? 0 : entity.Velocity.X,
+                collision.Vector.Y != 0 ? 0 : entity.Velocity.Y);
         }
 
         private static void ClipEntity(Entity entity, Vector2 collision)
