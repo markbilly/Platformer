@@ -51,13 +51,23 @@ namespace Platformer.Entities.Components
                     _forces.RemoveAt(i);
                 }
 
-                entity.Velocity += force.Force / _mass;
+                if (!IsMaxYVelocityReachedInDirectionOfForce(entity, force.Force))
+                {
+                    entity.Velocity += force.Force / _mass;
+                }
 
                 if (force.Duration > -1)
                 {
                     force.Duration--;
                 }
             }
+        }
+
+        private static bool IsMaxYVelocityReachedInDirectionOfForce(Entity entity, Vector2 force)
+        {
+            return 
+                (entity.Velocity.Y > 0 && entity.Velocity.Y > 5 && force.Y > 0) ||
+                (entity.Velocity.Y < 0 && entity.Velocity.Y < 5 && force.Y < 0);
         }
     }
 }

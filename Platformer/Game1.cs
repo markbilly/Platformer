@@ -54,21 +54,27 @@ namespace Platformer
         /// </summary>
         protected override void Initialize()
         {
-            var box1 = new BoxEntity();
-            var guard = new GuardEntity();
-            var box2 = new BoxEntity();
+            _testScene = new Scene();
 
-            box1.Position = new Vector2(100, 100);
+            for (var i = 0; i < 5; i++)
+            {
+                var box1 = new BoxEntity();
+                box1.Position = new Vector2(100 + (5 * (new Random(i).Next() % 2 == 0 ? 1 : -1)), 50 + (i * 20));
+                _testScene.AddEntity(box1);
+            }
+            var guard = new GuardEntity();
+            for (var i = 0; i < 5; i++)
+            {
+                var box2 = new BoxEntity();
+                box2.Position = new Vector2(390 + (5 * (new Random(i * 2).Next() % 2 == 0 ? 1 : -1)), 50 + (i * 20));
+                _testScene.AddEntity(box2);
+            }
+
             guard.Position = new Vector2(200, 100);
-            box2.Position = new Vector2(390, 100);
+            _testScene.AddEntity(guard);
 
             _playerEntity = new PlayerEntity();
             _playerEntity.Position = new Vector2(130, 100);
-
-            _testScene = new Scene();
-            _testScene.AddEntity(box1);
-            _testScene.AddEntity(guard);
-            _testScene.AddEntity(box2);
             _testScene.AddEntity(_playerEntity);
 
             for (var i = 0; i < 30; i++)
