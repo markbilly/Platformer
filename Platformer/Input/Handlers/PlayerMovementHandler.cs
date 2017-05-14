@@ -11,26 +11,26 @@ namespace Platformer.Input.Handlers
 {
     public class PlayerMovementHandler : IInputHandler
     {
-        public IEntityCommand HandleInput(KeyboardState previousKeyboardState, KeyboardState currentKeyboardState)
+        public IEnumerable<IEntityCommand> HandleInput(KeyboardState previousKeyboardState, KeyboardState currentKeyboardState)
         {
             if (previousKeyboardState.IsKeyUp(Keys.Space) && currentKeyboardState.IsKeyDown(Keys.Space))
             {
-                return new JumpCommand();
+                return new[] { new JumpCommand() };
             }
 
             if (currentKeyboardState.IsKeyUp(Keys.Right) && currentKeyboardState.IsKeyUp(Keys.Left))
             {
-                return new MoveStopCommand();
+                return new[] { new MoveStopCommand() };
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Right))
             {
-                return new MoveRightCommand();
+                return new[] { new MoveRightCommand() };
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Left))
             {
-                return new MoveLeftCommand();
+                return new[] { new MoveLeftCommand() };
             }
 
             return null;

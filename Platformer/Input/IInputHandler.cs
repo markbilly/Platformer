@@ -10,6 +10,6 @@ namespace Platformer.Input
 {
     public interface IInputHandler
     {
-        IEntityCommand HandleInput(KeyboardState previousKeyboardState, KeyboardState currentKeyboardState);
+        IEnumerable<IEntityCommand> HandleInput(KeyboardState previousKeyboardState, KeyboardState currentKeyboardState);
     }
 }

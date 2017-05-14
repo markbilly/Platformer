@@ -156,8 +156,8 @@ namespace Platformer
 
             foreach (var handler in _inputHandlers)
             {
-                var command = handler.HandleInput(_previousKeyboardState, currentKeyboardState);
-                if (command != null)
+                var commands = handler.HandleInput(_previousKeyboardState, currentKeyboardState);
+                foreach (var command in commands)
                 {
                     command.Execute(_playerEntity);
                 }
