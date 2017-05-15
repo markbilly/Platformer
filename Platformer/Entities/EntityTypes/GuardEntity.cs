@@ -17,13 +17,13 @@ namespace Platformer.Entities.EntityTypes
         public GuardEntity() : base(GUARD_SIZE)
         {
             AddComponent(new SpriteGraphicsComponent("test/walk"));
-            AddComponent(new AnimateComponent(this, AnimationParameters.Default()));
+            AddComponent(new AnimateComponent(AnimationParameters.Default()));
             AddComponent(new ApplyForceComponent());
             AddComponent(new CollisionComponent());
-            AddComponent(new RigidBodyComponent(this));
-            AddComponent(new PatrolAIComponent(this));
+            AddComponent(new RigidBodyComponent());
+            AddComponent(new PatrolAIComponent());
             AddComponent(new HumanoidStateComponent());
-            AddComponent(new HumanoidAnimationComponent(this));
+            AddComponent(new HumanoidAnimationComponent());
             
             GetComponent<RigidBodyComponent>()
                 .SetEntityTypeExclusions(new HashSet<Type>

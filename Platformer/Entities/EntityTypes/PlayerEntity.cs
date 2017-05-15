@@ -17,13 +17,13 @@ namespace Platformer.Entities.EntityTypes
         public PlayerEntity() : base(PLAYER_SIZE)
         {
             AddComponent(new SpriteGraphicsComponent("test/walk"));
-            AddComponent(new AnimateComponent(this, AnimationParameters.Default()));
+            AddComponent(new AnimateComponent(AnimationParameters.Default()));
             AddComponent(new ApplyForceComponent());
             AddComponent(new CollisionComponent());
-            AddComponent(new RigidBodyComponent(this));
+            AddComponent(new RigidBodyComponent());
             AddComponent(new PlayerInputComponent());
             AddComponent(new HumanoidStateComponent());
-            AddComponent(new HumanoidAnimationComponent(this));
+            AddComponent(new HumanoidAnimationComponent());
 
             GetComponent<RigidBodyComponent>()
                 .SetEntityTypeExclusions(new HashSet<Type>

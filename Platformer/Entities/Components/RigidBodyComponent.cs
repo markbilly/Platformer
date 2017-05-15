@@ -14,9 +14,8 @@ namespace Platformer.Entities.Components
         private CollisionComponent _collisionComponent;
         private HashSet<Type> _entityTypeExclusions;
 
-        public RigidBodyComponent(Entity entity)
+        public RigidBodyComponent()
         {
-            _collisionComponent = entity.GetComponent<CollisionComponent>();
             _entityTypeExclusions = new HashSet<Type>();
         }
 
@@ -29,6 +28,8 @@ namespace Platformer.Entities.Components
 
         public void Update(Entity entity)
         {
+            GatherDependencies(entity);
+
             // resolve all collisions
             foreach (var collision in _collisionComponent.GetCollisions())
             {
@@ -81,6 +82,14 @@ namespace Platformer.Entities.Components
             {
                 // if penetration is equal "fix" x and y
                 entity.Position = new Vector2(newPositionX, newPositionY);
+            }
+        }
+
+        private void GatherDependencies(Entity entity)
+        {
+            if (_collisionComponent == null)
+            {
+                _collisionComponent = entity.GetComponent<CollisionComponent>();
             }
         }
     }

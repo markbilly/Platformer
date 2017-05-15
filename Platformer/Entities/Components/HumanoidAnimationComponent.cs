@@ -13,16 +13,12 @@ namespace Platformer.Entities.Components
         private AnimateComponent _animateComponent;
         private HumanoidStateComponent _stateComponent;
 
-        public HumanoidAnimationComponent(Entity entity)
-        {
-            _animateComponent = entity.GetComponent<AnimateComponent>();
-            _stateComponent = entity.GetComponent<HumanoidStateComponent>();            
-        }
-
         public int Order { get { return 60; } }
 
         public void Update(Entity entity)
         {
+            GatherDependencies(entity);
+
             if (_stateComponent.IsWalkingRight)
             {
                 _animateComponent.SetAnimation(Animations.WalkRight);
@@ -41,6 +37,19 @@ namespace Platformer.Entities.Components
             if (_stateComponent.IsIdleLeft)
             {
                 _animateComponent.SetAnimation(Animations.IdleLeft);
+            }
+        }
+
+        private void GatherDependencies(Entity entity)
+        {
+            if (_animateComponent == null)
+            {
+                _animateComponent = entity.GetComponent<AnimateComponent>();
+            }
+
+            if (_stateComponent == null)
+            {
+                _stateComponent = entity.GetComponent<HumanoidStateComponent>();
             }
         }
     }

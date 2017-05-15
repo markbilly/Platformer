@@ -17,7 +17,7 @@ namespace Platformer.Entities.EntityTypes
         {
             AddComponent(new SpriteGraphicsComponent("test/grass"));
             AddComponent(new CollisionComponent());
-            AddComponent(new RigidBodyComponent(this));
+            AddComponent(new RigidBodyComponent());
         }
     }
 }

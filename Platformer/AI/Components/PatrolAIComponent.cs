@@ -20,11 +20,6 @@ namespace Platformer.AI.Components
         private int _patrolSpeed;
         private int _patrolDirection;
 
-        public PatrolAIComponent(Entity entity)
-        {
-            _collisionComponent = entity.GetComponent<CollisionComponent>();
-        }
-
         public int Order { get { return 40; } }
 
         public void StartPatrol(Entity entity)
@@ -36,6 +31,8 @@ namespace Platformer.AI.Components
 
         public void Update(Entity entity)
         {
+            GatherDependencies(entity);
+
             // only care about x-direction collision with non-player entities
             Func<Collision, bool> releventCollision = c => 
                 Math.Abs(c.Vector.X) < Math.Abs(c.Vector.Y) && 
@@ -52,6 +49,14 @@ namespace Platformer.AI.Components
             if (_patrolling)
             {
                 entity.Velocity = new Vector2(_patrolDirection * _patrolSpeed, entity.Velocity.Y);
+            }
+        }
+
+        private void GatherDependencies(Entity entity)
+        {
+            if (_collisionComponent == null)
+            {
+                _collisionComponent = entity.GetComponent<CollisionComponent>();
             }
         }
     }

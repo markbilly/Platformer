@@ -41,17 +41,15 @@ namespace Platformer.Entities.Components
         private int _startFrame;
         private int _frames;
 
-        public AnimateComponent(Entity entity, AnimationParameters parameters)
+        public AnimateComponent(AnimationParameters parameters)
         {
+            // TODO: Do not pass these in on construction
             _fps = parameters.FramesPerSecond;
             _startFrame = parameters.StartFrame;
             _frames = parameters.EndFrame - parameters.StartFrame;
-
-            _spriteComponent = entity.GetGraphicsComponent<SpriteGraphicsComponent>();
-            _spriteComponent.SpritesheetFrame = parameters.StartFrame;
         }
 
-        public int Order { get { return 80; } }
+        public int Order { get { return 5; } }
 
         public void SetAnimation(Animations animation)
         {
@@ -60,6 +58,8 @@ namespace Platformer.Entities.Components
 
         public void Update(Entity entity)
         {
+            GatherDependencies(entity);
+
             _ticks++;
             if (_ticks == (60 / _fps))
             {
@@ -71,6 +71,15 @@ namespace Platformer.Entities.Components
                 }
 
                 _ticks = 0;
+            }
+        }
+
+        private void GatherDependencies(Entity entity)
+        {
+            if (_spriteComponent == null)
+            {
+                _spriteComponent = entity.GetGraphicsComponent<SpriteGraphicsComponent>();
+                _spriteComponent.SpritesheetFrame = _startFrame; // TODO: remove this
             }
         }
     }

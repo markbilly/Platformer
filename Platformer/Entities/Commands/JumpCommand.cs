@@ -15,12 +15,24 @@ namespace Platformer.Entities.Commands
         
         public void Execute(Entity entity)
         {
-            _stateComponent = _stateComponent == null ? entity.GetComponent<HumanoidStateComponent>() : _stateComponent;
-            _forceComponent = _forceComponent == null ? entity.GetComponent<ApplyForceComponent>() : _forceComponent;
+            GatherDependencies(entity);
 
             if (!_stateComponent.IsJumping)
             {
                 _forceComponent.ApplyForce("jump", new Vector2(0, -150f), 2);
+            }
+        }
+
+        private void GatherDependencies(Entity entity)
+        {
+            if (_stateComponent == null)
+            {
+                _stateComponent = entity.GetComponent<HumanoidStateComponent>();
+            }
+
+            if (_forceComponent == null)
+            {
+                _forceComponent = entity.GetComponent<ApplyForceComponent>();
             }
         }
     }
