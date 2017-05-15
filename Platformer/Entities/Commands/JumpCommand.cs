@@ -10,11 +10,17 @@ namespace Platformer.Entities.Commands
 {
     public class JumpCommand : IEntityCommand
     {
+        private HumanoidStateComponent _stateComponent;
+        private ApplyForceComponent _forceComponent;
+        
         public void Execute(Entity entity)
         {
-            if (!entity.GetComponent<HumanoidStateComponent>().IsJumping)
+            _stateComponent = _stateComponent == null ? entity.GetComponent<HumanoidStateComponent>() : _stateComponent;
+            _forceComponent = _forceComponent == null ? entity.GetComponent<ApplyForceComponent>() : _forceComponent;
+
+            if (!_stateComponent.IsJumping)
             {
-                entity.GetComponent<ApplyForceComponent>().ApplyForce("jump", new Vector2(0, -150f), 2);
+                _forceComponent.ApplyForce("jump", new Vector2(0, -150f), 2);
             }
         }
     }
