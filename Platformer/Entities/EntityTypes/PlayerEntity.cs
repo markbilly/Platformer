@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Platformer.Entities.Components;
+using Platformer.Graphics.Components;
 using Platformer.Input.Components;
 using System;
 using System.Collections.Generic;
@@ -15,34 +16,20 @@ namespace Platformer.Entities.EntityTypes
 
         public PlayerEntity() : base(PLAYER_SIZE)
         {
-            var spriteComponent = new SpriteGraphicsComponent("test/walk");
-
-            var animateComponent = new AnimateComponent(spriteComponent, new AnimationParameters
-            {
-                StartFrame = 0,
-                EndFrame = 8,
-                FramesPerSecond = 4,
-            });
-
-            var movementAnimationComponent = new MovementAnimationComponent(animateComponent);
-            var collisionComponent = new CollisionComponent();
-
-            var rigidBodyComponent = new RigidBodyComponent(collisionComponent);
-            rigidBodyComponent.SetEntityTypeExclusions(new HashSet<Type>
-            {
-                typeof(GuardEntity)
-            });
-
-            var applyForceComponent = new ApplyForceComponent();
-
-            AddComponent(movementAnimationComponent);
-            AddComponent(spriteComponent);
-            AddComponent(animateComponent);
-            AddComponent(applyForceComponent);
-            AddComponent(collisionComponent);
-            AddComponent(rigidBodyComponent);
-            AddComponent(new MovementStateComponent());
+            AddComponent(new SpriteGraphicsComponent("test/walk"));
+            AddComponent(new AnimateComponent(this, AnimationParameters.Default()));
+            AddComponent(new ApplyForceComponent());
+            AddComponent(new CollisionComponent());
+            AddComponent(new RigidBodyComponent(this));
             AddComponent(new PlayerInputComponent());
+            AddComponent(new HumanoidStateComponent());
+            AddComponent(new HumanoidAnimationComponent(this));
+
+            GetComponent<RigidBodyComponent>()
+                .SetEntityTypeExclusions(new HashSet<Type>
+                {
+                    typeof(GuardEntity)
+                });
         }
     }
 }

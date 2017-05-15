@@ -32,6 +32,8 @@ namespace Platformer.Entities.Components
             _mass = mass;
         }
 
+        public int Order { get { return 10; } }
+
         public bool IsForceApplied(string id)
         {
             return _forces.Select(x => x.Id).Contains(id);

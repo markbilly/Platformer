@@ -20,10 +20,12 @@ namespace Platformer.AI.Components
         private int _patrolSpeed;
         private int _patrolDirection;
 
-        public PatrolAIComponent(CollisionComponent collisionComponent)
+        public PatrolAIComponent(Entity entity)
         {
-            _collisionComponent = collisionComponent;
+            _collisionComponent = entity.GetComponent<CollisionComponent>();
         }
+
+        public int Order { get { return 40; } }
 
         public void StartPatrol(Entity entity)
         {

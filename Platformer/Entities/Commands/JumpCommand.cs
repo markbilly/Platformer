@@ -12,7 +12,7 @@ namespace Platformer.Entities.Commands
     {
         public void Execute(Entity entity)
         {
-            if (!entity.GetComponent<MovementStateComponent>().IsJumping)
+            if (!entity.GetComponent<HumanoidStateComponent>().IsJumping)
             {
                 entity.GetComponent<ApplyForceComponent>().ApplyForce("jump", new Vector2(0, -150f), 2);
             }

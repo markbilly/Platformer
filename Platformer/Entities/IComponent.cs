@@ -8,6 +8,7 @@ namespace Platformer.Entities
 {
     public interface IComponent
     {
+        int Order { get; }
         void Update(Entity entity);
     }
 }

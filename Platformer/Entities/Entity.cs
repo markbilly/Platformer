@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.Entities.Components;
+using Platformer.Graphics.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,11 @@ namespace Platformer.Entities
         public T GetComponent<T>() where T : IComponent
         {
             return (T)_components.SingleOrDefault(x => x.GetType() == typeof(T));
+        }
+
+        public T GetGraphicsComponent<T>() where T : GraphicsComponentBase
+        {
+            return (T)_graphicsComponents.SingleOrDefault(x => x.GetType() == typeof(T));
         }
 
         public void Load(ContentManager contentManager, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
@@ -81,6 +87,8 @@ namespace Platformer.Entities
             }
 
             _components.Add(component);
+
+            _components = _components.OrderBy(x => x.Order).ToList();
         }
     }
 }

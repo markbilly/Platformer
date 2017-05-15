@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Platformer.Entities.Components;
+using Platformer.Graphics.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,9 @@ namespace Platformer.Entities.EntityTypes
 
         public TileEntity() : base(TILE_SIZE)
         {
-            var spriteComponent = new SpriteGraphicsComponent("test/grass");
-            var collisionComponent = new CollisionComponent();
-
-            AddComponent(spriteComponent);
-            AddComponent(collisionComponent);
-            AddComponent(new RigidBodyComponent(collisionComponent));
+            AddComponent(new SpriteGraphicsComponent("test/grass"));
+            AddComponent(new CollisionComponent());
+            AddComponent(new RigidBodyComponent(this));
         }
     }
 }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Platformer.Entities;
 
-namespace Platformer.Entities.Components
+namespace Platformer.Graphics.Components
 {
     public class DebugGraphicsComponent : GraphicsComponentBase
     {

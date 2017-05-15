@@ -14,11 +14,13 @@ namespace Platformer.Entities.Components
         private CollisionComponent _collisionComponent;
         private HashSet<Type> _entityTypeExclusions;
 
-        public RigidBodyComponent(CollisionComponent collisionComponent)
+        public RigidBodyComponent(Entity entity)
         {
-            _collisionComponent = collisionComponent;
+            _collisionComponent = entity.GetComponent<CollisionComponent>();
             _entityTypeExclusions = new HashSet<Type>();
         }
+
+        public int Order { get { return 30; } }
 
         public void SetEntityTypeExclusions(HashSet<Type> entityTypes)
         {

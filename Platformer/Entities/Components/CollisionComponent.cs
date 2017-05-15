@@ -18,6 +18,8 @@ namespace Platformer.Entities.Components
             _collisions = new List<Collision>();
         }
 
+        public int Order { get { return 20; } }
+
         public Collision? GetCollision(Func<Collision, bool> predicate, bool remove = true)
         {
             for (var i = 0; i < _collisions.Count; i++)

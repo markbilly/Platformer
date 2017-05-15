@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Platformer.Graphics.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,25 +20,38 @@ namespace Platformer.Entities.Components
         public int StartFrame { get; set; }
         public int EndFrame { get; set; }
         public int FramesPerSecond { get; set; }
+
+        public static AnimationParameters Default()
+        {
+            return new AnimationParameters
+            {
+                StartFrame = 0,
+                EndFrame = 8,
+                FramesPerSecond = 4,
+            };
+        }
     }
 
     public class AnimateComponent : IComponent
     {
+        private SpriteGraphicsComponent _spriteComponent;
+
         private int _ticks;
         private int _fps;
         private int _startFrame;
         private int _frames;
-        private SpriteGraphicsComponent _spriteComponent;
 
-        public AnimateComponent(SpriteGraphicsComponent spriteComponent, AnimationParameters parameters)
+        public AnimateComponent(Entity entity, AnimationParameters parameters)
         {
             _fps = parameters.FramesPerSecond;
             _startFrame = parameters.StartFrame;
             _frames = parameters.EndFrame - parameters.StartFrame;
 
-            _spriteComponent = spriteComponent;
+            _spriteComponent = entity.GetGraphicsComponent<SpriteGraphicsComponent>();
             _spriteComponent.SpritesheetFrame = parameters.StartFrame;
         }
+
+        public int Order { get { return 80; } }
 
         public void SetAnimation(Animations animation)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Platformer.AI.Components;
 using Platformer.Entities.Components;
+using Platformer.Graphics.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,33 +16,20 @@ namespace Platformer.Entities.EntityTypes
 
         public GuardEntity() : base(GUARD_SIZE)
         {
-            var spriteComponent = new SpriteGraphicsComponent("test/walk");
-
-            var animateComponent = new AnimateComponent(spriteComponent, new AnimationParameters
-            {
-                StartFrame = 0,
-                EndFrame = 8,
-                FramesPerSecond = 4,
-            });
-
-            var movementComponent = new MovementAnimationComponent(animateComponent);
-            var collisionComponent = new CollisionComponent();
-
-            var rigidBodyComponent = new RigidBodyComponent(collisionComponent);
-            rigidBodyComponent.SetEntityTypeExclusions(new HashSet<Type>
-            {
-                typeof(PlayerEntity)
-            });
-
-            var patrolAiComponent = new PatrolAIComponent(collisionComponent);
-
-            AddComponent(movementComponent);
-            AddComponent(spriteComponent);
-            AddComponent(animateComponent);
+            AddComponent(new SpriteGraphicsComponent("test/walk"));
+            AddComponent(new AnimateComponent(this, AnimationParameters.Default()));
             AddComponent(new ApplyForceComponent());
-            AddComponent(collisionComponent);
-            AddComponent(rigidBodyComponent);
-            AddComponent(patrolAiComponent);
+            AddComponent(new CollisionComponent());
+            AddComponent(new RigidBodyComponent(this));
+            AddComponent(new PatrolAIComponent(this));
+            AddComponent(new HumanoidStateComponent());
+            AddComponent(new HumanoidAnimationComponent(this));
+            
+            GetComponent<RigidBodyComponent>()
+                .SetEntityTypeExclusions(new HashSet<Type>
+                {
+                    typeof(PlayerEntity)
+                });
         }
     }
 }

@@ -46,10 +46,10 @@
     <Compile Include="Entities\Commands\JumpCommand.cs" />
     <Compile Include="Entities\Components\CollisionComponent.cs" />
     <Compile Include="Entities\Components\AnimateComponent.cs" />
-    <Compile Include="Entities\Components\DebugGraphicsComponent.cs" />
+    <Compile Include="Graphics\Components\DebugGraphicsComponent.cs" />
     <Compile Include="Entities\Components\ApplyForceComponent.cs" />
-    <Compile Include="Entities\Components\GraphicsComponentBase.cs" />
-    <Compile Include="Entities\Components\MovementStateComponent.cs" />
+    <Compile Include="Graphics\Components\GraphicsComponentBase.cs" />
+    <Compile Include="Entities\Components\HumanoidStateComponent.cs" />
     <Compile Include="AI\Components\PatrolAIComponent.cs" />
     <Compile Include="Entities\Components\RigidBodyComponent.cs" />
     <Compile Include="Entities\Entity.cs" />
@@ -58,8 +58,8 @@
     <Compile Include="Entities\EntityTypes\PlayerEntity.cs" />
     <Compile Include="Entities\EntityTypes\TileEntity.cs" />
     <Compile Include="Entities\IComponent.cs" />
-    <Compile Include="Entities\Components\MovementAnimationComponent.cs" />
-    <Compile Include="Entities\Components\SpriteGraphicsComponent.cs" />
+    <Compile Include="Entities\Components\HumanoidAnimationComponent.cs" />
+    <Compile Include="Graphics\Components\SpriteGraphicsComponent.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Entities\Commands\MoveLeftCommand.cs" />
     <Compile Include="Entities\Commands\MoveRightCommand.cs" />
