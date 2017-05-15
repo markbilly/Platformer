@@ -33,12 +33,19 @@ namespace Platformer.Entities.Components
 
             DrawDebugBorder(destinationRect);
             DrawDebugPosition(entity.Position);
+            DrawDebugVelocity(entity);
         }
 
         private void DrawDebugPosition(Vector2 position)
         {
             var scaledPosition = position * Constants.Game.Scale;
             SpriteBatch.DrawString(_debugFont, "{x:" + position.X + ",y:" + position.Y + "}", scaledPosition, Color.Red);
+        }
+
+        private void DrawDebugVelocity(Entity entity)
+        {
+            var scaledPosition = new Vector2(entity.Position.X, entity.Position.Y + 8) * Constants.Game.Scale;
+            SpriteBatch.DrawString(_debugFont, "{x:" + entity.Velocity.X + ",y:" + entity.Velocity.Y + "}", scaledPosition, Color.Blue);
         }
 
         private void DrawDebugBorder(Rectangle rectangleToDraw)

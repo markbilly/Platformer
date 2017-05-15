@@ -23,7 +23,7 @@ namespace Platformer.Entities.EntityTypes
                 FramesPerSecond = 4,
             });
 
-            var movementComponent = new MovementAnimationComponent(animateComponent);
+            var movementAnimationComponent = new MovementAnimationComponent(animateComponent);
             var collisionComponent = new CollisionComponent();
 
             var rigidBodyComponent = new RigidBodyComponent(collisionComponent);
@@ -32,13 +32,15 @@ namespace Platformer.Entities.EntityTypes
                 typeof(GuardEntity)
             });
 
-            AddComponent(movementComponent);
+            var applyForceComponent = new ApplyForceComponent();
+
+            AddComponent(movementAnimationComponent);
             AddComponent(spriteComponent);
             AddComponent(animateComponent);
-            AddComponent(new MovementStateComponent());
-            AddComponent(new ApplyForceComponent());
+            AddComponent(applyForceComponent);
             AddComponent(collisionComponent);
             AddComponent(rigidBodyComponent);
+            AddComponent(new MovementStateComponent());
         }
     }
 }

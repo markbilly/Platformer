@@ -12,10 +12,7 @@ namespace Platformer.Entities.Components
 
         public void Update(Entity entity)
         {
-            if (entity.Velocity.Y != 0)
-            {
-                IsJumping = true;
-            }
+            IsJumping = Math.Abs(entity.Velocity.Y) > 1;
         }
     }
 }

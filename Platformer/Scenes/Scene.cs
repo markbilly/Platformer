@@ -44,7 +44,7 @@ namespace Platformer.Scenes
             var forceComponent = entity.GetComponent<ApplyForceComponent>();
             if (forceComponent != null)
             {
-                forceComponent.ApplyConstantForce(GRAVITY);
+                forceComponent.ApplyConstantForce("gravity", GRAVITY);
             }
         }
 

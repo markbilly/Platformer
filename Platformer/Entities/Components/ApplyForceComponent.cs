@@ -11,12 +11,14 @@ namespace Platformer.Entities.Components
     {
         private class AppliedForce
         {
-            public AppliedForce(Vector2 force, int duration)
+            public AppliedForce(string id, Vector2 force, int duration)
             {
+                Id = id;
                 Force = force;
                 Duration = duration;
             }
 
+            public string Id { get; private set; }
             public Vector2 Force { get; private set; }
             public int Duration { get; set; }
         }
@@ -30,14 +32,19 @@ namespace Platformer.Entities.Components
             _mass = mass;
         }
 
-        public void ApplyConstantForce(Vector2 force)
+        public bool IsForceApplied(string id)
         {
-            _forces.Add(new AppliedForce(force, -1));
+            return _forces.Select(x => x.Id).Contains(id);
         }
 
-        public void ApplyForce(Vector2 force, int duration)
+        public void ApplyConstantForce(string id, Vector2 force)
         {
-            _forces.Add(new AppliedForce(force, duration));
+            _forces.Add(new AppliedForce(id, force, -1));
+        }
+
+        public void ApplyForce(string id, Vector2 force, int duration)
+        {
+            _forces.Add(new AppliedForce(id, force, duration));
         }
 
         public void Update(Entity entity)
