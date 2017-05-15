@@ -50,7 +50,7 @@
     <Compile Include="Entities\Components\ApplyForceComponent.cs" />
     <Compile Include="Entities\Components\GraphicsComponentBase.cs" />
     <Compile Include="Entities\Components\MovementStateComponent.cs" />
-    <Compile Include="Entities\Components\PatrolAIComponent.cs" />
+    <Compile Include="AI\Components\PatrolAIComponent.cs" />
     <Compile Include="Entities\Components\RigidBodyComponent.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityTypes\BoxEntity.cs" />
@@ -64,6 +64,7 @@
     <Compile Include="Entities\Commands\MoveLeftCommand.cs" />
     <Compile Include="Entities\Commands\MoveRightCommand.cs" />
     <Compile Include="Entities\Commands\MoveStopCommand.cs" />
+    <Compile Include="Input\Components\PlayerInputComponent.cs" />
     <Compile Include="Input\Handlers\PlayerMovementHandler.cs" />
     <Compile Include="Entities\IEntityCommand.cs" />
     <Compile Include="Input\IInputHandler.cs" />

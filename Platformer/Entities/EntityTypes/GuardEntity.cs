@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Platformer.AI.Components;
 using Platformer.Entities.Components;
 using System;
 using System.Collections.Generic;

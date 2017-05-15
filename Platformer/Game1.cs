@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Platformer.AI.Components;
 using Platformer.Entities;
 using Platformer.Entities.Components;
 using Platformer.Entities.EntityTypes;
@@ -25,10 +26,7 @@ namespace Platformer
 
         private Scene _testScene;
         private Entity _playerEntity;
-
-        private KeyboardState _previousKeyboardState;
-        private IEnumerable<IInputHandler> _inputHandlers;
-
+        
         private double _timeSinceLastUpdate;
         private const int DEBUG_PAUSE_PER_FRAME = 0; // use zero value to disable debug pause
 
@@ -39,11 +37,6 @@ namespace Platformer
             _graphics.PreferredBackBufferHeight = Constants.Game.Height * Constants.Game.Scale;
 
             Content.RootDirectory = "Content";
-
-            _inputHandlers = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => typeof(IInputHandler).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
-                .Select(x => (IInputHandler)Activator.CreateInstance(x));
         }
 
         /// <summary>
@@ -122,8 +115,6 @@ namespace Platformer
             {
                 _timeSinceLastUpdate = 0;
 
-                HandleInputs();
-
                 _testScene.Update();
 
                 base.Update(gameTime);
@@ -149,27 +140,6 @@ namespace Platformer
 
             _spriteBatch.End();
             base.Draw(gameTime);
-        }
-
-        private void HandleInputs()
-        {
-            var currentKeyboardState = Keyboard.GetState();
-
-            if (currentKeyboardState.IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
-
-            foreach (var handler in _inputHandlers)
-            {
-                var commands = handler.HandleInput(_previousKeyboardState, currentKeyboardState);
-                foreach (var command in commands)
-                {
-                    command.Execute(_playerEntity);
-                }
-            }
-
-            _previousKeyboardState = currentKeyboardState;
         }
     }
 }

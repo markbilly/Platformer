@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Platformer.Entities.Components;
+using Platformer.Input.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace Platformer.Entities.EntityTypes
             AddComponent(collisionComponent);
             AddComponent(rigidBodyComponent);
             AddComponent(new MovementStateComponent());
+            AddComponent(new PlayerInputComponent());
         }
     }
 }

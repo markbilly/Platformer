@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Platformer.Entities;
+using Platformer.Entities.Components;
 using Platformer.Entities.EntityTypes;
 using Platformer.Utilities;
 using System;
@@ -8,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Entities.Components
+namespace Platformer.AI.Components
 {
     public class PatrolAIComponent : IComponent
     {
