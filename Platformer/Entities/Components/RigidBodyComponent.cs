@@ -27,7 +27,7 @@ namespace Platformer.Entities.Components
         public void Update(Entity entity)
         {
             GatherDependencies(entity);
-
+            
             // resolve all collisions
             foreach (var collision in _collisionComponent.GetCollisions())
             {

@@ -49,10 +49,10 @@ namespace Platformer
         {
             _testScene = new Scene();
 
-            for (var i = 0; i < 5; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var box1 = new BoxEntity();
-                box1.Position = new Vector2(100 + (5 * (new Random(i).Next() % 2 == 0 ? 1 : -1)), 50 + (i * 20));
+                box1.Position = new Vector2(100, 50 + (i * 20));
                 _testScene.AddEntity(box1);
             }
             var guard = new GuardEntity();

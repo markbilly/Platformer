@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Platformer.Entities;
+using Platformer.Entities.Components;
 
 namespace Platformer.Graphics.Components
 {
@@ -34,7 +35,22 @@ namespace Platformer.Graphics.Components
 
             DrawDebugBorder(destinationRect);
             DrawDebugPosition(entity.Position);
-            DrawDebugVelocity(entity);
+            DrawDebugVelocity(entity);DrawDebugCollision(entity);
+        }
+
+        private void DrawDebugCollision(Entity entity)
+        {
+            var collisions = entity.GetComponent<CollisionComponent>().GetCollisions();
+            if (collisions.Any())
+            {
+                var scaledPosition = new Vector2(entity.Position.X + entity.Size.X, entity.Position.Y) * Constants.Game.Scale;
+
+                foreach (var collision in collisions)
+                {
+                    scaledPosition = new Vector2(scaledPosition.X, scaledPosition.Y + 30);
+                    SpriteBatch.DrawString(_debugFont, "{x:" + entity.Position.X + ",y:" + entity.Position.Y + "}", scaledPosition, Color.Green);
+                }
+            }
         }
 
         private void DrawDebugPosition(Vector2 position)

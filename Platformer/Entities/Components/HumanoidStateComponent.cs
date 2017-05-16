@@ -27,11 +27,6 @@ namespace Platformer.Entities.Components
             IsIdleRight = entity.Velocity.X == 0 && _previousVelocity.X > 0;
             IsIdleLeft = entity.Velocity.X == 0 && _previousVelocity.X < 0;
 
-            if (IsIdleLeft || IsIdleRight)
-            {
-                var t = 1;
-            }
-
             _previousVelocity = entity.Velocity;
         }
     }
