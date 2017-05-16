@@ -49,8 +49,6 @@ namespace Platformer.Entities.Components
             _frames = parameters.EndFrame - parameters.StartFrame;
         }
 
-        public int Order { get { return 5; } }
-
         public void SetAnimation(Animations animation)
         {
             _spriteComponent.SpritesheetRow = (int)animation;

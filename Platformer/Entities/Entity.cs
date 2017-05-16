@@ -87,8 +87,7 @@ namespace Platformer.Entities
             }
 
             _components.Add(component);
-
-            _components = _components.OrderBy(x => x.Order).ToList();
+            _components = _components.OrderBy(x => x.GetExecutionOrder()).ToList();
         }
     }
 }

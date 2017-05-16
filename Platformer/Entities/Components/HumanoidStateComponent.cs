@@ -17,8 +17,6 @@ namespace Platformer.Entities.Components
         public bool IsIdleRight { get; private set; }
         public bool IsIdleLeft { get; private set; }
 
-        public int Order { get { return 50; } }
-
         public void Update(Entity entity)
         {
             IsJumping = Math.Abs(entity.Velocity.Y) > 1;

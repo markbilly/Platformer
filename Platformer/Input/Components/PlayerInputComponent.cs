@@ -19,8 +19,6 @@ namespace Platformer.Input.Components
             _inputHandler = new PlayerMovementHandler();
         }
 
-        public int Order { get { return 40; } }
-
         public void Update(Entity entity)
         {
             var currentKeyboardState = Keyboard.GetState();

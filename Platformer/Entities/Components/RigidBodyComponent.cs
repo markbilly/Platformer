@@ -19,8 +19,6 @@ namespace Platformer.Entities.Components
             _entityTypeExclusions = new HashSet<Type>();
         }
 
-        public int Order { get { return 30; } }
-
         public void SetEntityTypeExclusions(HashSet<Type> entityTypes)
         {
             _entityTypeExclusions = entityTypes;

@@ -20,8 +20,6 @@ namespace Platformer.AI.Components
         private int _patrolSpeed;
         private int _patrolDirection;
 
-        public int Order { get { return 40; } }
-
         public void StartPatrol(Entity entity)
         {
             _patrolling = true;

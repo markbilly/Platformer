@@ -13,8 +13,6 @@ namespace Platformer.Entities.Components
         private AnimateComponent _animateComponent;
         private HumanoidStateComponent _stateComponent;
 
-        public int Order { get { return 60; } }
-
         public void Update(Entity entity)
         {
             GatherDependencies(entity);
