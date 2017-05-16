@@ -45,9 +45,8 @@ namespace Platformer.Entities.Components
 
             ClipEntity(entity, collision.Vector);
 
-            entity.Velocity = new Vector2(
-                collision.Vector.X != 0 ? 0 : entity.Velocity.X,
-                collision.Vector.Y != 0 ? 0 : entity.Velocity.Y);
+            // TODO: this is causing the player to stick to walls when jumping
+            entity.Velocity = new Vector2(0, 0);
         }
 
         private static void ClipEntity(Entity entity, Vector2 collision)
