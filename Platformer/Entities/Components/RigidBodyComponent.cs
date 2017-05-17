@@ -19,6 +19,8 @@ namespace Platformer.Entities.Components
             _entityTypeExclusions = new HashSet<Type>();
         }
 
+        public Vector2 Clip { get; private set; }
+
         public void SetEntityTypeExclusions(HashSet<Type> entityTypes)
         {
             _entityTypeExclusions = entityTypes;
@@ -43,13 +45,11 @@ namespace Platformer.Entities.Components
                 return;
             }
 
+            // adjust position and veelocity to stop moving through entities
             ClipEntity(entity, collision.Vector);
-
-            // TODO: this is causing the player to stick to walls when jumping
-            entity.Velocity = new Vector2(0, 0);
         }
 
-        private static void ClipEntity(Entity entity, Vector2 collision)
+        private void ClipEntity(Entity entity, Vector2 collision)
         {
             // do not clip if entity is not moving
             if (entity.Velocity == Vector2.Zero)
@@ -69,16 +69,19 @@ namespace Platformer.Entities.Components
             {
                 // if y penetration is smallest "fix" y
                 entity.Position = new Vector2(entity.Position.X, newPositionY);
+                entity.Velocity = new Vector2(entity.Velocity.X, 0);
             }
             else if (absoluteCollisionY > absoluteCollisionX)
             {
                 // if x penetration is smallest "fix" x
                 entity.Position = new Vector2(newPositionX, entity.Position.Y);
+                entity.Velocity = new Vector2(0, entity.Velocity.Y);
             }
             else
             {
                 // if penetration is equal "fix" x and y
                 entity.Position = new Vector2(newPositionX, newPositionY);
+                entity.Velocity = new Vector2(0, 0);
             }
         }
 
