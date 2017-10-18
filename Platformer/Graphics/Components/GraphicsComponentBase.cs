@@ -14,6 +14,11 @@ namespace Platformer.Graphics.Components
         public SpriteBatch SpriteBatch { get; set; }
         public GraphicsDevice GraphicsDevice { get; set; }
 
+        public ComponentType Type
+        {
+            get { return ComponentType.Graphics; }
+        }
+
         public abstract void Load(ContentManager contentManager);
 
         public abstract void Update(Entity entity);

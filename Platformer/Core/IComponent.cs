@@ -9,5 +9,6 @@ namespace Platformer.Core
     public interface IComponent
     {
         void Update(Entity entity);
+        ComponentType Type { get; }
     }
 }

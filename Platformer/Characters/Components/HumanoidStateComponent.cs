@@ -18,6 +18,11 @@ namespace Platformer.Characters.Components
         public bool IsIdleRight { get; private set; }
         public bool IsIdleLeft { get; private set; }
 
+        public ComponentType Type
+        {
+            get { return ComponentType.StateManagement; }
+        }
+
         public void Update(Entity entity)
         {
             IsJumping = Math.Abs(entity.Velocity.Y) > 1;

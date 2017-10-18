@@ -20,6 +20,11 @@ namespace Platformer.Characters.Components
         private int _patrolSpeed;
         private int _patrolDirection;
 
+        public ComponentType Type
+        {
+            get { return ComponentType.Input; }
+        }
+
         public void StartPatrol(Entity entity)
         {
             _patrolling = true;

@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Characters\Commands\JumpCommand.cs" />
+    <Compile Include="Core\ComponentType.cs" />
     <Compile Include="Physics\Components\CollisionComponent.cs" />
     <Compile Include="Animation\Components\AnimateComponent.cs" />
     <Compile Include="Graphics\Components\DebugGraphicsComponent.cs" />
@@ -72,7 +73,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Utilities\Collision.cs" />
-    <Compile Include="Core\ComponentExtensions.cs" />
     <Compile Include="Utilities\RectangleF.cs" />
   </ItemGroup>
   <ItemGroup>

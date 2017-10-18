@@ -20,6 +20,11 @@ namespace Platformer.Physics.Components
             _entityTypeExclusions = new HashSet<Type>();
         }
 
+        public ComponentType Type
+        {
+            get { return ComponentType.Physics; }
+        }
+
         public Vector2 Clip { get; private set; }
 
         public void SetEntityTypeExclusions(HashSet<Type> entityTypes)

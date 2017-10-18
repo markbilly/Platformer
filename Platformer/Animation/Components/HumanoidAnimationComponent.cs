@@ -15,6 +15,11 @@ namespace Platformer.Animation.Components
         private AnimateComponent _animateComponent;
         private HumanoidStateComponent _stateComponent;
 
+        public ComponentType Type
+        {
+            get { return ComponentType.Graphics; }
+        }
+
         public void Update(Entity entity)
         {
             GatherDependencies(entity);

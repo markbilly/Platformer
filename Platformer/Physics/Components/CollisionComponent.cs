@@ -19,6 +19,11 @@ namespace Platformer.Physics.Components
             _collisions = new List<Collision>();
         }
 
+        public ComponentType Type
+        {
+            get { return ComponentType.Physics; }
+        }
+
         public Collision? GetCollision(Func<Collision, bool> predicate, bool remove = true)
         {
             for (var i = 0; i < _collisions.Count; i++)

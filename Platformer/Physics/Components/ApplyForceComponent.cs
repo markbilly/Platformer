@@ -33,6 +33,11 @@ namespace Platformer.Physics.Components
             _mass = mass;
         }
 
+        public ComponentType Type
+        {
+            get { return ComponentType.Physics; }
+        }
+
         public bool IsForceApplied(string id)
         {
             return _forces.Select(x => x.Id).Contains(id);

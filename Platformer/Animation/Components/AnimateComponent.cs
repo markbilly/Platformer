@@ -50,6 +50,11 @@ namespace Platformer.Animation.Components
             _frames = parameters.EndFrame - parameters.StartFrame;
         }
 
+        public ComponentType Type
+        {
+            get { return ComponentType.Graphics; }
+        }
+
         public void SetAnimation(Animations animation)
         {
             _spriteComponent.SpritesheetRow = (int)animation;
