@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Utilities
+namespace Platformer.Physics
 {
     public struct Collision
     {

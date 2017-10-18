@@ -72,8 +72,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\Scene.cs" />
-    <Compile Include="Utilities\Collision.cs" />
-    <Compile Include="Utilities\RectangleF.cs" />
+    <Compile Include="Physics\Collision.cs" />
+    <Compile Include="Physics\RectangleF.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
