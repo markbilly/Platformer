@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using Platformer.Entities;
+using Platformer.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Platformer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

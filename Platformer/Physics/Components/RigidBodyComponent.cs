@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Platformer.Core;
 using Platformer.Utilities;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Entities.Components
+namespace Platformer.Physics.Components
 {
     public class RigidBodyComponent : IComponent
     {

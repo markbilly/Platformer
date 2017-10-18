@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using Platformer.Entities.Components;
+using Platformer.Core;
 using Platformer.Graphics.Components;
+using Platformer.Physics.Components;
 
-namespace Platformer.Entities.EntityTypes
+namespace Platformer.Scenes.Entities
 {
     public class BoxEntity : Entity
     {

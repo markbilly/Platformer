@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using Platformer.Entities;
-using Platformer.Entities.Components;
-using Platformer.Entities.EntityTypes;
+using Platformer.Characters.Entities;
+using Platformer.Core;
+using Platformer.Physics.Components;
 using Platformer.Utilities;
 using System;
 using System.Collections.Generic;
@@ -10,9 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.AI.Components
+namespace Platformer.Characters.Components
 {
-    public class PatrolAIComponent : IComponent
+    public class PatrolComponent : IComponent
     {
         private CollisionComponent _collisionComponent;
 

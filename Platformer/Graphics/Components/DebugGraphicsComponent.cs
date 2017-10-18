@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Platformer.Entities;
-using Platformer.Entities.Components;
+using Platformer.Core;
+using Platformer.Physics.Components;
 
 namespace Platformer.Graphics.Components
 {

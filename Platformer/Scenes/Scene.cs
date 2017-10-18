@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Platformer.Entities;
-using Platformer.Entities.Components;
+using Platformer.Core;
+using Platformer.Physics.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
-using Platformer.Entities.Components;
+using Platformer.Core;
 using Platformer.Graphics.Components;
+using Platformer.Physics.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Entities.EntityTypes
+namespace Platformer.Scenes.Entities
 {
     public class TileEntity : Entity
     {

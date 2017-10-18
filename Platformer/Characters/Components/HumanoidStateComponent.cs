@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Platformer.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Entities.Components
+namespace Platformer.Characters.Components
 {
     public class HumanoidStateComponent : IComponent
     {

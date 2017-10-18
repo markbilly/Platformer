@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Platformer.AI.Components;
-using Platformer.Entities;
-using Platformer.Entities.Components;
-using Platformer.Entities.EntityTypes;
+using Platformer.Characters.Components;
+using Platformer.Characters.Entities;
+using Platformer.Core;
 using Platformer.Input;
 using Platformer.Scenes;
+using Platformer.Scenes.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -77,7 +77,7 @@ namespace Platformer
                 _testScene.AddEntity(tile);
             }
 
-            guard.GetComponent<PatrolAIComponent>().StartPatrol(guard);
+            guard.GetComponent<PatrolComponent>().StartPatrol(guard);
 
             base.Initialize();
         }

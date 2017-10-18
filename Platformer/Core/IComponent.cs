@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Entities
+namespace Platformer.Core
 {
     public interface IComponent
     {

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Platformer.Entities.Components;
 using Microsoft.Xna.Framework;
+using Platformer.Core;
 
-namespace Platformer.Entities.Commands
+namespace Platformer.Characters.Commands
 {
-    public class MoveRightCommand : IEntityCommand
+    public class MoveStopCommand : IEntityCommand
     {
         public void Execute(Entity entity)
         {
-            entity.Velocity = new Vector2(1, entity.Velocity.Y);
+            entity.Velocity = new Vector2(0, entity.Velocity.Y);
         }
     }
 }

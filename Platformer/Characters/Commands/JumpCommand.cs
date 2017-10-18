@@ -1,12 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
-using Platformer.Entities.Components;
+using Platformer.Characters.Components;
+using Platformer.Core;
+using Platformer.Physics.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Entities.Commands
+namespace Platformer.Characters.Commands
 {
     public class JumpCommand : IEntityCommand
     {

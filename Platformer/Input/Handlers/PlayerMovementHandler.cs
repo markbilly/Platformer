@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
-using Platformer.Entities;
-using Platformer.Entities.Commands;
+using Platformer.Core;
+using Platformer.Characters.Commands;
 
 namespace Platformer.Input.Handlers
 {

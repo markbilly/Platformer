@@ -1,15 +1,15 @@
-﻿using Platformer.AI.Components;
-using Platformer.Entities;
-using Platformer.Entities.Components;
+﻿using Platformer.Animation.Components;
+using Platformer.Characters.Components;
 using Platformer.Graphics.Components;
 using Platformer.Input.Components;
+using Platformer.Physics.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Entities
+namespace Platformer.Core
 {
     public static class ComponentExtensions
     {
@@ -25,7 +25,7 @@ namespace Platformer.Entities
                 return 20;
             if (type == typeof(RigidBodyComponent))
                 return 30;
-            if (type == typeof(PatrolAIComponent))
+            if (type == typeof(PatrolComponent))
                 return 40;
             if (type == typeof(PlayerInputComponent))
                 return 40;
