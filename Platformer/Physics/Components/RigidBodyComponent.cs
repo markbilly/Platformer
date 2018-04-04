@@ -37,7 +37,7 @@ namespace Platformer.Physics.Components
 
             // resolve all collisions
             var collisions = _collisionComponent.GetCollisions();
-            for (var i = collisions.Count() - 1; i <= 0; i--)
+            for (var i = collisions.Count() - 1; i >= 0; i--)
             {
                 var collision = collisions.ElementAt(i);
                 var resolution = CalculateResolution(entity, collision);
