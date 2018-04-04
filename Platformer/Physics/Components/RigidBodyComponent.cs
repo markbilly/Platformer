@@ -24,8 +24,6 @@ namespace Platformer.Physics.Components
             get { return ComponentType.Physics; }
         }
 
-        public Vector2 Clip { get; private set; }
-
         public void SetEntityTypeExclusions(HashSet<Type> entityTypes)
         {
             _entityTypeExclusions = entityTypes;
@@ -38,10 +36,13 @@ namespace Platformer.Physics.Components
             var resolutions = new List<CollisionResolution>();
 
             // resolve all collisions
-            foreach (var collision in _collisionComponent.GetCollisions().Reverse())
+            var collisions = _collisionComponent.GetCollisions();
+            for (var i = collisions.Count() - 1; i <= 0; i--)
             {
-                var resolution = ResolveCollision(entity, collision);
+                var collision = collisions.ElementAt(i);
+                var resolution = CalculateResolution(entity, collision);
 
+                // only resolve one collision in each direction
                 if (!resolutions.Any(x => x.VelocityNormalised == resolution.VelocityNormalised))
                 {
                     resolutions.Add(resolution);
@@ -50,7 +51,7 @@ namespace Platformer.Physics.Components
             }
         }
 
-        private CollisionResolution ResolveCollision(Entity entity, Collision collision)
+        private CollisionResolution CalculateResolution(Entity entity, Collision collision)
         {
             // do not react to entity types that are excluded
             if (_entityTypeExclusions.Contains(collision.EntityType))
