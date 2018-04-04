@@ -46,11 +46,13 @@ namespace Platformer.Graphics.Components
             var width = entity.Size.X;
             var height = entity.Size.Y;
 
+            var pixelPerfectEntityPosition = new Vector2((float)Math.Round(entity.Position.X), (float)Math.Round(entity.Position.Y));
+
             var sourceRect = new Rectangle(width * SpritesheetFrame, height * SpritesheetRow, width, height);
-            var scaledPosition = entity.Position * Constants.Game.Scale;
+            var scaledPosition = pixelPerfectEntityPosition * Constants.Game.Scale;
 
             SpriteBatch.Draw(
-                _texture, 
+                _texture,
                 scaledPosition, 
                 sourceRect, 
                 Color.White, 

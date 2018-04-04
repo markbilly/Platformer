@@ -65,7 +65,7 @@ namespace Platformer.Physics.Components
                     if (RectangleF.Intersects(thisEntityBounds, nearbyEntityBounds))
                     {
                         var collisionVector = GetCollisionVector(thisEntityBounds, nearbyEntityBounds);
-                        _collisions.Add(new Collision(nearbyEntity.GetType(), collisionVector));
+                        _collisions.Add(new Collision(nearbyEntity, collisionVector));
                     }
                 }
             }

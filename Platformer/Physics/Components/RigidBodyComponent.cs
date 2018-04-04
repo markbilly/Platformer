@@ -34,59 +34,64 @@ namespace Platformer.Physics.Components
         public void Update(Entity entity)
         {
             GatherDependencies(entity);
-            
+
+            var resolutions = new List<CollisionResolution>();
+
             // resolve all collisions
-            foreach (var collision in _collisionComponent.GetCollisions())
+            foreach (var collision in _collisionComponent.GetCollisions().Reverse())
             {
-                ResolveCollision(entity, collision);
+                var resolution = ResolveCollision(entity, collision);
+
+                if (!resolutions.Any(x => x.VelocityNormalised == resolution.VelocityNormalised))
+                {
+                    resolutions.Add(resolution);
+                    resolution.ApplyToEntity(entity);
+                }
             }
         }
 
-        private void ResolveCollision(Entity entity, Collision collision)
+        private CollisionResolution ResolveCollision(Entity entity, Collision collision)
         {
             // do not react to entity types that are excluded
             if (_entityTypeExclusions.Contains(collision.EntityType))
             {
-                return;
+                return new CollisionResolution(entity.Position, entity.Velocity);
             }
 
-            // adjust position and veelocity to stop moving through entities
-            ClipEntity(entity, collision.Vector);
-        }
-
-        private void ClipEntity(Entity entity, Vector2 collision)
-        {
             // do not clip if entity is not moving
             if (entity.Velocity == Vector2.Zero)
             {
-                return;
+                return new CollisionResolution(entity.Position, entity.Velocity);
             }
 
             // work out possible new x and y positions after clipping
-            var newPositionX = entity.Position.X - collision.X;
-            var newPositionY = entity.Position.Y - collision.Y;
+            var newPositionX = entity.Position.X - collision.Vector.X;
+            var newPositionY = entity.Position.Y - collision.Vector.Y;
 
             // work out whether collision is vertical or horizontal
             // do this by checking the collision vector
-            var absoluteCollisionX = Math.Abs(collision.X);
-            var absoluteCollisionY = Math.Abs(collision.Y);
+            var absoluteCollisionX = Math.Abs(collision.Vector.X);
+            var absoluteCollisionY = Math.Abs(collision.Vector.Y);
             if (absoluteCollisionX > absoluteCollisionY)
             {
                 // if y penetration is smallest "fix" y
-                entity.Position = new Vector2(entity.Position.X, newPositionY);
-                entity.Velocity = new Vector2(entity.Velocity.X, 0);
+                return new CollisionResolution(
+                    new Vector2(entity.Position.X, newPositionY),
+                    new Vector2(entity.Velocity.X, 0));
             }
             else if (absoluteCollisionY > absoluteCollisionX)
             {
                 // if x penetration is smallest "fix" x
-                entity.Position = new Vector2(newPositionX, entity.Position.Y);
-                entity.Velocity = new Vector2(0, entity.Velocity.Y);
+                return new CollisionResolution(
+                    new Vector2(newPositionX, entity.Position.Y),
+                    new Vector2(0, entity.Velocity.Y));
             }
             else
             {
                 // if penetration is equal "fix" x and y
-                entity.Position = new Vector2(newPositionX, newPositionY);
-                entity.Velocity = new Vector2(0, 0);
+                return new CollisionResolution(
+                    new Vector2(newPositionX, newPositionY),
+                    new Vector2(0, 0));
             }
         }
 
@@ -95,6 +100,28 @@ namespace Platformer.Physics.Components
             if (_collisionComponent == null)
             {
                 _collisionComponent = entity.GetComponent<CollisionComponent>();
+            }
+        }
+
+        private class CollisionResolution
+        {
+            public CollisionResolution(Vector2 position, Vector2 velocity)
+            {
+                Position = position;
+                Velocity = velocity;
+
+                VelocityNormalised = new Vector2(Velocity.X, Velocity.Y);
+                VelocityNormalised.Normalize();
+            }
+
+            public Vector2 Position { get; set; }
+            public Vector2 Velocity { get; set; }
+            public Vector2 VelocityNormalised { get; set; }
+
+            public void ApplyToEntity(Entity entity)
+            {
+                entity.Position = Position;
+                entity.Velocity = Velocity;
             }
         }
     }

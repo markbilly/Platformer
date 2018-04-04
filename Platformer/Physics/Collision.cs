@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Platformer.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace Platformer.Physics
 {
     public struct Collision
     {
-        public Collision(Type entityType, Vector2 vector)
+        public Collision(Entity entity, Vector2 vector)
         {
-            EntityType = entityType;
+            EntityType = entity.GetType();
             Vector = vector;
         }
 

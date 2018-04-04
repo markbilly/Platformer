@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Platformer.Core;
 using Platformer.Physics.Components;
+using Platformer.Characters.Entities;
 
 namespace Platformer.Graphics.Components
 {
@@ -34,16 +35,17 @@ namespace Platformer.Graphics.Components
             var destinationRect = new Rectangle(scaledLocation.X, scaledLocation.Y, scaledWidth, scaledHeight);
 
             DrawDebugBorder(destinationRect);
-            DrawDebugPosition(entity.Position);
-            DrawDebugVelocity(entity);DrawDebugCollision(entity);
+            //DrawDebugPosition(entity.Position);
+            //DrawDebugVelocity(entity);
+            DrawDebugCollision(entity);
         }
 
         private void DrawDebugCollision(Entity entity)
         {
             var collisions = entity.GetComponent<CollisionComponent>().GetCollisions();
-            if (collisions.Any())
+            if (collisions.Any() && entity.GetType() == typeof(PlayerEntity))
             {
-                var scaledPosition = new Vector2(entity.Position.X + entity.Size.X, entity.Position.Y) * Constants.Game.Scale;
+                var scaledPosition = new Vector2(entity.Position.X + entity.Size.X, (entity.Position.Y - (entity.Size.Y * 0.5f))) * Constants.Game.Scale;
 
                 foreach (var collision in collisions)
                 {
