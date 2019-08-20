@@ -12,7 +12,7 @@ using Platformer.Characters.Entities;
 
 namespace Platformer.Graphics.Components
 {
-    public class DebugGraphicsComponent : GraphicsComponentBase
+    public class DebugGraphicsComponent : GraphicsComponent
     {
         private Texture2D _debugPixel;
         private SpriteFont _debugFont;

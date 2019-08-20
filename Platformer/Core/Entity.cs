@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace Platformer.Core
 {
-    public class Entity
+    public abstract class Entity
     {
         private IList<IComponent> _components;
-        private IList<GraphicsComponentBase> _graphicsComponents;
+        private IList<GraphicsComponent> _graphicsComponents;
         
         protected Entity(Point size)
         {
             Size = size;
 
             _components = new List<IComponent>();
-            _graphicsComponents = new List<GraphicsComponentBase>();
+            _graphicsComponents = new List<GraphicsComponent>();
 
 #if DEBUG
             AddComponent(new DebugGraphicsComponent());
@@ -36,7 +36,7 @@ namespace Platformer.Core
             return (T)_components.SingleOrDefault(x => x.GetType() == typeof(T));
         }
 
-        public T GetGraphicsComponent<T>() where T : GraphicsComponentBase
+        public T GetGraphicsComponent<T>() where T : GraphicsComponent
         {
             return (T)_graphicsComponents.SingleOrDefault(x => x.GetType() == typeof(T));
         }
@@ -72,9 +72,9 @@ namespace Platformer.Core
 
         protected void AddComponent(IComponent component)
         {
-            if (component is GraphicsComponentBase)
+            if (component is GraphicsComponent)
             {
-                _graphicsComponents.Add((GraphicsComponentBase)component);
+                _graphicsComponents.Add((GraphicsComponent)component);
 
 #if DEBUG
                 _graphicsComponents = _graphicsComponents

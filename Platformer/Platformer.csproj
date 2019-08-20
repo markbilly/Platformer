@@ -49,7 +49,7 @@
     <Compile Include="Animation\Components\AnimateComponent.cs" />
     <Compile Include="Graphics\Components\DebugGraphicsComponent.cs" />
     <Compile Include="Physics\Components\ApplyForceComponent.cs" />
-    <Compile Include="Graphics\Components\GraphicsComponentBase.cs" />
+    <Compile Include="Graphics\Components\GraphicsComponent.cs" />
     <Compile Include="Characters\Components\HumanoidStateComponent.cs" />
     <Compile Include="Characters\Components\PatrolComponent.cs" />
     <Compile Include="Physics\Components\RigidBodyComponent.cs" />

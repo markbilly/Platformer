@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Platformer.Graphics.Components
 {
-    public abstract class GraphicsComponentBase : IComponent
+    public abstract class GraphicsComponent : IComponent
     {
         public SpriteBatch SpriteBatch { get; set; }
         public GraphicsDevice GraphicsDevice { get; set; }

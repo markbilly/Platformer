@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Platformer.Graphics.Components
 {
-    public class SpriteGraphicsComponent : GraphicsComponentBase
+    public class SpriteGraphicsComponent : GraphicsComponent
     {
         private Texture2D _texture;
         private string _spritesheet;
