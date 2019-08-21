@@ -9,22 +9,17 @@ using System.Threading.Tasks;
 
 namespace Platformer.Input.Components
 {
-    public class PlayerInputComponent : IComponent
+    public class PlayerInputComponent : Component
     {
         private PlayerMovementHandler _inputHandler;
         private KeyboardState _previousKeyboardState;
 
-        public PlayerInputComponent()
+        public PlayerInputComponent() : base(ComponentType.Input)
         {
             _inputHandler = new PlayerMovementHandler();
         }
 
-        public ComponentType Type
-        {
-            get { return ComponentType.Input; }
-        }
-
-        public void Update(Entity entity)
+        public override void Update(Entity entity)
         {
             var currentKeyboardState = Keyboard.GetState();
 

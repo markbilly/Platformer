@@ -64,7 +64,7 @@ namespace Platformer
             }
 
             guard.Position = new Vector2(200, 100);
-            //_testScene.AddEntity(guard);
+            _testScene.AddEntity(guard);
 
             _playerEntity = new PlayerEntity();
             _playerEntity.Position = new Vector2(130, 100);

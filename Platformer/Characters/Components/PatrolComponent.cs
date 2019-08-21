@@ -12,17 +12,17 @@ using System.Threading.Tasks;
 
 namespace Platformer.Characters.Components
 {
-    public class PatrolComponent : IComponent
+    public class PatrolComponent : Component
     {
-        private CollisionComponent _collisionComponent;
+        private readonly CollisionComponent _collisionComponent;
 
         private bool _patrolling;
         private int _patrolSpeed;
         private int _patrolDirection;
 
-        public ComponentType Type
+        public PatrolComponent(CollisionComponent collisionComponent) : base(ComponentType.Input)
         {
-            get { return ComponentType.Input; }
+            _collisionComponent = collisionComponent;
         }
 
         public void StartPatrol(Entity entity)
@@ -32,16 +32,9 @@ namespace Platformer.Characters.Components
             _patrolDirection = 1;
         }
 
-        public void Update(Entity entity)
+        public override void Update(Entity entity)
         {
-            GatherDependencies(entity);
-
-            // only care about x-direction collision with non-player entities
-            Func<Collision, bool> releventCollision = c => 
-                Math.Abs(c.Vector.X) < Math.Abs(c.Vector.Y) && 
-                c.EntityType != typeof(PlayerEntity);
-
-            var xCollision = _collisionComponent.GetCollision(releventCollision);
+            var xCollision = _collisionComponent.GetCollision(IsRelevantCollision);
 
             if (xCollision.HasValue)
             {
@@ -55,12 +48,10 @@ namespace Platformer.Characters.Components
             }
         }
 
-        private void GatherDependencies(Entity entity)
+        private bool IsRelevantCollision(Collision collision)
         {
-            if (_collisionComponent == null)
-            {
-                _collisionComponent = entity.GetComponent<CollisionComponent>();
-            }
+            // Note: we only care about x-direction collision with non-player entities
+            return Math.Abs(collision.Vector.X) < Math.Abs(collision.Vector.Y) && collision.EntityType != typeof(PlayerEntity);
         }
     }
 }

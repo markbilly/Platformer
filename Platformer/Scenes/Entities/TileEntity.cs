@@ -16,9 +16,12 @@ namespace Platformer.Scenes.Entities
 
         public TileEntity() : base(TILE_SIZE)
         {
-            AddComponent(new SpriteGraphicsComponent("test/grass"));
-            AddComponent(new CollisionComponent());
-            AddComponent(new RigidBodyComponent());
+            AddComponent<SpriteGraphicsComponent>();
+            AddComponent<CollisionComponent>();
+            AddComponent<RigidBodyComponent>();
+
+            // TODO: Do not parameterise component classes - use inheritance
+            GetGraphicsComponent<SpriteGraphicsComponent>().Spritesheet = "test/grass";
         }
     }
 }

@@ -12,18 +12,22 @@ namespace Platformer.Core
 {
     public abstract class Entity
     {
-        private IList<IComponent> _components;
-        private IList<GraphicsComponent> _graphicsComponents;
+        private readonly Dictionary<Type, Component> _allComponentsByType;
+
+        private IEnumerable<Component> _nonGraphicsComponents;
+        private IEnumerable<GraphicsComponent> _graphicsComponents;
         
         protected Entity(Point size)
         {
             Size = size;
 
-            _components = new List<IComponent>();
+            _allComponentsByType = new Dictionary<Type, Component>();
+
+            _nonGraphicsComponents = new List<Component>();
             _graphicsComponents = new List<GraphicsComponent>();
 
 #if DEBUG
-            AddComponent(new DebugGraphicsComponent());
+            AddComponent<DebugGraphicsComponent>();
 #endif
         }
 
@@ -31,9 +35,9 @@ namespace Platformer.Core
         public Vector2 Position { get; set; }
         public Point Size { get; set; }
 
-        public T GetComponent<T>() where T : IComponent
+        public T GetComponent<T>() where T : Component
         {
-            return (T)_components.SingleOrDefault(x => x.GetType() == typeof(T));
+            return (T)_nonGraphicsComponents.SingleOrDefault(x => x.GetType() == typeof(T));
         }
 
         public T GetGraphicsComponent<T>() where T : GraphicsComponent
@@ -54,9 +58,9 @@ namespace Platformer.Core
 
         public void Update()
         {
-            Position += Velocity; // TODO: move velocity into component?
+            Position += Velocity;
 
-            foreach (var component in _components)
+            foreach (var component in _nonGraphicsComponents)
             {
                 component.Update(this);
             }
@@ -70,23 +74,40 @@ namespace Platformer.Core
             }
         }
 
-        protected void AddComponent(IComponent component)
+        protected void AddComponent<TComponent>() where TComponent : Component
         {
-            if (component is GraphicsComponent)
-            {
-                _graphicsComponents.Add((GraphicsComponent)component);
+            var componentType = typeof(TComponent);
 
+            _allComponentsByType.Add(componentType, (TComponent)GetOrCreateComponentInstance(componentType));
+
+            _nonGraphicsComponents = _allComponentsByType
+                .Where(x => !x.Key.IsSubclassOf(typeof(GraphicsComponent)))
+                .Select(x => x.Value)
+                .OrderBy(c => (int)c.Type);
+
+            _graphicsComponents = _allComponentsByType
+                .Where(x => x.Key.IsSubclassOf(typeof(GraphicsComponent)))
+                .Select(x => x.Value)
 #if DEBUG
-                _graphicsComponents = _graphicsComponents
-                    .OrderBy(x => x.GetType() == typeof(DebugGraphicsComponent))
-                    .ToList();
+                .OrderBy(c => c.GetType() == typeof(DebugGraphicsComponent))
 #endif
+                .Cast<GraphicsComponent>();
+        }
 
-                return;
+        private object GetOrCreateComponentInstance(Type componentType)
+        {
+            if (_allComponentsByType.TryGetValue(componentType, out Component component))
+            {
+                return component;
             }
 
-            _components.Add(component);
-            _components = _components.OrderBy(x => (int)x.Type).ToList();
+            // TODO: Throw specific exceptions when 1) there is > 1 constructor and 2) any parameters are not sub class of type Component
+
+            var ctor = componentType.GetConstructors().Single();
+            var parameterTypes = ctor.GetParameters().Select(p => p.ParameterType).Where(pt => pt.IsSubclassOf(typeof(Component)));
+            var dependencies = parameterTypes.Select(pt => GetOrCreateComponentInstance(pt)).ToArray();
+
+            return Activator.CreateInstance(componentType, dependencies);
         }
     }
 }

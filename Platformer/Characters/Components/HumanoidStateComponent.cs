@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace Platformer.Characters.Components
 {
-    public class HumanoidStateComponent : IComponent
+    public class HumanoidStateComponent : Component
     {
         private Vector2 _previousVelocity;
+
+        public HumanoidStateComponent() : base(ComponentType.StateManagement) { }
 
         public bool IsJumping { get; private set; }
         public bool IsWalkingRight { get; private set; }
@@ -18,12 +20,7 @@ namespace Platformer.Characters.Components
         public bool IsIdleRight { get; private set; }
         public bool IsIdleLeft { get; private set; }
 
-        public ComponentType Type
-        {
-            get { return ComponentType.StateManagement; }
-        }
-
-        public void Update(Entity entity)
+        public override void Update(Entity entity)
         {
             IsJumping = Math.Abs(entity.Velocity.Y) > 1;
 

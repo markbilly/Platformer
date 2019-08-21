@@ -19,20 +19,18 @@ namespace Platformer.Characters.Entities
 
         public PlayerEntity() : base(PLAYER_SIZE)
         {
-            AddComponent(new SpriteGraphicsComponent("test/walk"));
-            AddComponent(new AnimateComponent(AnimationParameters.Default()));
-            AddComponent(new ApplyForceComponent());
-            AddComponent(new CollisionComponent());
-            AddComponent(new RigidBodyComponent());
-            AddComponent(new PlayerInputComponent());
-            AddComponent(new HumanoidStateComponent());
-            AddComponent(new HumanoidAnimationComponent());
+            AddComponent<SpriteGraphicsComponent>();
+            AddComponent<AnimateComponent>();
+            AddComponent<ApplyForceComponent>();
+            AddComponent<CollisionComponent>();
+            AddComponent<RigidBodyComponent>();
+            AddComponent<PlayerInputComponent>();
+            AddComponent<HumanoidStateComponent>();
+            AddComponent<HumanoidAnimationComponent>();
 
-            GetComponent<RigidBodyComponent>()
-                .SetEntityTypeExclusions(new HashSet<Type>
-                {
-                    typeof(GuardEntity)
-                });
+            // TODO: Do not parameterise component classes - use inheritance
+            GetGraphicsComponent<SpriteGraphicsComponent>().Spritesheet = "test/walk";
+            GetComponent<RigidBodyComponent>().SetEntityTypeExclusions(new HashSet<Type> { typeof(GuardEntity) });
         }
     }
 }

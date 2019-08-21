@@ -15,22 +15,22 @@ namespace Platformer.Input.Handlers
         {
             if (previousKeyboardState.IsKeyUp(Keys.Space) && currentKeyboardState.IsKeyDown(Keys.Space))
             {
-                return new[] { new JumpCommand() };
+                return new[] { new JumpEntityCommand() };
             }
 
             if (currentKeyboardState.IsKeyUp(Keys.Right) && currentKeyboardState.IsKeyUp(Keys.Left))
             {
-                return new[] { new MoveStopCommand() };
+                return new[] { new MoveStopEntityCommand() };
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Right))
             {
-                return new[] { new MoveRightCommand() };
+                return new[] { new MoveRightEntityCommand() };
             }
 
             if (currentKeyboardState.IsKeyDown(Keys.Left))
             {
-                return new[] { new MoveLeftCommand() };
+                return new[] { new MoveLeftEntityCommand() };
             }
 
             return null;

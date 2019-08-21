@@ -9,18 +9,13 @@ using System.Threading.Tasks;
 
 namespace Platformer.Graphics.Components
 {
-    public abstract class GraphicsComponent : IComponent
+    public abstract class GraphicsComponent : Component
     {
         public SpriteBatch SpriteBatch { get; set; }
         public GraphicsDevice GraphicsDevice { get; set; }
 
-        public ComponentType Type
-        {
-            get { return ComponentType.Graphics; }
-        }
+        protected GraphicsComponent() : base(ComponentType.Graphics) { }
 
         public abstract void Load(ContentManager contentManager);
-
-        public abstract void Update(Entity entity);
     }
 }

@@ -8,34 +8,17 @@ using System.Threading.Tasks;
 
 namespace Platformer.Physics.Components
 {
-    public class ApplyForceComponent : IComponent
+    public class ApplyForceComponent : Component
     {
-        private class AppliedForce
-        {
-            public AppliedForce(string id, Vector2 force, int duration)
-            {
-                Id = id;
-                Force = force;
-                Duration = duration;
-            }
-
-            public string Id { get; private set; }
-            public Vector2 Force { get; private set; }
-            public int Duration { get; set; }
-        }
+        const int DEFUALT_MASS = 50;
 
         private IList<AppliedForce> _forces;
-        private int _mass;
+        private readonly int _mass;
 
-        public ApplyForceComponent(int mass = 50)
+        public ApplyForceComponent() : base(ComponentType.Physics)
         {
             _forces = new List<AppliedForce>();
-            _mass = mass;
-        }
-
-        public ComponentType Type
-        {
-            get { return ComponentType.Physics; }
+            _mass = DEFUALT_MASS;
         }
 
         public bool IsForceApplied(string id)
@@ -53,7 +36,7 @@ namespace Platformer.Physics.Components
             _forces.Add(new AppliedForce(id, force, duration));
         }
 
-        public void Update(Entity entity)
+        public override void Update(Entity entity)
         {
             for (var i = 0; i < _forces.Count; i++)
             {
@@ -81,6 +64,20 @@ namespace Platformer.Physics.Components
             return 
                 (entity.Velocity.Y > 0 && entity.Velocity.Y > 5 && force.Y > 0) ||
                 (entity.Velocity.Y < 0 && entity.Velocity.Y < 5 && force.Y < 0);
+        }
+
+        private class AppliedForce
+        {
+            public AppliedForce(string id, Vector2 force, int duration)
+            {
+                Id = id;
+                Force = force;
+                Duration = duration;
+            }
+
+            public string Id { get; private set; }
+            public Vector2 Force { get; private set; }
+            public int Duration { get; set; }
         }
     }
 }

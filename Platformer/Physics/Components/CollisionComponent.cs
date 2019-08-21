@@ -8,19 +8,14 @@ using System.Threading.Tasks;
 
 namespace Platformer.Physics.Components
 {
-    public class CollisionComponent : IComponent
+    public class CollisionComponent : Component
     {
         private IList<Entity> _nearbyEntities;
         private IList<Collision> _collisions;
 
-        public CollisionComponent()
+        public CollisionComponent() : base(ComponentType.Physics)
         {
             _collisions = new List<Collision>();
-        }
-
-        public ComponentType Type
-        {
-            get { return ComponentType.Physics; }
         }
 
         public Collision? GetCollision(Func<Collision, bool> predicate, bool remove = true)
@@ -49,7 +44,7 @@ namespace Platformer.Physics.Components
             _nearbyEntities = entities;
         }
 
-        public void Update(Entity entity)
+        public override void Update(Entity entity)
         {
             // clear collisions as they were all resolved last update
             _collisions.Clear();

@@ -13,12 +13,9 @@ namespace Platformer.Graphics.Components
     public class SpriteGraphicsComponent : GraphicsComponent
     {
         private Texture2D _texture;
-        private string _spritesheet;
 
-        public SpriteGraphicsComponent(string spritesheet)
-        {
-            _spritesheet = spritesheet;
-        }
+        // TODO: Have this set by inheritance
+        public string Spritesheet { get; set; }
 
         /// <summary>
         /// Which frame on the spritesheet to display (zero-indexed)
@@ -33,7 +30,7 @@ namespace Platformer.Graphics.Components
 
         public override void Load(ContentManager contentManager)
         {
-            _texture = contentManager.Load<Texture2D>(_spritesheet);
+            _texture = contentManager.Load<Texture2D>(Spritesheet);
         }
 
         public override void Update(Entity entity)

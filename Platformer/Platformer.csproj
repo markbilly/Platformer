@@ -43,7 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Characters\Commands\JumpCommand.cs" />
+    <Compile Include="Characters\Commands\JumpEntityCommand.cs" />
     <Compile Include="Core\ComponentType.cs" />
     <Compile Include="Physics\Components\CollisionComponent.cs" />
     <Compile Include="Animation\Components\AnimateComponent.cs" />
@@ -58,13 +58,13 @@
     <Compile Include="Characters\Entities\GuardEntity.cs" />
     <Compile Include="Characters\Entities\PlayerEntity.cs" />
     <Compile Include="Scenes\Entities\TileEntity.cs" />
-    <Compile Include="Core\IComponent.cs" />
+    <Compile Include="Core\Component.cs" />
     <Compile Include="Animation\Components\HumanoidAnimationComponent.cs" />
     <Compile Include="Graphics\Components\SpriteGraphicsComponent.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Characters\Commands\MoveLeftCommand.cs" />
-    <Compile Include="Characters\Commands\MoveRightCommand.cs" />
-    <Compile Include="Characters\Commands\MoveStopCommand.cs" />
+    <Compile Include="Characters\Commands\MoveLeftEntityCommand.cs" />
+    <Compile Include="Characters\Commands\MoveRightEntityCommand.cs" />
+    <Compile Include="Characters\Commands\MoveStopEntityCommand.cs" />
     <Compile Include="Input\Components\PlayerInputComponent.cs" />
     <Compile Include="Input\Handlers\PlayerMovementHandler.cs" />
     <Compile Include="Core\IEntityCommand.cs" />

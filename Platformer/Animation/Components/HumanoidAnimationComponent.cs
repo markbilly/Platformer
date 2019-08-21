@@ -10,51 +10,38 @@ using System.Threading.Tasks;
 
 namespace Platformer.Animation.Components
 {
-    public class HumanoidAnimationComponent : IComponent
+    public class HumanoidAnimationComponent : Component
     {
-        private AnimateComponent _animateComponent;
-        private HumanoidStateComponent _stateComponent;
+        private readonly AnimateComponent _animateComponent;
+        private readonly HumanoidStateComponent _humanoidStateComponent;
 
-        public ComponentType Type
+        public HumanoidAnimationComponent(AnimateComponent animateComponent, HumanoidStateComponent humanoidStateComponent) 
+            : base(ComponentType.Graphics)
         {
-            get { return ComponentType.Graphics; }
+            _animateComponent = animateComponent;
+            _humanoidStateComponent = humanoidStateComponent;
         }
 
-        public void Update(Entity entity)
+        public override void Update(Entity entity)
         {
-            GatherDependencies(entity);
-
-            if (_stateComponent.IsWalkingRight)
+            if (_humanoidStateComponent.IsWalkingRight)
             {
-                _animateComponent.SetAnimation(Animations.WalkRight);
+                _animateComponent.SetAnimation(Animations.MoveRight);
             }
 
-            if (_stateComponent.IsWalkingLeft)
+            if (_humanoidStateComponent.IsWalkingLeft)
             {
-                _animateComponent.SetAnimation(Animations.WalkLeft);
+                _animateComponent.SetAnimation(Animations.MoveLeft);
             }
 
-            if (_stateComponent.IsIdleRight)
+            if (_humanoidStateComponent.IsIdleRight)
             {
                 _animateComponent.SetAnimation(Animations.IdleRight);
             }
 
-            if (_stateComponent.IsIdleLeft)
+            if (_humanoidStateComponent.IsIdleLeft)
             {
                 _animateComponent.SetAnimation(Animations.IdleLeft);
-            }
-        }
-
-        private void GatherDependencies(Entity entity)
-        {
-            if (_animateComponent == null)
-            {
-                _animateComponent = entity.GetComponent<AnimateComponent>();
-            }
-
-            if (_stateComponent == null)
-            {
-                _stateComponent = entity.GetComponent<HumanoidStateComponent>();
             }
         }
     }

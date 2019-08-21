@@ -9,19 +9,16 @@ using System.Threading.Tasks;
 
 namespace Platformer.Physics.Components
 {
-    public class RigidBodyComponent : IComponent
+    public class RigidBodyComponent : Component
     {
-        private CollisionComponent _collisionComponent;
+        private readonly CollisionComponent _collisionComponent;
         private HashSet<Type> _entityTypeExclusions;
 
-        public RigidBodyComponent()
+        public RigidBodyComponent(CollisionComponent collisionComponent) 
+            : base(ComponentType.Physics)
         {
+            _collisionComponent = collisionComponent;
             _entityTypeExclusions = new HashSet<Type>();
-        }
-
-        public ComponentType Type
-        {
-            get { return ComponentType.Physics; }
         }
 
         public void SetEntityTypeExclusions(HashSet<Type> entityTypes)
@@ -29,10 +26,8 @@ namespace Platformer.Physics.Components
             _entityTypeExclusions = entityTypes;
         }
 
-        public void Update(Entity entity)
+        public override void Update(Entity entity)
         {
-            GatherDependencies(entity);
-
             var resolutions = new List<CollisionResolution>();
 
             // resolve all collisions
@@ -93,14 +88,6 @@ namespace Platformer.Physics.Components
                 return new CollisionResolution(
                     new Vector2(newPositionX, newPositionY),
                     new Vector2(0, 0));
-            }
-        }
-
-        private void GatherDependencies(Entity entity)
-        {
-            if (_collisionComponent == null)
-            {
-                _collisionComponent = entity.GetComponent<CollisionComponent>();
             }
         }
 

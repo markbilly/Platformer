@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Platformer
 {
-    // TODO: Find a nicer way doing this
     static class Constants
     {
         public static class Game

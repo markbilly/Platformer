@@ -8,11 +8,11 @@ using Platformer.Core;
 
 namespace Platformer.Characters.Commands
 {
-    public class MoveLeftCommand : IEntityCommand
+    public class MoveRightEntityCommand : IEntityCommand
     {
         public void Execute(Entity entity)
         {
-            entity.Velocity = new Vector2(-1, entity.Velocity.Y);
+            entity.Velocity = new Vector2(1, entity.Velocity.Y);
         }
     }
 }

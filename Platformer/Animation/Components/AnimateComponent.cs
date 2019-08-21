@@ -8,83 +8,54 @@ using System.Threading.Tasks;
 
 namespace Platformer.Animation.Components
 {
-    public enum Animations
+    public class AnimateComponent : Component
     {
-        IdleRight = 0,
-        IdleLeft = 1,
-        WalkRight = 2,
-        WalkLeft = 3
-    }
+        const int DEFAULT_START_FRAME = 0;
+        const int DEFAULT_END_FRAME = 8;
+        const int DEFAULT_FPS = 4;
 
-    public class AnimationParameters
-    {
-        public int StartFrame { get; set; }
-        public int EndFrame { get; set; }
-        public int FramesPerSecond { get; set; }
+        private readonly SpriteGraphicsComponent _spriteGraphicsComponent;
 
-        public static AnimationParameters Default()
-        {
-            return new AnimationParameters
-            {
-                StartFrame = 0,
-                EndFrame = 8,
-                FramesPerSecond = 4,
-            };
-        }
-    }
-
-    public class AnimateComponent : IComponent
-    {
-        private SpriteGraphicsComponent _spriteComponent;
+        private readonly int _fps = DEFAULT_FPS;
+        private readonly int _startFrame = DEFAULT_START_FRAME;
+        private readonly int _frames = DEFAULT_END_FRAME - DEFAULT_START_FRAME;
 
         private int _ticks;
-        private int _fps;
-        private int _startFrame;
-        private int _frames;
 
-        public AnimateComponent(AnimationParameters parameters)
+        public AnimateComponent(SpriteGraphicsComponent spriteGraphicsComponent) 
+            : base(ComponentType.Graphics)
         {
-            // TODO: Do not pass these in on construction
-            _fps = parameters.FramesPerSecond;
-            _startFrame = parameters.StartFrame;
-            _frames = parameters.EndFrame - parameters.StartFrame;
-        }
-
-        public ComponentType Type
-        {
-            get { return ComponentType.Graphics; }
+            _spriteGraphicsComponent = spriteGraphicsComponent;
+            _spriteGraphicsComponent.SpritesheetFrame = _startFrame;
         }
 
         public void SetAnimation(Animations animation)
         {
-            _spriteComponent.SpritesheetRow = (int)animation;
+            _spriteGraphicsComponent.SpritesheetRow = (int)animation;
         }
 
-        public void Update(Entity entity)
+        public override void Update(Entity entity)
         {
-            GatherDependencies(entity);
-
             _ticks++;
             if (_ticks == (60 / _fps))
             {
-                _spriteComponent.SpritesheetFrame++;
+                _spriteGraphicsComponent.SpritesheetFrame++;
 
-                if (_spriteComponent.SpritesheetFrame == _frames)
+                if (_spriteGraphicsComponent.SpritesheetFrame == _frames)
                 {
-                    _spriteComponent.SpritesheetFrame = _startFrame;
+                    _spriteGraphicsComponent.SpritesheetFrame = _startFrame;
                 }
 
                 _ticks = 0;
             }
         }
+    }
 
-        private void GatherDependencies(Entity entity)
-        {
-            if (_spriteComponent == null)
-            {
-                _spriteComponent = entity.GetGraphicsComponent<SpriteGraphicsComponent>();
-                _spriteComponent.SpritesheetFrame = _startFrame; // TODO: remove this
-            }
-        }
+    public enum Animations
+    {
+        IdleRight = 0,
+        IdleLeft = 1,
+        MoveRight = 2,
+        MoveLeft = 3
     }
 }
