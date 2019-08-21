@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Graphics.Components
+namespace Platformer.Graphics
 {
     public abstract class GraphicsComponent : Component
     {

@@ -1,12 +1,13 @@
 ﻿using Platformer.Core;
 using Platformer.Graphics.Components;
+using Platformer.Graphics.GraphicsComponents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Animation.Components
+namespace Platformer.Graphics.Components
 {
     public class AnimateComponent : Component
     {

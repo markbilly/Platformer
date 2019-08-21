@@ -10,7 +10,7 @@ using Platformer.Core;
 using Platformer.Physics.Components;
 using Platformer.Entities;
 
-namespace Platformer.Graphics.Components
+namespace Platformer.Graphics.GraphicsComponents
 {
     public class DebugGraphicsComponent : GraphicsComponent
     {

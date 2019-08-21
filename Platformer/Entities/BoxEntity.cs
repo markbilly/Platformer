@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Platformer.Core;
 using Platformer.Graphics.Components;
+using Platformer.Graphics.GraphicsComponents;
 using Platformer.Physics.Components;
 
 namespace Platformer.Entities

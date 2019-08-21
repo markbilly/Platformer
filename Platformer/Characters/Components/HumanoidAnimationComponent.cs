@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Platformer.Characters.Components;
 using Platformer.Core;
+using Platformer.Graphics.Components;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Animation.Components
+namespace Platformer.Characters.Components
 {
     public class HumanoidAnimationComponent : Component
     {
