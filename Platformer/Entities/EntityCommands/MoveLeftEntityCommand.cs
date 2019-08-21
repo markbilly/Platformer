@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Platformer.Core;
 
-namespace Platformer.Characters.Commands
+namespace Platformer.Entities.EntityCommands
 {
     public class MoveLeftEntityCommand : IEntityCommand
     {

@@ -43,7 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Characters\Commands\JumpEntityCommand.cs" />
+    <Compile Include="Entities\EntityCommands\JumpEntityCommand.cs" />
     <Compile Include="Core\ComponentType.cs" />
     <Compile Include="Physics\Components\CollisionComponent.cs" />
     <Compile Include="Animation\Components\AnimateComponent.cs" />
@@ -54,24 +54,24 @@
     <Compile Include="Characters\Components\PatrolComponent.cs" />
     <Compile Include="Physics\Components\RigidBodyComponent.cs" />
     <Compile Include="Core\Entity.cs" />
-    <Compile Include="Scenes\Entities\BoxEntity.cs" />
-    <Compile Include="Characters\Entities\GuardEntity.cs" />
-    <Compile Include="Characters\Entities\PlayerEntity.cs" />
-    <Compile Include="Scenes\Entities\TileEntity.cs" />
+    <Compile Include="Entities\BoxEntity.cs" />
+    <Compile Include="Entities\GuardEntity.cs" />
+    <Compile Include="Entities\PlayerEntity.cs" />
+    <Compile Include="Entities\TileEntity.cs" />
     <Compile Include="Core\Component.cs" />
     <Compile Include="Animation\Components\HumanoidAnimationComponent.cs" />
     <Compile Include="Graphics\Components\SpriteGraphicsComponent.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Characters\Commands\MoveLeftEntityCommand.cs" />
-    <Compile Include="Characters\Commands\MoveRightEntityCommand.cs" />
-    <Compile Include="Characters\Commands\MoveStopEntityCommand.cs" />
+    <Compile Include="Entities\EntityCommands\MoveLeftEntityCommand.cs" />
+    <Compile Include="Entities\EntityCommands\MoveRightEntityCommand.cs" />
+    <Compile Include="Entities\EntityCommands\MoveStopEntityCommand.cs" />
     <Compile Include="Input\Components\PlayerInputComponent.cs" />
     <Compile Include="Input\Handlers\PlayerMovementHandler.cs" />
     <Compile Include="Core\IEntityCommand.cs" />
     <Compile Include="Input\IInputHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenes\Scene.cs" />
+    <Compile Include="Core\Scene.cs" />
     <Compile Include="Physics\Collision.cs" />
     <Compile Include="Physics\RectangleF.cs" />
   </ItemGroup>

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Characters.Commands
+namespace Platformer.Entities.EntityCommands
 {
     public class JumpEntityCommand : IEntityCommand
     {

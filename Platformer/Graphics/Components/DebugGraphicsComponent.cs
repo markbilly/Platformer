@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Platformer.Core;
 using Platformer.Physics.Components;
-using Platformer.Characters.Entities;
+using Platformer.Entities;
 
 namespace Platformer.Graphics.Components
 {

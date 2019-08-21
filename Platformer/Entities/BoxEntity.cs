@@ -8,7 +8,7 @@ using Platformer.Core;
 using Platformer.Graphics.Components;
 using Platformer.Physics.Components;
 
-namespace Platformer.Scenes.Entities
+namespace Platformer.Entities
 {
     public class BoxEntity : Entity
     {

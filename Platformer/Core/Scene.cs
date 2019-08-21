@@ -9,14 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Scenes
+namespace Platformer.Core
 {
     public class Scene
     {
         private static readonly Vector2 GRAVITY = new Vector2(0, 10f);
 
-        private IList<Entity> _entities;
-        private IList<Entity> _collisionEntites;
+        private readonly IList<Entity> _entities;
+        private readonly IList<Entity> _collisionEntites;
 
         public Scene()
         {

@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Characters.Entities
+namespace Platformer.Entities
 {
     public class PlayerEntity : Entity
     {

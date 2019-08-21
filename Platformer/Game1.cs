@@ -2,11 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Platformer.Characters.Components;
-using Platformer.Characters.Entities;
 using Platformer.Core;
+using Platformer.Entities;
 using Platformer.Input;
-using Platformer.Scenes;
-using Platformer.Scenes.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;

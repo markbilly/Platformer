@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Scenes.Entities
+namespace Platformer.Entities
 {
     public class TileEntity : Entity
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Platformer.Characters.Entities;
 using Platformer.Core;
+using Platformer.Entities;
 using Platformer.Physics;
 using Platformer.Physics.Components;
 using System;

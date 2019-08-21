@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using Platformer.Core;
-using Platformer.Characters.Commands;
+using Platformer.Entities.EntityCommands;
 
 namespace Platformer.Input.Handlers
 {
