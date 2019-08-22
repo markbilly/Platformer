@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace Platformer.Graphics.EntityRenderers
 {
+    // TODO: Really, this depends on a "bounding box" and a "sprite" and does not need to know about the concept of an entity.
+    //
+    // Propose two properties on "Entity" - "BoundingBoxData" and "SpriteData", thus removing need for "SpriteComponent" as it is just a bag of data
+
     public class SpriteEntityRenderer : EntityRenderer
     {
         private readonly SpriteComponent _spriteComponent;
