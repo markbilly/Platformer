@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Platformer.Core;
 using Platformer.Graphics.Components;
-using Platformer.Graphics.GraphicsComponents;
+using Platformer.Graphics.EntityRenderers;
 using Platformer.Physics.Components;
 
 namespace Platformer.Entities
@@ -17,13 +17,15 @@ namespace Platformer.Entities
 
         public BoxEntity() : base(BOX_SIZE)
         {
-            AddComponent<SpriteGraphicsComponent>();
             AddComponent<ApplyForceComponent>();
             AddComponent<CollisionComponent>();
             AddComponent<RigidBodyComponent>();
+            AddComponent<SpriteComponent>();
 
-            // TODO: Do not parameterise component classes - use inheritance
-            GetGraphicsComponent<SpriteGraphicsComponent>().Spritesheet = "test/box";
+            var spriteComponent = GetComponent<SpriteComponent>();
+            spriteComponent.Spritesheet = "test/box";
+
+            AddRenderer(new SpriteEntityRenderer(spriteComponent));
         }
     }
 }

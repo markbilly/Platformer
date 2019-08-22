@@ -10,9 +10,9 @@ using Platformer.Core;
 using Platformer.Physics.Components;
 using Platformer.Entities;
 
-namespace Platformer.Graphics.GraphicsComponents
+namespace Platformer.Graphics.EntityRenderers
 {
-    public class DebugGraphicsComponent : GraphicsComponent
+    public class DebugEntityRenderer : EntityRenderer
     {
         private Texture2D _debugPixel;
         private SpriteFont _debugFont;
@@ -24,7 +24,7 @@ namespace Platformer.Graphics.GraphicsComponents
             _debugPixel.SetData(new[] { Color.White });
         }
 
-        public override void Update(Entity entity)
+        public override void Render(Entity entity)
         {
             var width = entity.Size.X;
             var height = entity.Size.Y;

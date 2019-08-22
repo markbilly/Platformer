@@ -8,13 +8,11 @@ namespace Platformer.Core
 {
     public abstract class Component
     {
-        protected Component(ComponentType type, Entity entity = null)
+        protected Component(ComponentType type)
         {
-            Entity = entity;
             Type = type;
         }
 
-        protected Entity Entity { get; }
         public ComponentType Type { get; }
 
         public abstract void Update(Entity entity);

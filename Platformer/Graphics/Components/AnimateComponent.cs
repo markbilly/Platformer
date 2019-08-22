@@ -1,6 +1,6 @@
 ﻿using Platformer.Core;
 using Platformer.Graphics.Components;
-using Platformer.Graphics.GraphicsComponents;
+using Platformer.Graphics.EntityRenderers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace Platformer.Graphics.Components
         const int DEFAULT_END_FRAME = 8;
         const int DEFAULT_FPS = 4;
 
-        private readonly SpriteGraphicsComponent _spriteGraphicsComponent;
+        private readonly SpriteComponent _spriteComponent;
 
         private readonly int _fps = DEFAULT_FPS;
         private readonly int _startFrame = DEFAULT_START_FRAME;
@@ -23,16 +23,16 @@ namespace Platformer.Graphics.Components
 
         private int _ticks;
 
-        public AnimateComponent(SpriteGraphicsComponent spriteGraphicsComponent) 
+        public AnimateComponent(SpriteComponent spriteComponent) 
             : base(ComponentType.Graphics)
         {
-            _spriteGraphicsComponent = spriteGraphicsComponent;
-            _spriteGraphicsComponent.SpritesheetFrame = _startFrame;
+            _spriteComponent = spriteComponent;
+            _spriteComponent.SpritesheetFrame = _startFrame;
         }
 
         public void SetAnimation(Animations animation)
         {
-            _spriteGraphicsComponent.SpritesheetRow = (int)animation;
+            _spriteComponent.SpritesheetRow = (int)animation;
         }
 
         public override void Update(Entity entity)
@@ -40,11 +40,11 @@ namespace Platformer.Graphics.Components
             _ticks++;
             if (_ticks == (60 / _fps))
             {
-                _spriteGraphicsComponent.SpritesheetFrame++;
+                _spriteComponent.SpritesheetFrame++;
 
-                if (_spriteGraphicsComponent.SpritesheetFrame == _frames)
+                if (_spriteComponent.SpritesheetFrame == _frames)
                 {
-                    _spriteGraphicsComponent.SpritesheetFrame = _startFrame;
+                    _spriteComponent.SpritesheetFrame = _startFrame;
                 }
 
                 _ticks = 0;

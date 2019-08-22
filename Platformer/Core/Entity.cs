@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.Graphics;
 using Platformer.Graphics.Components;
-using Platformer.Graphics.GraphicsComponents;
+using Platformer.Graphics.EntityRenderers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +14,22 @@ namespace Platformer.Core
 {
     public abstract class Entity
     {
-        private readonly Dictionary<Type, Component> _allComponentsByType;
+        private readonly Dictionary<Type, Component> _componentsByType;
 
-        private IEnumerable<Component> _nonGraphicsComponents;
-        private IEnumerable<GraphicsComponent> _graphicsComponents;
+        private IList<Component> _components;
+        private IList<EntityRenderer> _entityRenderers;
         
         protected Entity(Point size)
         {
             Size = size;
 
-            _allComponentsByType = new Dictionary<Type, Component>();
+            _componentsByType = new Dictionary<Type, Component>();
 
-            _nonGraphicsComponents = new List<Component>();
-            _graphicsComponents = new List<GraphicsComponent>();
+            _components = new List<Component>();
+            _entityRenderers = new List<EntityRenderer>();
 
 #if DEBUG
-            AddComponent<DebugGraphicsComponent>();
+            _entityRenderers.Add(new DebugEntityRenderer());
 #endif
         }
 
@@ -39,22 +39,17 @@ namespace Platformer.Core
 
         public T GetComponent<T>() where T : Component
         {
-            return (T)_nonGraphicsComponents.SingleOrDefault(x => x.GetType() == typeof(T));
-        }
-
-        public T GetGraphicsComponent<T>() where T : GraphicsComponent
-        {
-            return (T)_graphicsComponents.SingleOrDefault(x => x.GetType() == typeof(T));
+            return (T)_components.SingleOrDefault(x => x.GetType() == typeof(T));
         }
 
         public void Load(ContentManager contentManager, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
-            foreach (var graphicsComponent in _graphicsComponents)
+            foreach (var entityRenderer in _entityRenderers)
             {
-                graphicsComponent.SpriteBatch = spriteBatch;
-                graphicsComponent.GraphicsDevice = graphicsDevice;
+                entityRenderer.SpriteBatch = spriteBatch;
+                entityRenderer.GraphicsDevice = graphicsDevice;
 
-                graphicsComponent.Load(contentManager);
+                entityRenderer.Load(contentManager);
             }
         }
 
@@ -62,7 +57,7 @@ namespace Platformer.Core
         {
             Position += Velocity;
 
-            foreach (var component in _nonGraphicsComponents)
+            foreach (var component in _components)
             {
                 component.Update(this);
             }
@@ -70,35 +65,31 @@ namespace Platformer.Core
 
         public void Draw()
         {
-            foreach (var graphicsComponent in _graphicsComponents)
+            foreach (var entityRenderer in _entityRenderers)
             {
-                graphicsComponent.Update(this);
+                entityRenderer.Render(this);
             }
+        }
+
+        protected void AddRenderer(EntityRenderer entityRenderer)
+        {
+            _entityRenderers.Add(entityRenderer);
+
+#if DEBUG
+            _entityRenderers = _entityRenderers.OrderBy(er => er is DebugEntityRenderer).ToList();
+#endif
         }
 
         protected void AddComponent<TComponent>() where TComponent : Component
         {
-            var componentType = typeof(TComponent);
+            GetOrCreateComponentInstance(typeof(TComponent));
 
-            _allComponentsByType.Add(componentType, (TComponent)GetOrCreateComponentInstance(componentType));
-
-            _nonGraphicsComponents = _allComponentsByType
-                .Where(x => !x.Key.IsSubclassOf(typeof(GraphicsComponent)))
-                .Select(x => x.Value)
-                .OrderBy(c => (int)c.Type);
-
-            _graphicsComponents = _allComponentsByType
-                .Where(x => x.Key.IsSubclassOf(typeof(GraphicsComponent)))
-                .Select(x => x.Value)
-#if DEBUG
-                .OrderBy(c => c.GetType() == typeof(DebugGraphicsComponent))
-#endif
-                .Cast<GraphicsComponent>();
+            _components = _componentsByType.Values.OrderBy(c => (int)c.Type).ToList();
         }
 
         private object GetOrCreateComponentInstance(Type componentType)
         {
-            if (_allComponentsByType.TryGetValue(componentType, out Component component))
+            if (_componentsByType.TryGetValue(componentType, out Component component))
             {
                 return component;
             }
@@ -108,8 +99,11 @@ namespace Platformer.Core
             var ctor = componentType.GetConstructors().Single();
             var parameterTypes = ctor.GetParameters().Select(p => p.ParameterType).Where(pt => pt.IsSubclassOf(typeof(Component)));
             var dependencies = parameterTypes.Select(pt => GetOrCreateComponentInstance(pt)).ToArray();
+            var instance = Activator.CreateInstance(componentType, dependencies);
 
-            return Activator.CreateInstance(componentType, dependencies);
+            _componentsByType.Add(componentType, (Component)instance);
+
+            return instance;
         }
     }
 }

@@ -2,7 +2,7 @@
 using Platformer.Characters.Components;
 using Platformer.Core;
 using Platformer.Graphics.Components;
-using Platformer.Graphics.GraphicsComponents;
+using Platformer.Graphics.EntityRenderers;
 using Platformer.Input.Components;
 using Platformer.Physics.Components;
 using System;
@@ -19,7 +19,6 @@ namespace Platformer.Entities
 
         public PlayerEntity() : base(PLAYER_SIZE)
         {
-            AddComponent<SpriteGraphicsComponent>();
             AddComponent<AnimateComponent>();
             AddComponent<ApplyForceComponent>();
             AddComponent<CollisionComponent>();
@@ -27,10 +26,15 @@ namespace Platformer.Entities
             AddComponent<PlayerInputComponent>();
             AddComponent<HumanoidStateComponent>();
             AddComponent<HumanoidAnimationComponent>();
+            AddComponent<SpriteComponent>();
 
             // TODO: Do not parameterise component classes - use inheritance
-            GetGraphicsComponent<SpriteGraphicsComponent>().Spritesheet = "test/walk";
             GetComponent<RigidBodyComponent>().SetEntityTypeExclusions(new HashSet<Type> { typeof(GuardEntity) });
+
+            var spriteComponent = GetComponent<SpriteComponent>();
+            spriteComponent.Spritesheet = "test/walk";
+
+            AddRenderer(new SpriteEntityRenderer(spriteComponent));
         }
     }
 }

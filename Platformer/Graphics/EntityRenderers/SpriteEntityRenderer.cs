@@ -2,38 +2,32 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.Core;
+using Platformer.Graphics.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Graphics.GraphicsComponents
+namespace Platformer.Graphics.EntityRenderers
 {
-    public class SpriteGraphicsComponent : GraphicsComponent
+    public class SpriteEntityRenderer : EntityRenderer
     {
+        private readonly SpriteComponent _spriteComponent;
+
         private Texture2D _texture;
 
-        // TODO: Have this set by inheritance
-        public string Spritesheet { get; set; }
-
-        /// <summary>
-        /// Which frame on the spritesheet to display (zero-indexed)
-        /// </summary>
-        public int SpritesheetFrame { get; set; }
-
-        /// <summary>
-        /// Which row to use to display the frame (zero-indexed)
-        /// An animation can be stored on each row, for example
-        /// </summary>
-        public int SpritesheetRow { get; set; }
+        public SpriteEntityRenderer(SpriteComponent spriteComponent)
+        {
+            _spriteComponent = spriteComponent;
+        }
 
         public override void Load(ContentManager contentManager)
         {
-            _texture = contentManager.Load<Texture2D>(Spritesheet);
+            _texture = contentManager.Load<Texture2D>(_spriteComponent.Spritesheet);
         }
 
-        public override void Update(Entity entity)
+        public override void Render(Entity entity)
         {
             if (_texture == null)
             {
@@ -45,7 +39,7 @@ namespace Platformer.Graphics.GraphicsComponents
 
             var pixelPerfectEntityPosition = new Vector2((float)Math.Round(entity.Position.X), (float)Math.Round(entity.Position.Y));
 
-            var sourceRect = new Rectangle(width * SpritesheetFrame, height * SpritesheetRow, width, height);
+            var sourceRect = new Rectangle(width * _spriteComponent.SpritesheetFrame, height * _spriteComponent.SpritesheetRow, width, height);
             var scaledPosition = pixelPerfectEntityPosition * Constants.Game.Scale;
 
             SpriteBatch.Draw(

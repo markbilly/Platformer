@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Platformer.Core;
 using Platformer.Graphics.Components;
-using Platformer.Graphics.GraphicsComponents;
+using Platformer.Graphics.EntityRenderers;
 using Platformer.Physics.Components;
 using System;
 using System.Collections.Generic;
@@ -17,12 +17,14 @@ namespace Platformer.Entities
 
         public TileEntity() : base(TILE_SIZE)
         {
-            AddComponent<SpriteGraphicsComponent>();
             AddComponent<CollisionComponent>();
             AddComponent<RigidBodyComponent>();
+            AddComponent<SpriteComponent>();
 
-            // TODO: Do not parameterise component classes - use inheritance
-            GetGraphicsComponent<SpriteGraphicsComponent>().Spritesheet = "test/grass";
+            var spriteComponent = GetComponent<SpriteComponent>();
+            spriteComponent.Spritesheet = "test/grass";
+
+            AddRenderer(new SpriteEntityRenderer(spriteComponent));
         }
     }
 }
