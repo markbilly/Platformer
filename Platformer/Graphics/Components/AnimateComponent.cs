@@ -1,6 +1,7 @@
-﻿using Platformer.Core;
+﻿using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Platformer.Core;
 using Platformer.Graphics.Components;
-using Platformer.Graphics.EntityRenderers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Platformer.Graphics.Components
 {
-    public class AnimateComponent : Component
+    public class AnimateComponent : IGraphicsComponent
     {
         const int DEFAULT_START_FRAME = 0;
         const int DEFAULT_END_FRAME = 8;
@@ -23,28 +24,29 @@ namespace Platformer.Graphics.Components
 
         private int _ticks;
 
-        public AnimateComponent(SpriteComponent spriteComponent) 
-            : base(ComponentType.Graphics)
+        public AnimateComponent(SpriteComponent spriteComponent)
         {
             _spriteComponent = spriteComponent;
-            _spriteComponent.SpritesheetFrame = _startFrame;
+            _spriteComponent.FrameX = _startFrame;
         }
+
+        public void Load(ContentManager contentManager, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice) { }
 
         public void SetAnimation(Animations animation)
         {
-            _spriteComponent.SpritesheetRow = (int)animation;
+            _spriteComponent.FrameY = (int)animation;
         }
 
-        public override void Update(Entity entity)
+        public void Update()
         {
             _ticks++;
             if (_ticks == (60 / _fps))
             {
-                _spriteComponent.SpritesheetFrame++;
+                _spriteComponent.FrameX++;
 
-                if (_spriteComponent.SpritesheetFrame == _frames)
+                if (_spriteComponent.FrameX == _frames)
                 {
-                    _spriteComponent.SpritesheetFrame = _startFrame;
+                    _spriteComponent.FrameX = _startFrame;
                 }
 
                 _ticks = 0;

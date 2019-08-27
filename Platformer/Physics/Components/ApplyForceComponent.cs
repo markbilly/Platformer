@@ -8,15 +8,17 @@ using System.Threading.Tasks;
 
 namespace Platformer.Physics.Components
 {
-    public class ApplyForceComponent : Component
+    public class ApplyForceComponent : IPhysicsComponent
     {
         const int DEFUALT_MASS = 50;
 
-        private IList<AppliedForce> _forces;
+        private readonly VelocityComponent _velocityComponent;
+        private readonly IList<AppliedForce> _forces;
         private readonly int _mass;
 
-        public ApplyForceComponent() : base(ComponentType.Physics)
+        public ApplyForceComponent(VelocityComponent velocityComponent)
         {
+            _velocityComponent = velocityComponent;
             _forces = new List<AppliedForce>();
             _mass = DEFUALT_MASS;
         }
@@ -36,7 +38,7 @@ namespace Platformer.Physics.Components
             _forces.Add(new AppliedForce(id, force, duration));
         }
 
-        public override void Update(Entity entity)
+        public void Update()
         {
             for (var i = 0; i < _forces.Count; i++)
             {
@@ -47,9 +49,9 @@ namespace Platformer.Physics.Components
                     _forces.RemoveAt(i);
                 }
 
-                if (!IsMaxYVelocityReachedInDirectionOfForce(entity, force.Force))
+                if (!IsMaxYVelocityReachedInDirectionOfForce(force.Force))
                 {
-                    entity.Velocity += force.Force / _mass;
+                    _velocityComponent.Velocity += force.Force / _mass;
                 }
 
                 if (force.Duration > -1)
@@ -59,11 +61,11 @@ namespace Platformer.Physics.Components
             }
         }
 
-        private static bool IsMaxYVelocityReachedInDirectionOfForce(Entity entity, Vector2 force)
+        private bool IsMaxYVelocityReachedInDirectionOfForce(Vector2 force)
         {
             return 
-                (entity.Velocity.Y > 0 && entity.Velocity.Y > 5 && force.Y > 0) ||
-                (entity.Velocity.Y < 0 && entity.Velocity.Y < 5 && force.Y < 0);
+                (_velocityComponent.Velocity.Y > 0 && _velocityComponent.Velocity.Y > 5 && force.Y > 0) ||
+                (_velocityComponent.Velocity.Y < 0 && _velocityComponent.Velocity.Y < 5 && force.Y < 0);
         }
 
         private class AppliedForce

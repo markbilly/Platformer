@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Core
+namespace Platformer.GameLogic
 {
-    public interface IEntityCommand
+    public interface IGameLogicComponent : IComponent
     {
-        void Execute(Entity entity);
     }
 }

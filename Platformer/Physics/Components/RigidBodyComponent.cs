@@ -9,60 +9,64 @@ using System.Threading.Tasks;
 
 namespace Platformer.Physics.Components
 {
-    public class RigidBodyComponent : Component
+    public class RigidBodyComponent : IPhysicsComponent
     {
-        private readonly CollisionComponent _collisionComponent;
+        private readonly VelocityComponent _velocityComponent;
+        private readonly PositionComponent _positionComponent;
         private HashSet<Type> _entityTypeExclusions;
 
-        public RigidBodyComponent(CollisionComponent collisionComponent) 
-            : base(ComponentType.Physics)
+        public RigidBodyComponent(CollisionComponent collisionComponent, PositionComponent positionComponent, VelocityComponent velocityComponent)
         {
-            _collisionComponent = collisionComponent;
+            _velocityComponent = velocityComponent;
+            _positionComponent = positionComponent;
+            CollisionComponent = collisionComponent;
             _entityTypeExclusions = new HashSet<Type>();
         }
+
+        public CollisionComponent CollisionComponent { get; }
 
         public void SetEntityTypeExclusions(HashSet<Type> entityTypes)
         {
             _entityTypeExclusions = entityTypes;
         }
 
-        public override void Update(Entity entity)
+        public void Update()
         {
             var resolutions = new List<CollisionResolution>();
 
             // resolve all collisions
-            var collisions = _collisionComponent.GetCollisions();
+            var collisions = CollisionComponent.GetCollisions();
             for (var i = collisions.Count() - 1; i >= 0; i--)
             {
                 var collision = collisions.ElementAt(i);
-                var resolution = CalculateResolution(entity, collision);
+                var resolution = CalculateResolution(collision);
 
                 // only resolve one collision in each direction
                 if (!resolutions.Any(x => x.VelocityNormalised == resolution.VelocityNormalised))
                 {
                     resolutions.Add(resolution);
-                    resolution.ApplyToEntity(entity);
+                    resolution.Apply(_positionComponent, _velocityComponent);
                 }
             }
         }
 
-        private CollisionResolution CalculateResolution(Entity entity, Collision collision)
+        private CollisionResolution CalculateResolution(Collision collision)
         {
             // do not react to entity types that are excluded
             if (_entityTypeExclusions.Contains(collision.EntityType))
             {
-                return new CollisionResolution(entity.Position, entity.Velocity);
+                return new CollisionResolution(_positionComponent.Position, _velocityComponent.Velocity);
             }
 
             // do not clip if entity is not moving
-            if (entity.Velocity == Vector2.Zero)
+            if (_velocityComponent.Velocity == Vector2.Zero)
             {
-                return new CollisionResolution(entity.Position, entity.Velocity);
+                return new CollisionResolution(_positionComponent.Position, _velocityComponent.Velocity);
             }
 
             // work out possible new x and y positions after clipping
-            var newPositionX = entity.Position.X - collision.Vector.X;
-            var newPositionY = entity.Position.Y - collision.Vector.Y;
+            var newPositionX = _positionComponent.Position.X - collision.Vector.X;
+            var newPositionY = _positionComponent.Position.Y - collision.Vector.Y;
 
             // work out whether collision is vertical or horizontal
             // do this by checking the collision vector
@@ -72,15 +76,15 @@ namespace Platformer.Physics.Components
             {
                 // if y penetration is smallest "fix" y
                 return new CollisionResolution(
-                    new Vector2(entity.Position.X, newPositionY),
-                    new Vector2(entity.Velocity.X, 0));
+                    new Vector2(_positionComponent.Position.X, newPositionY),
+                    new Vector2(_velocityComponent.Velocity.X, 0));
             }
             else if (absoluteCollisionY > absoluteCollisionX)
             {
                 // if x penetration is smallest "fix" x
                 return new CollisionResolution(
-                    new Vector2(newPositionX, entity.Position.Y),
-                    new Vector2(0, entity.Velocity.Y));
+                    new Vector2(newPositionX, _positionComponent.Position.Y),
+                    new Vector2(0, _velocityComponent.Velocity.Y));
             }
             else
             {
@@ -106,10 +110,10 @@ namespace Platformer.Physics.Components
             public Vector2 Velocity { get; set; }
             public Vector2 VelocityNormalised { get; set; }
 
-            public void ApplyToEntity(Entity entity)
+            public void Apply(PositionComponent positionComponent, VelocityComponent velocityComponent)
             {
-                entity.Position = Position;
-                entity.Velocity = Velocity;
+                positionComponent.Position = Position;
+                velocityComponent.Velocity = Velocity;
             }
         }
     }

@@ -8,15 +8,22 @@ using System.Threading.Tasks;
 
 namespace Platformer.Physics.Components
 {
-    public class CollisionComponent : Component
+    public class CollisionComponent : IPhysicsComponent
     {
-        private IList<Entity> _nearbyEntities;
-        private IList<Collision> _collisions;
+        private readonly IList<Collision> _collisions;
+        private IList<CollisionComponent> _nearbyComponents;
 
-        public CollisionComponent() : base(ComponentType.Physics)
+        public CollisionComponent(SizeComponent sizeComponent, PositionComponent positionComponent)
         {
+            PositionComponent = positionComponent;
+            SizeComponent = sizeComponent;
+
             _collisions = new List<Collision>();
         }
+
+        public PositionComponent PositionComponent { get; }
+        public SizeComponent SizeComponent { get; }
+        public Type EntityType { get; set; }
 
         public Collision? GetCollision(Func<Collision, bool> predicate, bool remove = true)
         {
@@ -39,28 +46,28 @@ namespace Platformer.Physics.Components
             }
         }
         
-        public void SetNearbyEntities(IList<Entity> entities)
+        public void SetNearbyComponents(IList<CollisionComponent> components)
         {
-            _nearbyEntities = entities;
+            _nearbyComponents = components;
         }
 
-        public override void Update(Entity entity)
+        public void Update()
         {
             // clear collisions as they were all resolved last update
             _collisions.Clear();
 
             // detect and add new collisions for this update
-            foreach (var nearbyEntity in _nearbyEntities)
+            foreach (var nearbyComponent in _nearbyComponents)
             {
-                if (entity != nearbyEntity)
+                if (this != nearbyComponent)
                 {
-                    var thisEntityBounds = new RectangleF(entity.Position, entity.Size);
-                    var nearbyEntityBounds = new RectangleF(nearbyEntity.Position, nearbyEntity.Size);
+                    var thisEntityBounds = new RectangleF(PositionComponent.Position, SizeComponent.Size);
+                    var nearbyEntityBounds = new RectangleF(nearbyComponent.PositionComponent.Position, nearbyComponent.SizeComponent.Size);
 
                     if (RectangleF.Intersects(thisEntityBounds, nearbyEntityBounds))
                     {
                         var collisionVector = GetCollisionVector(thisEntityBounds, nearbyEntityBounds);
-                        _collisions.Add(new Collision(nearbyEntity, collisionVector));
+                        _collisions.Add(new Collision(nearbyComponent.EntityType, collisionVector));
                     }
                 }
             }

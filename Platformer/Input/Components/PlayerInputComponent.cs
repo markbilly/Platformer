@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using Platformer.Core;
+using Platformer.GameLogic.Components;
 using Platformer.Input.Handlers;
 using System;
 using System.Collections.Generic;
@@ -9,25 +10,21 @@ using System.Threading.Tasks;
 
 namespace Platformer.Input.Components
 {
-    public class PlayerInputComponent : Component
+    public class PlayerInputComponent : IInputComponent
     {
-        private PlayerMovementHandler _inputHandler;
+        private readonly PlayerMovementHandler _inputHandler;
         private KeyboardState _previousKeyboardState;
 
-        public PlayerInputComponent() : base(ComponentType.Input)
+        public PlayerInputComponent(HumanoidBehaviourComponent humanoidBehaviourComponent)
         {
-            _inputHandler = new PlayerMovementHandler();
+            _inputHandler = new PlayerMovementHandler(humanoidBehaviourComponent);
         }
 
-        public override void Update(Entity entity)
+        public void Update()
         {
             var currentKeyboardState = Keyboard.GetState();
 
-            var commands = _inputHandler.HandleInput(_previousKeyboardState, currentKeyboardState);
-            foreach (var command in commands)
-            {
-                command.Execute(entity);
-            }
+            _inputHandler.HandleInput(_previousKeyboardState, currentKeyboardState);
 
             _previousKeyboardState = currentKeyboardState;
         }

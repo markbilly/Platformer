@@ -2,6 +2,10 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Platformer.Core;
+using Platformer.GameLogic;
+using Platformer.Graphics;
+using Platformer.Input;
+using Platformer.Physics;
 using Platformer.Physics.Components;
 using System;
 using System.Collections.Generic;
@@ -13,65 +17,62 @@ namespace Platformer.Core
 {
     public class Scene
     {
-        private static readonly Vector2 GRAVITY = new Vector2(0, 10f);
-
-        private readonly IList<Entity> _entities;
-        private readonly IList<Entity> _collisionEntites;
+        private readonly GraphicsSystem _graphicsSystem;
+        private readonly PhysicsSystem _physicsSystem;
+        private readonly InputSystem _inputSystem;
+        private readonly GameLogicSystem _gameLogicSystem;
 
         public Scene()
         {
-            _entities = new List<Entity>();
-            _collisionEntites = new List<Entity>();
+            _graphicsSystem = new GraphicsSystem();
+            _physicsSystem = new PhysicsSystem();
+            _inputSystem = new InputSystem();
+            _gameLogicSystem = new GameLogicSystem();
         }
 
         public void Load(ContentManager contentManager, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
-            foreach (var entity in _entities)
-            {
-                entity.Load(contentManager, spriteBatch, graphicsDevice);
-            }
+            _graphicsSystem.Load(contentManager, spriteBatch, graphicsDevice);
         }
 
         public void AddEntity(Entity entity)
         {
-            _entities.Add(entity);
+            // TODO: Replace with entity factory and only pass json definition or something
 
-            if (entity.GetComponent<RigidBodyComponent>() != null)
+            foreach (var component in entity.Components)
             {
-                _collisionEntites.Add(entity);
-            }
+                if (component is IGraphicsComponent graphicsComponent)
+                {
+                    _graphicsSystem.RegisterComponent(graphicsComponent);
+                }
 
-            var forceComponent = entity.GetComponent<ApplyForceComponent>();
-            if (forceComponent != null)
-            {
-                forceComponent.ApplyConstantForce("gravity", GRAVITY);
+                if (component is IInputComponent inputComponent)
+                {
+                    _inputSystem.RegisterComponent(inputComponent);
+                }
+
+                if (component is IPhysicsComponent physicsComponent)
+                {
+                    _physicsSystem.RegisterComponent(physicsComponent);
+                }
+
+                if (component is IGameLogicComponent gameLogicComponent)
+                {
+                    _gameLogicSystem.RegisterComponent(gameLogicComponent);
+                }
             }
         }
 
         public void Update()
         {
-            foreach (var entity in _entities)
-            {
-                // give entity relevant other entities for collision
-                var collisionComponent = entity.GetComponent<CollisionComponent>();
-                if (collisionComponent != null)
-                {
-                    // TODO: only pass rigid bodies near to the entity
-                    // TODO: just generally do this stuff more efficiently
-                    collisionComponent.SetNearbyEntities(_collisionEntites);
-                }
-
-                // update entity
-                entity.Update();
-            }
+            _physicsSystem.Update();
+            _inputSystem.Update();
+            _gameLogicSystem.Update();
         }
 
         public void Draw()
         {
-            foreach (var entity in _entities)
-            {
-                entity.Draw();
-            }
+            _graphicsSystem.Update();
         }
     }
 }

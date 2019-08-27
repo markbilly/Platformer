@@ -1,38 +1,38 @@
 ﻿using Microsoft.Xna.Framework;
-using Platformer.Core;
 using Platformer.Entities;
 using Platformer.Physics;
 using Platformer.Physics.Components;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Platformer.Characters.Components
+namespace Platformer.GameLogic.Components
 {
-    public class PatrolComponent : Component
+    public class PatrolBehaviourComponent : IGameLogicComponent
     {
         private readonly CollisionComponent _collisionComponent;
+        private readonly VelocityComponent _velocityComponent;
 
         private bool _patrolling;
         private int _patrolSpeed;
         private int _patrolDirection;
 
-        public PatrolComponent(CollisionComponent collisionComponent) : base(ComponentType.Input)
+        public PatrolBehaviourComponent(CollisionComponent collisionComponent, VelocityComponent velocityComponent)
         {
             _collisionComponent = collisionComponent;
+            _velocityComponent = velocityComponent;
         }
 
-        public void StartPatrol(Entity entity)
+        public void StartPatrolling()
         {
             _patrolling = true;
             _patrolSpeed = 1;
             _patrolDirection = 1;
         }
 
-        public override void Update(Entity entity)
+        public void Update()
         {
             var xCollision = _collisionComponent.GetCollision(IsRelevantCollision);
 
@@ -44,7 +44,7 @@ namespace Platformer.Characters.Components
 
             if (_patrolling)
             {
-                entity.Velocity = new Vector2(_patrolDirection * _patrolSpeed, entity.Velocity.Y);
+                _velocityComponent.Velocity = new Vector2(_patrolDirection * _patrolSpeed, _velocityComponent.Velocity.Y);
             }
         }
 

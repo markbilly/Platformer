@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Platformer.Characters.Components;
 using Platformer.Core;
 using Platformer.Entities;
+using Platformer.GameLogic.Components;
 using Platformer.Input;
+using Platformer.Physics.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,32 +51,32 @@ namespace Platformer
             for (var i = 0; i < 10; i++)
             {
                 var box1 = new BoxEntity();
-                box1.Position = new Vector2(100, 50 + (i * 20));
+                box1.GetComponent<PositionComponent>().Position = new Vector2(100, 50 + (i * 20));
                 _testScene.AddEntity(box1);
             }
             var guard = new GuardEntity();
             for (var i = 0; i < 5; i++)
             {
                 var box2 = new BoxEntity();
-                box2.Position = new Vector2(390 + (5 * (new Random(i * 2).Next() % 2 == 0 ? 1 : -1)), 50 + (i * 20));
+                box2.GetComponent<PositionComponent>().Position = new Vector2(390 + (5 * (new Random(i * 2).Next() % 2 == 0 ? 1 : -1)), 50 + (i * 20));
                 _testScene.AddEntity(box2);
             }
 
-            guard.Position = new Vector2(200, 100);
+            guard.GetComponent<PositionComponent>().Position = new Vector2(200, 100);
             _testScene.AddEntity(guard);
 
             _playerEntity = new PlayerEntity();
-            _playerEntity.Position = new Vector2(130, 100);
+            _playerEntity.GetComponent<PositionComponent>().Position = new Vector2(130, 100);
             _testScene.AddEntity(_playerEntity);
 
             for (var i = 0; i < 30; i++)
             {
                 var tile = new TileEntity();
-                tile.Position = new Vector2(i * 16, 200);
+                tile.GetComponent<PositionComponent>().Position = new Vector2(i * 16, 200);
                 _testScene.AddEntity(tile);
             }
 
-            guard.GetComponent<PatrolComponent>().StartPatrol(guard);
+            guard.GetComponent<PatrolBehaviourComponent>().StartPatrolling();
 
             base.Initialize();
         }

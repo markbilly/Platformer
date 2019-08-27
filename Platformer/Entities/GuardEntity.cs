@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Platformer.Characters.Components;
 using Platformer.Core;
+using Platformer.GameLogic.Components;
+using Platformer.Graphics;
 using Platformer.Graphics.Components;
-using Platformer.Graphics.EntityRenderers;
 using Platformer.Physics.Components;
 using System;
 using System.Collections.Generic;
@@ -16,24 +16,21 @@ namespace Platformer.Entities
     {
         private static readonly Point GUARD_SIZE = new Point(16, 32);
 
-        public GuardEntity() : base(GUARD_SIZE)
+        public GuardEntity()
         {
+            AddComponent<SizeComponent>();
             AddComponent<AnimateComponent>();
             AddComponent<ApplyForceComponent>();
             AddComponent<CollisionComponent>();
             AddComponent<RigidBodyComponent>();
-            AddComponent<PatrolComponent>();
-            AddComponent<HumanoidStateComponent>();
-            AddComponent<HumanoidAnimationComponent>();
+            AddComponent<PatrolBehaviourComponent>();
+            AddComponent<HumanoidBehaviourComponent>();
             AddComponent<SpriteComponent>();
 
-            // TODO: Do not parameterise component classes - use inheritance
             GetComponent<RigidBodyComponent>().SetEntityTypeExclusions(new HashSet<Type> { typeof(PlayerEntity) });
-
-            var spriteComponent = GetComponent<SpriteComponent>();
-            spriteComponent.Spritesheet = "test/walk";
-
-            AddRenderer(new SpriteEntityRenderer(spriteComponent));
+            GetComponent<SpriteComponent>().Spritesheet = "test/walk";
+            GetComponent<SizeComponent>().Size = GUARD_SIZE;
+            GetComponent<CollisionComponent>().EntityType = this.GetType();
         }
     }
 }

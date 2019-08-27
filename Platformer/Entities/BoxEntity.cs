@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Platformer.Core;
+using Platformer.Graphics;
 using Platformer.Graphics.Components;
-using Platformer.Graphics.EntityRenderers;
 using Platformer.Physics.Components;
 
 namespace Platformer.Entities
@@ -15,17 +15,19 @@ namespace Platformer.Entities
     {
         private static readonly Point BOX_SIZE = new Point(16, 16);
 
-        public BoxEntity() : base(BOX_SIZE)
+        public BoxEntity()
         {
+            AddComponent<SizeComponent>();
+            AddComponent<PositionComponent>();
+            AddComponent<VelocityComponent>();
             AddComponent<ApplyForceComponent>();
             AddComponent<CollisionComponent>();
             AddComponent<RigidBodyComponent>();
             AddComponent<SpriteComponent>();
 
-            var spriteComponent = GetComponent<SpriteComponent>();
-            spriteComponent.Spritesheet = "test/box";
-
-            AddRenderer(new SpriteEntityRenderer(spriteComponent));
+            GetComponent<SpriteComponent>().Spritesheet = "test/box";
+            GetComponent<SizeComponent>().Size = BOX_SIZE;
+            GetComponent<CollisionComponent>().EntityType = this.GetType();
         }
     }
 }
