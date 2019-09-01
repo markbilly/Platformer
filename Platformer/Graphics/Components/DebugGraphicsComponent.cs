@@ -59,7 +59,7 @@ namespace Platformer.Graphics.Components
         private void DrawDebugCollision()
         {
             var collisions = _collisionComponent.GetCollisions();
-            if (collisions.Any() && EntityType == typeof(PlayerEntity))
+            if (collisions.Any() && EntityType == typeof(PlayerEntityFactory))
             {
                 var scaledPosition = new Vector2(_positionComponent.Position.X + _sizeComponent.Size.X, (_positionComponent.Position.Y - (_sizeComponent.Size.Y * 0.5f))) * Constants.Game.Scale;
 

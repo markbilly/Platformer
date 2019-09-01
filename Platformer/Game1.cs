@@ -50,28 +50,29 @@ namespace Platformer
 
             for (var i = 0; i < 10; i++)
             {
-                var box1 = new BoxEntity();
+                var box1 = new BoxEntityFactory().Build();
                 box1.GetComponent<PositionComponent>().Position = new Vector2(100, 50 + (i * 20));
                 _testScene.AddEntity(box1);
             }
-            var guard = new GuardEntity();
+
             for (var i = 0; i < 5; i++)
             {
-                var box2 = new BoxEntity();
+                var box2 = new BoxEntityFactory().Build();
                 box2.GetComponent<PositionComponent>().Position = new Vector2(390 + (5 * (new Random(i * 2).Next() % 2 == 0 ? 1 : -1)), 50 + (i * 20));
                 _testScene.AddEntity(box2);
             }
 
+            var guard = new GuardEntityFactory().Build();
             guard.GetComponent<PositionComponent>().Position = new Vector2(200, 100);
             _testScene.AddEntity(guard);
 
-            _playerEntity = new PlayerEntity();
+            _playerEntity = new PlayerEntityFactory().Build();
             _playerEntity.GetComponent<PositionComponent>().Position = new Vector2(130, 100);
             _testScene.AddEntity(_playerEntity);
 
             for (var i = 0; i < 30; i++)
             {
-                var tile = new TileEntity();
+                var tile = new TileEntityFactory().Build();
                 tile.GetComponent<PositionComponent>().Position = new Vector2(i * 16, 200);
                 _testScene.AddEntity(tile);
             }

@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Core\Container.cs" />
     <Compile Include="Core\EntityFactory.cs" />
     <Compile Include="Core\ISystem.cs" />
     <Compile Include="GameLogic\Components\PatrolBehaviourComponent.cs" />
@@ -61,10 +62,10 @@
     <Compile Include="GameLogic\Components\HumanoidBehaviourComponent.cs" />
     <Compile Include="Physics\Components\RigidBodyComponent.cs" />
     <Compile Include="Core\Entity.cs" />
-    <Compile Include="Entities\BoxEntity.cs" />
-    <Compile Include="Entities\GuardEntity.cs" />
-    <Compile Include="Entities\PlayerEntity.cs" />
-    <Compile Include="Entities\TileEntity.cs" />
+    <Compile Include="Entities\BoxEntityFactory.cs" />
+    <Compile Include="Entities\GuardEntityFactory.cs" />
+    <Compile Include="Entities\PlayerEntityFactory.cs" />
+    <Compile Include="Entities\TileEntityFactory.cs" />
     <Compile Include="Core\IComponent.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Input\Components\PlayerInputComponent.cs" />
