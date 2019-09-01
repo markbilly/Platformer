@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Platformer.Graphics.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,10 @@ namespace Platformer.Core
             {
                 components.Add((IComponent)_container.Resolve(type));
             }
+
+#if DEBUG
+            components.Add((IComponent)_container.Resolve(typeof(DebugGraphicsComponent)));
+#endif
 
             return new Entity(components);
         }
