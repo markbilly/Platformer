@@ -53,6 +53,7 @@
     <Compile Include="Graphics\IGraphicsComponent.cs" />
     <Compile Include="Input\IInputComponent.cs" />
     <Compile Include="Input\InputSystem.cs" />
+    <Compile Include="Physics\CollisionProfiles.cs" />
     <Compile Include="Physics\Components\PositionComponent.cs" />
     <Compile Include="Graphics\Components\SpriteComponent.cs" />
     <Compile Include="Physics\Components\CollisionComponent.cs" />

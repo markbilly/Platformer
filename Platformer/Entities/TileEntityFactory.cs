@@ -2,6 +2,7 @@
 using Platformer.Core;
 using Platformer.Graphics;
 using Platformer.Graphics.Components;
+using Platformer.Physics;
 using Platformer.Physics.Components;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace Platformer.Entities
 
             entity.GetComponent<SpriteComponent>().Spritesheet = "test/grass";
             entity.GetComponent<SizeComponent>().Size = TILE_SIZE;
-            entity.GetComponent<CollisionComponent>().EntityType = this.GetType();
+            entity.GetComponent<CollisionComponent>().CollisionProfile = CollisionProfiles.StaticSceneElement;
 
             return entity;
         }

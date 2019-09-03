@@ -10,13 +10,13 @@ namespace Platformer.Physics
 {
     public struct Collision
     {
-        public Collision(Type entityType, Vector2 vector)
+        public Collision(CollisionProfiles collisionProfile, Vector2 vector)
         {
-            EntityType = entityType;
+            CollisionProfile = collisionProfile;
             Vector = vector;
         }
 
-        public Type EntityType;
+        public CollisionProfiles CollisionProfile;
         public Vector2 Vector;
     }
 }

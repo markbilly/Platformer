@@ -10,20 +10,23 @@ namespace Platformer.Physics.Components
 {
     public class CollisionComponent : IPhysicsComponent
     {
+        private readonly PositionComponent _positionComponent;
+        private readonly SizeComponent _sizeComponent;
+
         private readonly IList<Collision> _collisions;
         private IList<CollisionComponent> _nearbyComponents;
 
         public CollisionComponent(SizeComponent sizeComponent, PositionComponent positionComponent)
         {
-            PositionComponent = positionComponent;
-            SizeComponent = sizeComponent;
+            _positionComponent = positionComponent;
+            _sizeComponent = sizeComponent;
 
             _collisions = new List<Collision>();
         }
 
-        public PositionComponent PositionComponent { get; }
-        public SizeComponent SizeComponent { get; }
-        public Type EntityType { get; set; }
+        public Vector2 Position => _positionComponent.Position;
+        public Point Size => _sizeComponent.Size;
+        public CollisionProfiles CollisionProfile { get; set; }
 
         public Collision? GetCollision(Func<Collision, bool> predicate, bool remove = true)
         {
@@ -61,13 +64,13 @@ namespace Platformer.Physics.Components
             {
                 if (this != nearbyComponent)
                 {
-                    var thisEntityBounds = new RectangleF(PositionComponent.Position, SizeComponent.Size);
-                    var nearbyEntityBounds = new RectangleF(nearbyComponent.PositionComponent.Position, nearbyComponent.SizeComponent.Size);
+                    var thisEntityBounds = new RectangleF(Position, Size);
+                    var nearbyEntityBounds = new RectangleF(nearbyComponent.Position, nearbyComponent.Size);
 
                     if (RectangleF.Intersects(thisEntityBounds, nearbyEntityBounds))
                     {
                         var collisionVector = GetCollisionVector(thisEntityBounds, nearbyEntityBounds);
-                        _collisions.Add(new Collision(nearbyComponent.EntityType, collisionVector));
+                        _collisions.Add(new Collision(nearbyComponent.CollisionProfile, collisionVector));
                     }
                 }
             }

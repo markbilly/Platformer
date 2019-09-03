@@ -13,22 +13,15 @@ namespace Platformer.Physics.Components
     {
         private readonly VelocityComponent _velocityComponent;
         private readonly PositionComponent _positionComponent;
-        private HashSet<Type> _entityTypeExclusions;
 
         public RigidBodyComponent(CollisionComponent collisionComponent, PositionComponent positionComponent, VelocityComponent velocityComponent)
         {
             _velocityComponent = velocityComponent;
             _positionComponent = positionComponent;
             CollisionComponent = collisionComponent;
-            _entityTypeExclusions = new HashSet<Type>();
         }
 
         public CollisionComponent CollisionComponent { get; }
-
-        public void SetEntityTypeExclusions(HashSet<Type> entityTypes)
-        {
-            _entityTypeExclusions = entityTypes;
-        }
 
         public void Update()
         {
@@ -52,16 +45,19 @@ namespace Platformer.Physics.Components
 
         private CollisionResolution CalculateResolution(Collision collision)
         {
-            // do not react to entity types that are excluded
-            if (_entityTypeExclusions.Contains(collision.EntityType))
+            // ignore collisions between player and non player
+            if (collision.CollisionProfile == CollisionProfiles.NonPlayer || collision.CollisionProfile == CollisionProfiles.Player)
             {
-                return new CollisionResolution(_positionComponent.Position, _velocityComponent.Velocity);
+                if (CollisionComponent.CollisionProfile == CollisionProfiles.NonPlayer || CollisionComponent.CollisionProfile == CollisionProfiles.Player)
+                {
+                    return DoNothingCollisionResolution();
+                }
             }
 
             // do not clip if entity is not moving
             if (_velocityComponent.Velocity == Vector2.Zero)
             {
-                return new CollisionResolution(_positionComponent.Position, _velocityComponent.Velocity);
+                return DoNothingCollisionResolution();
             }
 
             // work out possible new x and y positions after clipping
@@ -115,6 +111,11 @@ namespace Platformer.Physics.Components
                 positionComponent.Position = Position;
                 velocityComponent.Velocity = Velocity;
             }
+        }
+
+        private CollisionResolution DoNothingCollisionResolution()
+        {
+            return new CollisionResolution(_positionComponent.Position, _velocityComponent.Velocity);
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Platformer.Core;
 using Platformer.Graphics;
 using Platformer.Graphics.Components;
+using Platformer.Physics;
 using Platformer.Physics.Components;
 
 namespace Platformer.Entities
@@ -33,7 +34,7 @@ namespace Platformer.Entities
 
             entity.GetComponent<SpriteComponent>().Spritesheet = "test/box";
             entity.GetComponent<SizeComponent>().Size = BOX_SIZE;
-            entity.GetComponent<CollisionComponent>().EntityType = this.GetType();
+            entity.GetComponent<CollisionComponent>().CollisionProfile = CollisionProfiles.StaticSceneElement;
 
             return entity;
         }

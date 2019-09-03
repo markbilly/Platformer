@@ -4,6 +4,7 @@ using Platformer.GameLogic.Components;
 using Platformer.Graphics;
 using Platformer.Graphics.Components;
 using Platformer.Input.Components;
+using Platformer.Physics;
 using Platformer.Physics.Components;
 using System;
 using System.Collections.Generic;
@@ -36,10 +37,9 @@ namespace Platformer.Entities
         {
             var entity = base.Build();
 
-            entity.GetComponent<RigidBodyComponent>().SetEntityTypeExclusions(new HashSet<Type> { typeof(GuardEntityFactory) });
             entity.GetComponent<SizeComponent>().Size = PLAYER_SIZE;
             entity.GetComponent<SpriteComponent>().Spritesheet = "test/walk";
-            entity.GetComponent<CollisionComponent>().EntityType = this.GetType();
+            entity.GetComponent<CollisionComponent>().CollisionProfile = CollisionProfiles.Player;
 
             return entity;
         }
