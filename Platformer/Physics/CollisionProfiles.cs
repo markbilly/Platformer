@@ -9,7 +9,7 @@ namespace Platformer.Physics
     public enum CollisionProfiles
     {
         StaticSceneElement,
-        Player,
-        NonPlayer
+        PlayerCharacter,
+        NonPlayerCharacter
     }
 }

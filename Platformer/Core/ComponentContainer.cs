@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Platformer.Core
 {
-    public class Container<T>
+    public class ComponentContainer
     {
-        private readonly Dictionary<Type, T> _instancesByType;
+        private readonly Dictionary<Type, IComponent> _instancesByType;
         
-        public Container()
+        public ComponentContainer()
         {
-            _instancesByType = new Dictionary<Type, T>();
+            _instancesByType = new Dictionary<Type, IComponent>();
         }
 
         public object Resolve(Type instanceType)
@@ -20,16 +20,14 @@ namespace Platformer.Core
             return GetOrCreateComponentInstance(instanceType);
         }
 
-        public TInstance Resolve<TInstance>() where TInstance : T
+        public TInstance Resolve<TInstance>() where TInstance : IComponent
         {
             return (TInstance)GetOrCreateComponentInstance(typeof(TInstance));
         }
 
         private object GetOrCreateComponentInstance(Type instanceType)
         {
-            T instance = default;
-
-            if (_instancesByType.TryGetValue(instanceType, out instance))
+            if (_instancesByType.TryGetValue(instanceType, out IComponent instance))
             {
                 return instance;
             }
@@ -37,10 +35,10 @@ namespace Platformer.Core
             // TODO: Throw specific exceptions when 1) there is > 1 constructor and 2) any parameters are not sub class of type Component
 
             var ctor = instanceType.GetConstructors().Single();
-            var parameterTypes = ctor.GetParameters().Select(p => p.ParameterType).Where(pt => pt.GetInterfaces().Contains(typeof(T)));
+            var parameterTypes = ctor.GetParameters().Select(p => p.ParameterType).Where(pt => pt.GetInterfaces().Contains(typeof(IComponent)));
             var dependencies = parameterTypes.Select(pt => GetOrCreateComponentInstance(pt)).ToArray();
 
-            instance = (T)Activator.CreateInstance(instanceType, dependencies);
+            instance = (IComponent)Activator.CreateInstance(instanceType, dependencies);
 
             _instancesByType.Add(instanceType, instance);
 

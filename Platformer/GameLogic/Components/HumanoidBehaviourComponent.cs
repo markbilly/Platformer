@@ -16,7 +16,7 @@ namespace Platformer.GameLogic.Components
         private readonly VelocityComponent _velocityComponent;
         private readonly ApplyForceComponent _applyForceComponent;
 
-        private Vector2 _previousVelocity;
+        private RecentVerticalVelocityLog _velocityLog = new RecentVerticalVelocityLog();
 
         public HumanoidBehaviourComponent(AnimateComponent animateComponent, VelocityComponent velocityComponent, ApplyForceComponent applyForceComponent)
         {
@@ -57,15 +57,15 @@ namespace Platformer.GameLogic.Components
         public void Update()
         {
             // Update state
-            IsJumping = Math.Abs(_velocityComponent.Velocity.Y) > 1;
+            IsJumping = _velocityLog.MaxY > 0.5f;
 
             IsWalkingRight = _velocityComponent.Velocity.X > 0;
             IsWalkingLeft = _velocityComponent.Velocity.X < 0;
 
-            IsIdleRight = _velocityComponent.Velocity.X == 0 && _previousVelocity.X > 0;
-            IsIdleLeft = _velocityComponent.Velocity.X == 0 && _previousVelocity.X < 0;
+            IsIdleRight = _velocityComponent.Velocity.X == 0 && _velocityLog.Previous.X > 0;
+            IsIdleLeft = _velocityComponent.Velocity.X == 0 && _velocityLog.Previous.X < 0;
 
-            _previousVelocity = _velocityComponent.Velocity;
+            _velocityLog.Log(_velocityComponent.Velocity);
 
             //Set animation
             if (IsWalkingRight)
@@ -86,6 +86,36 @@ namespace Platformer.GameLogic.Components
             if (IsIdleLeft)
             {
                 _animateComponent.SetAnimation(Animations.IdleLeft);
+            }
+        }
+
+        private class RecentVerticalVelocityLog
+        {
+            private Vector2[] _pastVelocities = new Vector2[5];
+            private int _indexOfLastVelocityLogged = -1;
+
+            public void Log(Vector2 nextVelocity)
+            {
+                _pastVelocities[++_indexOfLastVelocityLogged] = nextVelocity;
+                if (_indexOfLastVelocityLogged == _pastVelocities.Length - 1)
+                {
+                    _indexOfLastVelocityLogged = -1;
+                }
+            }
+
+            public float MaxY => _pastVelocities.Max(v => Math.Abs(v.Y));
+
+            public Vector2 Previous
+            {
+                get
+                {
+                    if (_indexOfLastVelocityLogged == -1)
+                    {
+                        return new Vector2();
+                    }
+
+                    return _pastVelocities[_indexOfLastVelocityLogged];
+                }
             }
         }
     }

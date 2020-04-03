@@ -30,8 +30,6 @@ namespace Platformer.Graphics.Components
             _sizeComponent = sizeComponent;
         }
 
-        public Type EntityType { get; set; }
-
         public void Load(ContentManager contentManager, SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
             _spriteBatch = spriteBatch;
@@ -50,16 +48,16 @@ namespace Platformer.Graphics.Components
             var scaledHeight = height * Constants.Game.Scale;
             var destinationRect = new Rectangle(scaledLocation.X, scaledLocation.Y, scaledWidth, scaledHeight);
 
-            DrawDebugBorder(destinationRect);
+            //DrawDebugBorder(destinationRect);
             DrawDebugPosition();
             DrawDebugVelocity();
-            DrawDebugCollision();
+            //DrawDebugCollision();
         }
 
         private void DrawDebugCollision()
         {
             var collisions = _collisionComponent.GetCollisions();
-            if (collisions.Any() && EntityType == typeof(PlayerEntityFactory))
+            if (collisions.Any())
             {
                 var scaledPosition = new Vector2(_positionComponent.Position.X + _sizeComponent.Size.X, (_positionComponent.Position.Y - (_sizeComponent.Size.Y * 0.5f))) * Constants.Game.Scale;
 

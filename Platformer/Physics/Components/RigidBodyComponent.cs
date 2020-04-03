@@ -46,9 +46,9 @@ namespace Platformer.Physics.Components
         private CollisionResolution CalculateResolution(Collision collision)
         {
             // ignore collisions between player and non player
-            if (collision.CollisionProfile == CollisionProfiles.NonPlayer || collision.CollisionProfile == CollisionProfiles.Player)
+            if (collision.CollisionProfile == CollisionProfiles.NonPlayerCharacter || collision.CollisionProfile == CollisionProfiles.PlayerCharacter)
             {
-                if (CollisionComponent.CollisionProfile == CollisionProfiles.NonPlayer || CollisionComponent.CollisionProfile == CollisionProfiles.Player)
+                if (CollisionComponent.CollisionProfile == CollisionProfiles.NonPlayerCharacter || CollisionComponent.CollisionProfile == CollisionProfiles.PlayerCharacter)
                 {
                     return DoNothingCollisionResolution();
                 }

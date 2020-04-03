@@ -37,8 +37,6 @@ namespace Platformer.Core
 
         public void AddEntity(Entity entity)
         {
-            // TODO: Replace with entity factory and only pass json definition or something
-
             foreach (var component in entity.Components)
             {
                 if (component is IGraphicsComponent graphicsComponent)

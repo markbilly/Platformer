@@ -51,7 +51,7 @@ namespace Platformer.GameLogic.Components
         private bool IsRelevantCollision(Collision collision)
         {
             // Note: we only care about x-direction collision with non-player entities
-            return Math.Abs(collision.Vector.X) < Math.Abs(collision.Vector.Y) && collision.CollisionProfile != CollisionProfiles.Player;
+            return Math.Abs(collision.Vector.X) < Math.Abs(collision.Vector.Y) && collision.CollisionProfile != CollisionProfiles.PlayerCharacter;
         }
     }
 }
