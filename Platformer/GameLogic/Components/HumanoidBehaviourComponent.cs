@@ -16,7 +16,7 @@ namespace Platformer.GameLogic.Components
         private readonly VelocityComponent _velocityComponent;
         private readonly ApplyForceComponent _applyForceComponent;
 
-        private RecentVerticalVelocityLog _velocityLog = new RecentVerticalVelocityLog();
+        private RecentVelocitySnapshot _velocitySnapshot = new RecentVelocitySnapshot();
 
         public HumanoidBehaviourComponent(AnimateComponent animateComponent, VelocityComponent velocityComponent, ApplyForceComponent applyForceComponent)
         {
@@ -57,15 +57,15 @@ namespace Platformer.GameLogic.Components
         public void Update()
         {
             // Update state
-            IsJumping = _velocityLog.MaxY > 0.5f;
+            IsJumping = _velocitySnapshot.MaxY > 0.5f;
 
             IsWalkingRight = _velocityComponent.Velocity.X > 0;
             IsWalkingLeft = _velocityComponent.Velocity.X < 0;
 
-            IsIdleRight = _velocityComponent.Velocity.X == 0 && _velocityLog.Previous.X > 0;
-            IsIdleLeft = _velocityComponent.Velocity.X == 0 && _velocityLog.Previous.X < 0;
+            IsIdleRight = _velocityComponent.Velocity.X == 0 && _velocitySnapshot.Previous.X > 0;
+            IsIdleLeft = _velocityComponent.Velocity.X == 0 && _velocitySnapshot.Previous.X < 0;
 
-            _velocityLog.Log(_velocityComponent.Velocity);
+            _velocitySnapshot.Log(_velocityComponent.Velocity);
 
             //Set animation
             if (IsWalkingRight)
@@ -89,9 +89,9 @@ namespace Platformer.GameLogic.Components
             }
         }
 
-        private class RecentVerticalVelocityLog
+        private class RecentVelocitySnapshot
         {
-            private Vector2[] _pastVelocities = new Vector2[5];
+            private readonly Vector2[] _pastVelocities = new Vector2[5];
             private int _indexOfLastVelocityLogged = -1;
 
             public void Log(Vector2 nextVelocity)
